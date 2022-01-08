@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-07 18:52:21
- * @LastEditTime: 2022-01-08 09:08:23
+ * @LastEditTime: 2022-01-08 10:32:33
  * @Description: 欢迎页
  */
 import React, { useContext } from "react";
@@ -13,6 +13,7 @@ import OnBoardingSvgTwo from "../svgs/OnBoardingSvgTwo";
 import OnBoardingSvgThree from "../svgs/OnBoardingSvgThree";
 
 import ViewPageContext from "../contexts/ViewPageContext";
+import AppText from "./AppText";
 
 /**
  * @description: 欢迎页滚动页面
@@ -33,10 +34,11 @@ const Pager = () => {
           <OnBoardingSvgOne style={[styles.svg]} />
         </View>
         <View style={styles.slogan}>
-          <Text style={styles.sloganOne}>体验更好的学习方式</Text>
-          <Text style={styles.sloganTwo}>
-            让我们重新感受学习，回归学习的本质
-          </Text>
+          <AppText text='体验更好的学习方式' style={styles.sloganOne} />
+          <AppText
+            text='让我们重新感受学习，回归学习的本质'
+            style={styles.sloganTwo}
+          />
         </View>
       </View>
       <View style={styles.page} key='2'>
@@ -44,10 +46,11 @@ const Pager = () => {
           <OnBoardingSvgTwo style={styles.svg} />
         </View>
         <View style={styles.slogan}>
-          <Text style={styles.sloganOne}>体验更好的学习方式</Text>
-          <Text style={styles.sloganTwo}>
-            让我们重新感受学习，回归学习的本质
-          </Text>
+          <AppText text='体验更好的学习方式' style={styles.sloganOne} />
+          <AppText
+            text='让我们重新感受学习，回归学习的本质'
+            style={styles.sloganTwo}
+          />
         </View>
       </View>
       <View style={styles.page} key='3'>
@@ -55,10 +58,11 @@ const Pager = () => {
           <OnBoardingSvgThree style={styles.svg} />
         </View>
         <View style={styles.slogan}>
-          <Text style={styles.sloganOne}>体验更好的学习方式</Text>
-          <Text style={styles.sloganTwo}>
-            让我们重新感受学习，回归学习的本质
-          </Text>
+          <AppText text='体验更好的学习方式' style={styles.sloganOne} />
+          <AppText
+            text='让我们重新感受学习，回归学习的本质'
+            style={styles.sloganTwo}
+          />
         </View>
       </View>
     </PagerView>

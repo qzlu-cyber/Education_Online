@@ -10,6 +10,9 @@ import {
 
 import Pager from "../components/ViewPager";
 import ViewPageContext from "../contexts/ViewPageContext";
+import colors from "../config/colors";
+import AppText from "../components/AppText";
+import AppButton from "../components/AppButton";
 
 export default function OnBoardingScreen() {
   const [position, setPosition] = useState(0); //滚动页面当前位置state
@@ -20,7 +23,7 @@ export default function OnBoardingScreen() {
       {/* 传递context给Pager组件 */}
       <SafeAreaView style={styles.container}>
         <View style={styles.skipView}>
-          <Button title='跳过' color='#265AE8' />
+          <Button title='跳过' color={colors.praimary} />
         </View>
         <Pager style={styles.pagerView} />
         <View style={styles.selector}>
@@ -29,12 +32,16 @@ export default function OnBoardingScreen() {
           <View style={position === 2 ? styles.select : styles.circle}></View>
         </View>
         <View style={styles.buttonView}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.text}>注册</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.text}>登陆</Text>
-          </TouchableOpacity>
+          <AppButton
+            style={styles.button}
+            title='注册'
+            textStyle={styles.text}
+          />
+          <AppButton
+            style={styles.button}
+            title='登陆'
+            textStyle={styles.text}
+          />
         </View>
       </SafeAreaView>
     </ViewPageContext.Provider>
@@ -65,7 +72,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 3,
     margin: 3,
-    backgroundColor: "#265AE8",
+    backgroundColor: colors.praimary,
   },
   circle: {
     width: 2,
@@ -98,7 +105,7 @@ const styles = StyleSheet.create({
     paddingLeft: "35%",
     paddingRight: "35%",
     letterSpacing: 5.0,
-    backgroundColor: "#265AE8",
+    backgroundColor: colors.praimary,
     borderRadius: 10,
     overflow: "hidden",
   },
