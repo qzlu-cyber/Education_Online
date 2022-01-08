@@ -11,12 +11,13 @@ import {
 import Pager from "../components/ViewPager";
 import ViewPageContext from "../contexts/ViewPageContext";
 
-export default function App() {
-  const [position, setPosition] = useState(0);
+export default function OnBoardingScreen() {
+  const [position, setPosition] = useState(0); //滚动页面当前位置state
 
   return (
     <ViewPageContext.Provider
       value={{ position: position, setPosition: setPosition }}>
+      {/* 传递context给Pager组件 */}
       <SafeAreaView style={styles.container}>
         <View style={styles.skipView}>
           <Button title='跳过' color='#265AE8' />

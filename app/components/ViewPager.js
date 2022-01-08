@@ -1,3 +1,9 @@
+/*
+ * @Author: 刘俊琪
+ * @Date: 2022-01-07 18:52:21
+ * @LastEditTime: 2022-01-08 09:08:23
+ * @Description: 欢迎页
+ */
 import React, { useContext } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import PagerView from "react-native-pager-view";
@@ -8,14 +14,19 @@ import OnBoardingSvgThree from "../svgs/OnBoardingSvgThree";
 
 import ViewPageContext from "../contexts/ViewPageContext";
 
+/**
+ * @description: 欢迎页滚动页面
+ * @param {*}
+ * @return {*}
+ */
 const Pager = () => {
-  const currentPosition = useContext(ViewPageContext);
+  const currentPosition = useContext(ViewPageContext); //此context用来记录当前滚动页面的index，以便更新state，从而更新页面滚动指示器
   return (
     <PagerView
       style={styles.viewPager}
       initialPage={0}
       onPageSelected={(e) => {
-        currentPosition.setPosition(e.nativeEvent.position);
+        currentPosition.setPosition(e.nativeEvent.position); //更新状态
       }}>
       <View style={styles.page} key='1'>
         <View>
