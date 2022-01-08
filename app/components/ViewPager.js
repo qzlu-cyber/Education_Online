@@ -1,11 +1,11 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-07 18:52:21
- * @LastEditTime: 2022-01-08 10:32:33
+ * @LastEditTime: 2022-01-08 10:51:03
  * @Description: 欢迎页
  */
 import React, { useContext } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import PagerView from "react-native-pager-view";
 
 import OnBoardingSvgOne from "../svgs/OnBoardingSvgOne";

@@ -1,17 +1,9 @@
 import { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  Button,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, View, SafeAreaView, Button } from "react-native";
 
 import Pager from "../components/ViewPager";
 import ViewPageContext from "../contexts/ViewPageContext";
 import colors from "../config/colors";
-import AppText from "../components/AppText";
 import AppButton from "../components/AppButton";
 
 export default function OnBoardingScreen() {
