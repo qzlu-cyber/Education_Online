@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 16:33:20
- * @LastEditTime: 2022-01-08 18:28:12
+ * @LastEditTime: 2022-01-08 18:34:53
  * @Description: 带有标签的卡片
  */
 import React from "react";
@@ -25,11 +25,10 @@ function AppCardWithSign({
         <View style={[styles.card, cardStyle]}>
           <Image source={imgSource} style={[imageStyle]} resizeMode='cover' />
         </View>
-        {/* {安卓端不显示标签，待解决} */}
-        <View style={styles.sign}>
-          <AppText text={signText} style={[signTextStyle]} />
-        </View>
       </TouchableOpacity>
+      <View style={styles.sign}>
+        <AppText text={signText} style={[signTextStyle]} />
+      </View>
       <View style={styles.nameAndRateContainer}>
         <AppText text={text} style={styles.title} />
         <AppText text='哈哈哈' style={styles.subtitle} />
