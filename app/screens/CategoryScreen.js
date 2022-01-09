@@ -11,11 +11,10 @@ import {
   Text,
   View,
   StyleSheet,
-  SafeAreaView,
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
-import data from "../config/data";
+import { icons } from "../config/db";
 import colors from "../config/colors";
 import AppSwiper from "../components/AppSwiper";
 
@@ -102,7 +101,7 @@ const List = React.memo(
     return (
       <Animated.FlatList
         ref={ref}
-        data={data}
+        data={icons}
         style={style}
         keyExtractor={(item) => `${item.name}-${item.icon}`}
         bounces={false}
@@ -137,7 +136,7 @@ const List = React.memo(
 export default function CategoryScreen() {
   const [index, setIndex] = React.useState(0);
   const onConnectPress = React.useCallback(() => {
-    Alert.alert("Connect with:", data[index].name);
+    Alert.alert("Connect with:", icons[index].name);
   }, [index]); //点按动作
   const praimaryRef = React.useRef();
   const darkRef = React.useRef();
