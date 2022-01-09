@@ -159,7 +159,7 @@ function AppCategory({
 
 const styles = StyleSheet.create({
   popular: {
-    marginHorizontal: 20,
+    paddingHorizontal: 20,
   },
   categoryName: {
     flexDirection: "row",

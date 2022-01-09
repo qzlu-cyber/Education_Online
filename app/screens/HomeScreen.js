@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 10:49:57
- * @LastEditTime: 2022-01-08 18:23:17
+ * @LastEditTime: 2022-01-09 12:22:29
  * @Description: 首页
  */
 import React from "react";
@@ -15,60 +15,119 @@ import {
   ScrollView,
   Platform,
   StatusBar,
+  FlatList,
 } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 import AppCategory from "../components/AppCategory";
+import ListItem from "../components/ListItem";
+import { courses } from "../config/db";
+import Footer from "../components/Footer";
 
 function HomeScreen(props) {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
-          <View style={styles.text}>
-            <AppText style={styles.welcome} text='早上好，刘俊琪' />
-            <AppText style={styles.goal} text='今天打算学点什么？' />
-          </View>
-          <TouchableOpacity>
-            <Image
-              source={require("../assets/avatar.jpg")}
-              style={styles.avatar}
+      <FlatList
+        data={courses}
+        keyExtractor={(course) => course.id.toString()}
+        ListHeaderComponent={
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.header}>
+              <View style={styles.text}>
+                <AppText style={styles.welcome} text='早上好，刘俊琪' />
+                <AppText style={styles.goal} text='今天打算学点什么？' />
+              </View>
+              <TouchableOpacity>
+                <Image
+                  source={require("../assets/avatar.jpg")}
+                  style={styles.avatar}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.searchContainer}>
+              <TextInput style={styles.search} placeholder='搜索' />
+              <EvilIcons
+                name='search'
+                size={28}
+                color='black'
+                style={styles.searchIcon}
+              />
+            </View>
+            <AppCategory
+              viewStyle={styles.category}
+              categoryNameStyle={styles.categoryName}
+              categoryName='最受欢迎'
+              categoryNameTextStyle={styles.categoryText}
+              cardContainerStyle={styles.cardContainer}
             />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.searchContainer}>
-          <TextInput style={styles.search} placeholder='搜索' />
-          <EvilIcons
-            name='search'
-            size={28}
-            color='black'
-            style={styles.searchIcon}
+            <AppCategory
+              viewStyle={styles.category}
+              categoryNameStyle={styles.categoryName}
+              categoryName='本月最多学习'
+              categoryNameTextStyle={styles.categoryText}
+              cardContainerStyle={styles.cardContainer}
+            />
+            <AppCategory
+              viewStyle={styles.category}
+              categoryNameStyle={styles.categoryName}
+              categoryName='本月最受欢迎老师'
+              categoryNameTextStyle={styles.categoryText}
+              cardContainerStyle={styles.cardContainer}
+            />
+            <View style={styles.more}>
+              <AppText text='为您推荐' style={styles.listText} />
+              <TouchableOpacity>
+                <EvilIcons name='arrow-right' size={28} color='black' />
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        }
+        renderItem={({ item }) => (
+          <ListItem
+            containerStyle={styles.itemContainer}
+            imgStyle={styles.img}
+            imgSource={item.imgSource}
+            textContainerStyle={styles.textContainer}
+            titleStyle={styles.courseName}
+            title={item.courseName}
+            subTitleStyle={styles.teacherName}
+            subTitle={item.teacher}
+            rate={item.rate}
+            people={item.people}
           />
-        </View>
-        <AppCategory
-          viewStyle={styles.category}
-          categoryNameStyle={styles.categoryName}
-          categoryName='最受欢迎'
-          categoryNameTextStyle={styles.categoryText}
-          cardContainerStyle={styles.cardContainer}
-        />
-        <AppCategory
-          viewStyle={styles.category}
-          categoryNameStyle={styles.categoryName}
-          categoryName='本月最多学习'
-          categoryNameTextStyle={styles.categoryText}
-          cardContainerStyle={styles.cardContainer}
-        />
-        <AppCategory
-          viewStyle={styles.category}
-          categoryNameStyle={styles.categoryName}
-          categoryName='本月最受欢迎老师'
-          categoryNameTextStyle={styles.categoryText}
-          cardContainerStyle={styles.cardContainer}
-        />
-      </ScrollView>
+        )}
+        ListFooterComponent={
+          <View style={styles.other}>
+            <View style={styles.more}>
+              <AppText text='其他精品课程' style={styles.listText} />
+              <TouchableOpacity>
+                <EvilIcons name='arrow-right' size={28} color='black' />
+              </TouchableOpacity>
+            </View>
+            <FlatList
+              data={courses}
+              keyExtractor={(course) => course.id.toString()}
+              renderItem={({ item }) => (
+                <ListItem
+                  containerStyle={styles.itemContainer}
+                  imgStyle={styles.img}
+                  imgSource={item.imgSource}
+                  textContainerStyle={styles.textContainer}
+                  titleStyle={styles.courseName}
+                  title={item.courseName}
+                  subTitleStyle={styles.teacherName}
+                  subTitle={item.teacher}
+                  rate={item.rate}
+                  people={item.people}
+                />
+              )}
+              ListFooterComponent={<Footer />}
+            />
+          </View>
+        }
+      />
     </SafeAreaView>
   );
 }
@@ -123,7 +182,6 @@ const styles = StyleSheet.create({
     right: 30,
   },
   category: {
-    marginHorizontal: 20,
     marginBottom: 20,
   },
   categoryName: {
@@ -136,10 +194,64 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "500",
     color: colors.boldText,
-    letterSpacing: 2,
+    letterSpacing: 1,
   },
   cardContainer: {
     flexDirection: "row",
+  },
+  listText: {
+    color: colors.boldText,
+    fontSize: 22,
+    marginHorizontal: 20,
+    letterSpacing: 1,
+  },
+  //item
+  itemContainer: {
+    flexDirection: "row",
+    marginHorizontal: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    shadowColor: "#E0E0E0",
+    shadowOffset: { width: 5, height: 5 },
+    shadowOpacity: 0.7,
+    elevation: 20,
+    overflow: "hidden",
+  },
+  img: {
+    width: 80,
+    height: 90,
+    borderRadius: 5,
+  },
+  textContainer: {
+    marginHorizontal: 10,
+    justifyContent: "space-between",
+  },
+  courseName: {
+    color: colors.boldText,
+    fontSize: 22,
+  },
+  teacherName: {
+    color: colors.lightText,
+    fontSize: 14,
+  },
+  rate: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  people: {
+    fontSize: 14,
+    color: colors.lightText,
+    marginHorizontal: 2,
+  },
+  other: {
+    marginTop: 20,
+  },
+  more: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginRight: 20,
+    alignItems: "center",
   },
 });
 
