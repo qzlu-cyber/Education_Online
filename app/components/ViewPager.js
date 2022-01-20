@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-07 18:52:21
- * @LastEditTime: 2022-01-08 10:51:03
+ * @LastEditTime: 2022-01-20 14:11:55
  * @Description: 欢迎页
  */
 import React, { useContext } from "react";
@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   sloganOne: {
-    // fontFamily: 'Plus Jakarta Display',
     fontStyle: "normal",
     fontWeight: "500",
     fontSize: 26,
@@ -100,7 +99,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   sloganTwo: {
-    // fontFamily: 'Plus Jakarta Display',
     fontStyle: "normal",
     fontWeight: "normal",
     fontSize: 14,

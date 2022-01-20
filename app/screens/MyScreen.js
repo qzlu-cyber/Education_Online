@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-09 15:57:40
- * @LastEditTime: 2022-01-09 16:43:30
+ * @LastEditTime: 2022-01-20 14:15:42
  * @Description: 我的页
  */
 import React from "react";
@@ -11,11 +11,14 @@ import {
   Image,
   TouchableOpacity,
   StatusBar,
+  Platform,
+  SafeAreaView,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 import AppText from "../components/AppText";
 import colors from "../config/colors";
+import MyDetailScreen from "./MyDetailScreen";
 
 function MyScreen(props) {
   return (
@@ -35,6 +38,7 @@ function MyScreen(props) {
         <AppText text='刘俊琪' style={styles.name} />
         <AppText text='哈哈哈' style={styles.welcome} />
       </View>
+      <MyDetailScreen />
     </View>
   );
 }
@@ -42,11 +46,12 @@ function MyScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.white,
   },
   icon: {
     alignItems: "flex-end",
     position: "absolute",
-    top: StatusBar.currentHeight + 50,
+    top: "7%",
     right: 20,
     zIndex: 1,
   },

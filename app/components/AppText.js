@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 10:08:00
- * @LastEditTime: 2022-01-08 10:31:31
+ * @LastEditTime: 2022-01-20 14:11:45
  * @Description: 文字组件
  */
 import React from "react";
@@ -14,7 +14,6 @@ function AppText({ text, style }) {
 const styles = StyleSheet.create({
   text: {
     fontSize: 18,
-    fontFamily: Platform.OS === "ios" ? "Avenir" : "Robot",
   },
 });
 

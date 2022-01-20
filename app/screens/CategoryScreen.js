@@ -133,11 +133,13 @@ const List = React.memo(
     );
   })
 );
-export default function CategoryScreen() {
+export default function CategoryScreen({ navigation }) {
   const [index, setIndex] = React.useState(0);
   const onConnectPress = React.useCallback(() => {
-    Alert.alert("Connect with:", icons[index].name);
-  }, [index]); //点按动作
+    navigation.navigate("分类详情", {
+      categoryName: icons[index].name,
+    });
+  }, [index]); //TODO: 点按动作
   const praimaryRef = React.useRef();
   const darkRef = React.useRef();
   const scrollY = React.useRef(new Animated.Value(0)).current;
@@ -159,7 +161,7 @@ export default function CategoryScreen() {
 
   return (
     <View style={styles.container}>
-      <StatusBar hidden />
+      <StatusBar />
       <ConnectWithText />
       <View
         style={{
@@ -198,7 +200,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    paddingTop: StatusBar.currentHeight,
   },
   paragraph: {
     margin: 24,

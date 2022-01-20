@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-09 14:03:00
- * @LastEditTime: 2022-01-09 15:15:57
+ * @LastEditTime: 2022-01-20 14:02:50
  * @Description: 轮播图
  */
 import React from "react";
@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.lightText,
   },
 });
 
