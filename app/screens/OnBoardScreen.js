@@ -1,12 +1,18 @@
+/*
+ * @Author: 刘俊琪
+ * @Date: 2022-01-07 18:52:21
+ * @LastEditTime: 2022-01-21 18:39:20
+ * @Description: 描述
+ */
 import { useState } from "react";
-import { StyleSheet, View, SafeAreaView, Button } from "react-native";
+import { StyleSheet, View, SafeAreaView } from "react-native";
 
 import Pager from "../components/ViewPager";
 import ViewPageContext from "../contexts/ViewPageContext";
 import colors from "../config/colors";
 import AppButton from "../components/AppButton";
 
-export default function OnBoardingScreen() {
+export default function OnBoardingScreen({ navigation }) {
   const [position, setPosition] = useState(0); //滚动页面当前位置state
 
   return (
@@ -14,9 +20,6 @@ export default function OnBoardingScreen() {
       value={{ position: position, setPosition: setPosition }}>
       {/* 传递context给Pager组件 */}
       <SafeAreaView style={styles.container}>
-        <View style={styles.skipView}>
-          <Button title='跳过' color={colors.praimary} />
-        </View>
         <Pager style={styles.pagerView} />
         <View style={styles.selector}>
           <View style={position === 0 ? styles.select : styles.circle}></View>
@@ -28,11 +31,17 @@ export default function OnBoardingScreen() {
             style={styles.button}
             title='注册'
             textStyle={styles.text}
+            onPress={() => {
+              navigation.navigate("注册");
+            }}
           />
           <AppButton
             style={styles.button}
             title='登陆'
             textStyle={styles.text}
+            onPress={() => {
+              navigation.navigate("登陆");
+            }}
           />
         </View>
       </SafeAreaView>
@@ -43,16 +52,7 @@ export default function OnBoardingScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-  },
-  skipView: {
-    alignSelf: "flex-end",
-    marginTop: 30,
-    marginRight: 10,
-    width: 78,
-    height: 44,
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: colors.white,
   },
   selector: {
     flexDirection: "row",
