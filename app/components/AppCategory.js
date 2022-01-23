@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 15:32:28
- * @LastEditTime: 2022-01-08 17:51:12
+ * @LastEditTime: 2022-01-23 16:27:04
  * @Description: 首页各种种类组件
  */
 import { View, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
@@ -20,6 +20,7 @@ function AppCategory({
   categoryName,
   categoryNameTextStyle,
   cardContainerStyle,
+  navigation,
 }) {
   return (
     <View style={[styles.popular, viewStyle]}>
@@ -43,6 +44,7 @@ function AppCategory({
             imgSource={require("../assets/background/background1.jpg")}
             text='React'
             textStyle={styles.title}
+            navigation={navigation}
           />
           <AppCard
             cardStyle={styles.card}
@@ -50,6 +52,7 @@ function AppCategory({
             imgSource={require("../assets/background/background2.jpg")}
             text='React Native'
             textStyle={styles.title}
+            navigation={navigation}
           />
           <AppCard
             cardStyle={styles.card}
@@ -57,6 +60,7 @@ function AppCategory({
             imgSource={require("../assets/background/background3.jpg")}
             text='JavaScript'
             textStyle={styles.title}
+            navigation={navigation}
           />
           <AppCard
             cardStyle={styles.card}
@@ -64,6 +68,7 @@ function AppCategory({
             imgSource={require("../assets/background/background4.jpg")}
             text='UI/UX设计'
             textStyle={styles.title}
+            navigation={navigation}
           />
         </ScrollView>
       )}
@@ -80,6 +85,7 @@ function AppCategory({
             textStyle={styles.title}
             signText='热门'
             signTextStyle={styles.text}
+            navigation={navigation}
           />
           <AppCardWithSign
             cardStyle={styles.card}
@@ -89,6 +95,7 @@ function AppCategory({
             textStyle={styles.title}
             signText='上新'
             signTextStyle={styles.text}
+            navigation={navigation}
           />
           <AppCardWithSign
             cardStyle={styles.card}
@@ -98,6 +105,7 @@ function AppCategory({
             textStyle={styles.title}
             signText='热门'
             signTextStyle={styles.text}
+            navigation={navigation}
           />
           <AppCardWithSign
             cardStyle={styles.card}
@@ -107,6 +115,7 @@ function AppCategory({
             textStyle={styles.title}
             signText='好评'
             signTextStyle={styles.text}
+            navigation={navigation}
           />
         </ScrollView>
       )}
@@ -123,6 +132,7 @@ function AppCategory({
             textStyle={styles.title}
             signText='热门'
             signTextStyle={styles.text}
+            navigation={navigation}
           />
           <AppTeacherCard
             cardStyle={styles.card}
@@ -132,6 +142,7 @@ function AppCategory({
             textStyle={styles.title}
             signText='上新'
             signTextStyle={styles.text}
+            navigation={navigation}
           />
           <AppTeacherCard
             cardStyle={styles.card}
@@ -141,6 +152,7 @@ function AppCategory({
             textStyle={styles.title}
             signText='热门'
             signTextStyle={styles.text}
+            navigation={navigation}
           />
           <AppTeacherCard
             cardStyle={styles.card}
@@ -150,6 +162,7 @@ function AppCategory({
             textStyle={styles.title}
             signText='好评'
             signTextStyle={styles.text}
+            navigation={navigation}
           />
         </ScrollView>
       )}

@@ -1,11 +1,17 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-09 10:34:39
- * @LastEditTime: 2022-01-09 12:18:05
+ * @LastEditTime: 2022-01-23 16:57:57
  * @Description: 列表项
  */
 import React from "react";
-import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { Ionicons, Foundation } from "@expo/vector-icons";
 
 import AppText from "./AppText";
@@ -41,28 +47,61 @@ function ListItem({
   subTitle,
   rate,
   people,
+  withoutPress,
 }) {
   return (
-    <TouchableOpacity>
-      <View style={containerStyle}>
-        <Image style={imgStyle} source={imgSource} />
-        <View style={textContainerStyle}>
-          <AppText text={title} style={titleStyle} />
-          <AppText text={subTitle} style={subTitleStyle} />
-          <View style={styles.rate}>
-            <Ionicons name='people' size={16} color='black' />
-            <AppText text={people} style={styles.text} />
-            <AppText text={rate} style={styles.people} />
-            <Foundation
-              name='star'
-              size={16}
-              color={colors.sign}
-              style={styles.starIcon}
-            />
+    <>
+      {!withoutPress && (
+        <TouchableOpacity>
+          <View style={containerStyle}>
+            <Image style={imgStyle} source={imgSource} />
+            <View style={textContainerStyle}>
+              <AppText text={title} style={titleStyle} />
+              <AppText text={subTitle} style={subTitleStyle} />
+              <View style={styles.rate}>
+                <AppText text={`￥${people}`} style={styles.price} />
+                <View style={styles.info}>
+                  <Ionicons name='people' size={16} color='black' />
+                  <AppText text={people} style={styles.text} />
+                  <AppText text={rate} style={styles.people} />
+                  <Foundation
+                    name='star'
+                    size={16}
+                    color={colors.sign}
+                    style={styles.starIcon}
+                  />
+                </View>
+              </View>
+            </View>
           </View>
-        </View>
-      </View>
-    </TouchableOpacity>
+        </TouchableOpacity>
+      )}
+      {withoutPress && (
+        <TouchableWithoutFeedback>
+          <View style={containerStyle}>
+            <Image style={imgStyle} source={imgSource} />
+            <View style={textContainerStyle}>
+              <AppText text={title} style={titleStyle} />
+              <AppText text={subTitle} style={subTitleStyle} />
+              <View style={styles.rate}>
+                <AppText text={`￥${people}`} style={styles.price} />
+                <View style={styles.info}>
+                  <Ionicons name='people' size={16} color='black' />
+                  <AppText text={people} style={styles.text} />
+                  <AppText text={rate} style={styles.people} />
+                  <Foundation
+                    name='star'
+                    size={16}
+                    color={colors.sign}
+                    style={styles.starIcon}
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      )}
+    </>
   );
 }
 
@@ -70,6 +109,7 @@ const styles = StyleSheet.create({
   rate: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
   },
   text: {
     fontSize: 14,
@@ -81,6 +121,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.lightText,
     marginHorizontal: 2,
+  },
+  price: {
+    color: "red",
+    fontSize: 18,
+    marginLeft: -2,
+  },
+  info: {
+    flexDirection: "row",
   },
 });
 

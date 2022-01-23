@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 10:49:57
- * @LastEditTime: 2022-01-09 12:22:29
+ * @LastEditTime: 2022-01-23 16:27:25
  * @Description: 首页
  */
 import React from "react";
@@ -16,6 +16,7 @@ import {
   Platform,
   StatusBar,
   FlatList,
+  Dimensions,
 } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
 
@@ -26,7 +27,15 @@ import ListItem from "../components/ListItem";
 import { courses } from "../config/db";
 import Footer from "../components/Footer";
 
-function HomeScreen(props) {
+/**
+ * @description:
+ * @param {*} navigation 导航页面 用于课程卡片跳转到课程详情页
+ * @return {*}
+ */
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+
+function HomeScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -61,6 +70,7 @@ function HomeScreen(props) {
               categoryName='最受欢迎'
               categoryNameTextStyle={styles.categoryText}
               cardContainerStyle={styles.cardContainer}
+              navigation={navigation}
             />
             <AppCategory
               viewStyle={styles.category}
@@ -68,6 +78,7 @@ function HomeScreen(props) {
               categoryName='本月最多学习'
               categoryNameTextStyle={styles.categoryText}
               cardContainerStyle={styles.cardContainer}
+              navigation={navigation}
             />
             <AppCategory
               viewStyle={styles.category}
@@ -75,6 +86,7 @@ function HomeScreen(props) {
               categoryName='本月最受欢迎老师'
               categoryNameTextStyle={styles.categoryText}
               cardContainerStyle={styles.cardContainer}
+              navigation={navigation}
             />
             <View style={styles.more}>
               <AppText text='为您推荐' style={styles.listText} />
@@ -226,10 +238,12 @@ const styles = StyleSheet.create({
   textContainer: {
     marginHorizontal: 10,
     justifyContent: "space-between",
+    width: windowWidth - 130,
   },
   courseName: {
     color: colors.boldText,
     fontSize: 22,
+    overflow: "hidden",
   },
   teacherName: {
     color: colors.lightText,

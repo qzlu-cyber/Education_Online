@@ -1,19 +1,11 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-09 15:57:40
- * @LastEditTime: 2022-01-20 14:15:42
+ * @LastEditTime: 2022-01-23 17:28:39
  * @Description: 我的页
  */
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  StatusBar,
-  Platform,
-  SafeAreaView,
-} from "react-native";
+import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 import AppText from "../components/AppText";

@@ -1,13 +1,12 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-09 15:18:36
- * @LastEditTime: 2022-01-09 15:52:29
+ * @LastEditTime: 2022-01-23 17:43:10
  * @Description: 继续学习页面
  */
 import React from "react";
 import {
   StatusBar,
-  View,
   StyleSheet,
   FlatList,
   SafeAreaView,

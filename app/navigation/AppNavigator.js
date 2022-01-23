@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 18:49:03
- * @LastEditTime: 2022-01-21 18:51:15
+ * @LastEditTime: 2022-01-23 18:34:49
  * @Description: 底部主导航
  */
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -12,6 +12,7 @@ import HomeScreen from "../screens/HomeScreen";
 import CategoryScreen from "../screens/CategoryScreen";
 import LearningScreen from "../screens/LearningScreen";
 import MyScreen from "../screens/MyScreen";
+import CourseNavigator from "../screens/CourseNavigator";
 
 const Tab = createMaterialBottomTabNavigator();
 

@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 17:48:58
- * @LastEditTime: 2022-01-08 18:18:02
+ * @LastEditTime: 2022-01-23 15:34:04
  * @Description: 首页老师卡片
  */
 import React from "react";
@@ -10,10 +10,14 @@ import { TouchableOpacity, View, Image, StyleSheet } from "react-native";
 import colors from "../config/colors";
 import AppText from "./AppText";
 
-function AppTeacherCard() {
+//TODO: 点击跳转到老师界面，显示老师的所有课程
+function AppTeacherCard({ navigation }) {
   return (
     <View>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("课程详情", { courseName: "刘俊琪" });
+        }}>
         <View style={[styles.card]}>
           <Image
             source={require("../assets/teacherBackground.jpg")}
