@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 15:28:48
- * @LastEditTime: 2022-01-23 19:00:48
+ * @LastEditTime: 2022-01-24 17:45:29
  * @Description: 卡片
  */
 import React from "react";
@@ -13,7 +13,6 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import colors from "../config/colors";
-import CourseNavigator from "../screens/CourseNavigator";
 
 import AppText from "./AppText";
 

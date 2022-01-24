@@ -1,21 +1,21 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-23 15:13:45
- * @LastEditTime: 2022-01-23 19:11:00
+ * @LastEditTime: 2022-01-24 17:46:13
  * @Description: 课程详情页
  */
 import React from "react";
-import { StyleSheet, View, Dimensions } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 
 import colors from "../config/colors";
 import ListItem from "../components/ListItem";
-import CourseNavigator from "./CourseNavigator";
+import CourseNavigatorScreen from "./CourseNavigatorScreen";
 
 const windowWidth = Dimensions.get("window").width;
 
 export default function CourseDetailScreen({ route }) {
   return (
-    <View style={styles.container}>
+    <>
       <ListItem
         containerStyle={styles.itemContainer}
         imgStyle={styles.img}
@@ -29,8 +29,8 @@ export default function CourseDetailScreen({ route }) {
         people='3000'
         withoutPress
       />
-      {/* <CourseNavigator /> //TODO: 路由跳转有问题 */}
-    </View>
+      <CourseNavigatorScreen />
+    </>
   );
 }
 
@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginHorizontal: 10,
     paddingVertical: 10,
+    paddingTop: 20,
     paddingHorizontal: 10,
     borderRadius: 5,
     shadowColor: "#E0E0E0",
@@ -50,6 +51,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.7,
     elevation: 20,
     overflow: "hidden",
+    backgroundColor: colors.white,
   },
   img: {
     width: 80,

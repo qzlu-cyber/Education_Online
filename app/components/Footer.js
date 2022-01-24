@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-09 12:18:55
- * @LastEditTime: 2022-01-09 12:24:17
+ * @LastEditTime: 2022-01-24 17:58:08
  * @Description: Footer组件
  */
 import React from "react";
@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 20,
   },
   text: {
     color: colors.lightText,

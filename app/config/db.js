@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-09 11:18:16
- * @LastEditTime: 2022-01-09 15:28:35
+ * @LastEditTime: 2022-01-24 19:17:44
  * @Description: 假数据
  */
 const courses = [
@@ -138,4 +138,56 @@ const myCourses = [
   },
 ];
 
-export { courses, icons, myCourses };
+const comments = [
+  {
+    id: 1,
+    avatar: require("../assets/avatar.jpg"),
+    nickName: "刘俊琪",
+    star: 5,
+    content: "快速入门必备课程，老师水平很高！",
+  },
+  {
+    id: 2,
+    avatar: require("../assets/avatar.jpg"),
+    nickName: "刘俊琪",
+    star: 3,
+    content: "快速入门必备课程，老师水平很高！",
+  },
+  {
+    id: 3,
+    avatar: require("../assets/avatar.jpg"),
+    nickName: "刘俊琪",
+    star: 2,
+    content: "快速入门必备课程，老师水平很高！",
+  },
+  {
+    id: 4,
+    avatar: require("../assets/avatar.jpg"),
+    nickName: "刘俊琪",
+    star: 4,
+    content: "快速入门必备课程，老师水平很高！",
+  },
+  {
+    id: 5,
+    avatar: require("../assets/avatar.jpg"),
+    nickName: "刘俊琪",
+    star: 5,
+    content: "快速入门必备课程，老师水平很高！",
+  },
+  {
+    id: 6,
+    avatar: require("../assets/avatar.jpg"),
+    nickName: "刘俊琪",
+    star: 5,
+    content: "快速入门必备课程，老师水平很高！",
+  },
+  {
+    id: 7,
+    avatar: require("../assets/avatar.jpg"),
+    nickName: "刘俊琪",
+    star: 5,
+    content: "快速入门必备课程，老师水平很高！",
+  },
+];
+
+export { courses, icons, myCourses, comments };

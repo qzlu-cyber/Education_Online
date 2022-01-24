@@ -1,17 +1,29 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-23 17:09:20
- * @LastEditTime: 2022-01-23 17:11:02
+ * @LastEditTime: 2022-01-24 18:57:26
  * @Description: 课程评价页
  */
-import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { FlatList, StyleSheet } from "react-native";
+import AppComment from "../components/AppComment";
+
+import { comments } from "../config/db";
 
 export default function CourseJudgementScreen() {
   return (
-    <View style={styles.container}>
-      <Text>Judgement</Text>
-    </View>
+    <FlatList
+      data={comments}
+      keyExtractor={(comment) => comment.id.toString()}
+      renderItem={({ item }) => (
+        <AppComment
+          nickName={item.nickName}
+          avatar={item.avatar}
+          content={item.content}
+          star={item.star}
+        />
+      )}
+    />
   );
 }
 

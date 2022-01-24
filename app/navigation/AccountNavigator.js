@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 18:47:19
- * @LastEditTime: 2022-01-23 18:22:02
+ * @LastEditTime: 2022-01-24 17:45:04
  * @Description: 我的 页导航
  */
 import React from "react";
@@ -10,7 +10,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AppNavigator from "./AppNavigator";
 import CategoryDetailScreen from "../screens/CategoryDetailScreen";
 import CourseDetailScreen from "../screens/CourseDetailScreen";
-import CourseNavigator from "../screens/CourseNavigator";
 
 const Stack = createNativeStackNavigator();
 
