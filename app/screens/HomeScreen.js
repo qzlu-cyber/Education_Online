@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 10:49:57
- * @LastEditTime: 2022-01-23 16:27:25
+ * @LastEditTime: 2022-01-27 18:00:40
  * @Description: 首页
  */
 import React from "react";
@@ -33,7 +33,6 @@ import Footer from "../components/Footer";
  * @return {*}
  */
 const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
 
 function HomeScreen({ navigation }) {
   return (

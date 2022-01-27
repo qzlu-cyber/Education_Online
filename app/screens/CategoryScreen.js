@@ -161,7 +161,6 @@ export default function CategoryScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <StatusBar />
       <ConnectWithText />
       <View
         style={{

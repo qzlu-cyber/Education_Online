@@ -12,14 +12,16 @@ import AppText from "../components/AppText";
 import colors from "../config/colors";
 import MyDetailScreen from "./MyDetailScreen";
 
-function MyScreen(props) {
+function MyScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.icon}>
         <AntDesign name='setting' size={28} color='black' />
       </TouchableOpacity>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.avatarContainer}>
+        <TouchableOpacity
+          style={styles.avatarContainer}
+          onPress={() => navigation.navigate("个人信息")}>
           <Image
             source={require("../assets/avatar.jpg")}
             style={styles.avatar}

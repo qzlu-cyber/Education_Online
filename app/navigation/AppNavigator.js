@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 18:49:03
- * @LastEditTime: 2022-01-24 17:45:15
+ * @LastEditTime: 2022-01-27 15:58:28
  * @Description: 底部主导航
  */
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -10,8 +10,8 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import colors from "../config/colors";
 import HomeScreen from "../screens/HomeScreen";
 import CategoryScreen from "../screens/CategoryScreen";
-import LearningScreen from "../screens/LearningScreen";
 import MyScreen from "../screens/MyScreen";
+import MyCourcesScreen from "../screens/MyCourcesScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -23,7 +23,7 @@ const AppNavigator = () => (
     screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
-        if (route.name == "首页") iconName = "home";
+        if (route.name == "首") iconName = "home";
         else if (route.name == "分类") iconName = "archive";
         else if (route.name == "学习") iconName = "book-open";
         else if (route.name == "我的") iconName = "user-alt";
@@ -31,9 +31,9 @@ const AppNavigator = () => (
       },
       headerShown: false,
     })}>
-    <Tab.Screen name='首页' component={HomeScreen} />
+    <Tab.Screen name='首' component={HomeScreen} />
     <Tab.Screen name='分类' component={CategoryScreen} />
-    <Tab.Screen name='学习' component={LearningScreen} />
+    <Tab.Screen name='学习' component={MyCourcesScreen} />
     <Tab.Screen name='我的' component={MyScreen} />
   </Tab.Navigator>
 );

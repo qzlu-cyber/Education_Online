@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-09 11:18:16
- * @LastEditTime: 2022-01-24 19:17:44
+ * @LastEditTime: 2022-01-27 14:43:04
  * @Description: 假数据
  */
 const courses = [
@@ -190,4 +190,43 @@ const comments = [
   },
 ];
 
-export { courses, icons, myCourses, comments };
+const courseList = [
+  {
+    id: 1,
+    img: require("../assets/images/xd.png"),
+    title: "Adobe XD Prototyping",
+    bg: "#fdddf3",
+  },
+  {
+    id: 2,
+    img: require("../assets/images/sketch.png"),
+    title: "Sketch shortcuts and tricks",
+    bg: "#fef8e3",
+  },
+  {
+    id: 3,
+    img: require("../assets/images/ae.png"),
+    title: "UI Motion Design in After Effects",
+    bg: "#fcf2ff",
+  },
+  {
+    id: 4,
+    img: require("../assets/images/f.png"),
+    title: "Figma Essentials",
+    bg: "#fff0ee",
+  },
+  {
+    id: 5,
+    img: require("../assets/images/ps.png"),
+    title: "Adobe Photoshop. Retouching",
+    bg: "#fdddf3",
+  },
+  {
+    id: 6,
+    img: require("../assets/images/sketch.png"),
+    title: "Sketch shortcuts and tricks",
+    bg: "#fef8e3",
+  },
+];
+
+export { courses, icons, myCourses, comments, courseList };

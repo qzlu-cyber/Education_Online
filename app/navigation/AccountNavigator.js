@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 18:47:19
- * @LastEditTime: 2022-01-24 17:45:04
+ * @LastEditTime: 2022-01-27 17:52:55
  * @Description: 我的 页导航
  */
 import React from "react";
@@ -10,6 +10,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AppNavigator from "./AppNavigator";
 import CategoryDetailScreen from "../screens/CategoryDetailScreen";
 import CourseDetailScreen from "../screens/CourseDetailScreen";
+import VideoScreen from "../screens/VideoScreen";
+import CourseCatelogScreen from "../screens/CourseCatelogScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +34,15 @@ const AccountNavigator = () => (
         title: route.params.courseName,
         headerShown: true,
       })}
+    />
+    <Stack.Screen name='视频' component={VideoScreen} />
+    <Stack.Screen name='目录' component={CourseCatelogScreen} />
+    <Stack.Screen
+      name='个人信息'
+      component={ProfileScreen}
+      options={{
+        headerShown: true,
+      }}
     />
   </Stack.Navigator>
 );

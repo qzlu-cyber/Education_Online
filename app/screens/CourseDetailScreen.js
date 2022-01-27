@@ -1,15 +1,16 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-23 15:13:45
- * @LastEditTime: 2022-01-24 17:46:13
+ * @LastEditTime: 2022-01-27 17:15:54
  * @Description: 课程详情页
  */
 import React from "react";
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, View } from "react-native";
 
 import colors from "../config/colors";
 import ListItem from "../components/ListItem";
 import CourseNavigatorScreen from "./CourseNavigatorScreen";
+import AppButton from "../components/AppButton";
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -30,6 +31,23 @@ export default function CourseDetailScreen({ route }) {
         withoutPress
       />
       <CourseNavigatorScreen />
+      <View style={styles.purchase}>
+        <AppButton
+          style={styles.button}
+          title='咨询老师'
+          textStyle={styles.text}
+        />
+        <AppButton
+          style={styles.button}
+          title='加入收藏'
+          textStyle={styles.text}
+        />
+        <AppButton
+          style={styles.button}
+          title='立即购买'
+          textStyle={styles.text}
+        />
+      </View>
     </>
   );
 }
@@ -89,5 +107,30 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginRight: 20,
     alignItems: "center",
+  },
+  purchase: {
+    width: windowWidth,
+    height: 50,
+    backgroundColor: colors.white,
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  button: {
+    width: windowWidth / 2,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 5,
+  },
+  text: {
+    fontSize: 18,
+    color: "white",
+    paddingTop: "5%",
+    paddingBottom: "5%",
+    paddingLeft: 20,
+    paddingRight: 20,
+    letterSpacing: 2.0,
+    backgroundColor: colors.praimary,
+    borderRadius: 5,
+    overflow: "hidden",
   },
 });

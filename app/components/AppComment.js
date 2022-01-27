@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-24 18:37:58
- * @LastEditTime: 2022-01-24 19:16:52
+ * @LastEditTime: 2022-01-27 16:30:03
  * @Description: 评论组件
  */
 import React from "react";
@@ -24,7 +24,7 @@ export default function AppComment({ nickName, avatar, content, star }) {
           <AppText text={nickName} style={styles.content} />
         </View>
         <View style={styles.star}>
-          {stars.map((star) => {
+          {stars.map((star, index) => {
             if (star)
               return (
                 <Foundation
@@ -32,6 +32,7 @@ export default function AppComment({ nickName, avatar, content, star }) {
                   size={16}
                   color={colors.sign}
                   style={styles.icon}
+                  key={index}
                 />
               );
             else
@@ -41,6 +42,7 @@ export default function AppComment({ nickName, avatar, content, star }) {
                   size={16}
                   color={colors.lightText}
                   style={styles.icon}
+                  key={index}
                 />
               );
           })}

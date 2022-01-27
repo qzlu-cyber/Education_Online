@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-07 18:52:21
- * @LastEditTime: 2022-01-21 18:39:20
+ * @LastEditTime: 2022-01-27 17:03:04
  * @Description: 描述
  */
 import { useState } from "react";
@@ -89,9 +89,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "white",
     fontWeight: "bold",
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: "white",
     paddingTop: "5%",
     paddingBottom: "5%",
     paddingLeft: "35%",
