@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 15:32:28
- * @LastEditTime: 2022-01-23 16:27:04
+ * @LastEditTime: 2022-02-09 18:44:19
  * @Description: 首页各种种类组件
  */
 import { View, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
@@ -29,7 +29,12 @@ function AppCategory({
           text={categoryName}
           style={[styles.categoryText, categoryNameTextStyle]}
         />
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("更多", {
+              categoryName,
+            })
+          }>
           <EvilIcons name='arrow-right' size={28} color='black' />
         </TouchableOpacity>
       </View>

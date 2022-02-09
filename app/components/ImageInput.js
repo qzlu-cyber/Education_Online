@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 16:31:16
- * @LastEditTime: 2022-01-21 18:27:28
+ * @LastEditTime: 2022-02-09 17:45:10
  * @Description: 选取头像，图片等
  */
 import React, { useEffect, useState } from "react";
@@ -14,11 +14,14 @@ import {
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import { Video } from "expo-av";
 
 import colors from "../config/colors";
+import AppText from "./AppText";
 
-function ImageInput() {
+function ImageInput({ image, video }) {
   const [imageUri, setImageUri] = useState();
+  const [videoUri, setVideoUri] = useState();
 
   useEffect(() => {
     requestPermission();
@@ -36,27 +39,79 @@ function ImageInput() {
         allowsEditing: true,
       });
       if (!result.cancelled) setImageUri(result.uri);
+      console.log(result);
     } catch (error) {
       console.log("Error reading an image", error);
     }
   };
 
+  const selectVideo = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+        allowsEditing: true,
+      });
+      if (!result.cancelled) setVideoUri(result.uri);
+    } catch (error) {
+      console.log("Error reading an video", error);
+    }
+  };
+
   const handlePress = () => {
-    if (!imageUri) selectImage();
-    else
-      Alert.alert("删除", "你确定删除这张照片吗？", [
-        { text: "确定", onPress: () => setImageUri(null) },
-        { text: "返回" },
-      ]);
+    console.log("begin");
+    if (image) {
+      if (!imageUri) selectImage();
+      else
+        Alert.alert("删除", "你确定删除吗？", [
+          { text: "确定", onPress: () => setImageUri(null) },
+          { text: "返回" },
+        ]);
+    }
+    if (video) {
+      if (!videoUri) selectVideo();
+      else
+        Alert.alert("删除", "你确定删除吗？", [
+          { text: "确定", onPress: () => setVideoUri(null) },
+          { text: "返回" },
+        ]);
+    }
   };
 
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
-      <View style={styles.container}>
-        {!imageUri && (
-          <FontAwesome5 color={colors.boldText} name='camera' size={30} />
+      <View style={image ? styles.container : styles.uploadContainer}>
+        {image && (
+          <View style={styles.container}>
+            {!imageUri && (
+              <FontAwesome5 color={colors.boldText} name='camera' size={30} />
+            )}
+            {imageUri && (
+              <Image source={{ uri: imageUri }} style={styles.image} />
+            )}
+          </View>
         )}
-        {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+        {video && (
+          <View style={styles.uploadContainer}>
+            {!videoUri && (
+              <View style={styles.upload}>
+                <FontAwesome5 name='plus-circle' size={50} color='black' />
+                <AppText text='上传视频' style={styles.text} />
+              </View>
+            )}
+            {videoUri && (
+              <Video
+                source={{ uri: videoUri }}
+                rate={1.0}
+                isMuted={false}
+                resizeMode='cover'
+                shouldPlay={false}
+                isLooping={false}
+                useNativeControls
+                style={styles.uploadContainer}
+              />
+            )}
+          </View>
+        )}
       </View>
     </TouchableWithoutFeedback>
   );
@@ -77,6 +132,35 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
   },
+  //video begin
+  input: {
+    width: 300,
+    height: 50,
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  uploadContainer: {
+    backgroundColor: colors.gray,
+    width: "100%",
+    height: 100,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  upload: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 16,
+    marginTop: 10,
+    color: colors.lightText,
+    letterSpacing: 2,
+  },
+  //video end
 });
 
 export default ImageInput;

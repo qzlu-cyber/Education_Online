@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 10:49:57
- * @LastEditTime: 2022-01-27 18:00:40
+ * @LastEditTime: 2022-02-09 18:49:27
  * @Description: 首页
  */
 import React from "react";
@@ -89,7 +89,12 @@ function HomeScreen({ navigation }) {
             />
             <View style={styles.more}>
               <AppText text='为您推荐' style={styles.listText} />
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("更多", {
+                    categoryName: "为您推荐",
+                  })
+                }>
                 <EvilIcons name='arrow-right' size={28} color='black' />
               </TouchableOpacity>
             </View>
@@ -113,7 +118,12 @@ function HomeScreen({ navigation }) {
           <View style={styles.other}>
             <View style={styles.more}>
               <AppText text='其他精品课程' style={styles.listText} />
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("更多", {
+                    categoryName: "其他精品课程",
+                  })
+                }>
                 <EvilIcons name='arrow-right' size={28} color='black' />
               </TouchableOpacity>
             </View>

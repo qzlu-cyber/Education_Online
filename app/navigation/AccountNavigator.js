@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 18:47:19
- * @LastEditTime: 2022-01-27 17:52:55
+ * @LastEditTime: 2022-02-09 18:43:53
  * @Description: 我的 页导航
  */
 import React from "react";
@@ -13,11 +13,15 @@ import CourseDetailScreen from "../screens/CourseDetailScreen";
 import VideoScreen from "../screens/VideoScreen";
 import CourseCatelogScreen from "../screens/CourseCatelogScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import { Button } from "react-native";
+import colors from "../config/colors";
+import MoreScreen from "../screens/MoreScreen";
 
 const Stack = createNativeStackNavigator();
 
 const AccountNavigator = () => (
-  <Stack.Navigator screenOptions={{ headerShown: false }}>
+  <Stack.Navigator
+    screenOptions={{ headerShown: false, headerBackTitle: "返回" }}>
     <Stack.Screen name='首页' component={AppNavigator} />
     <Stack.Screen
       name='分类详情'
@@ -42,7 +46,16 @@ const AccountNavigator = () => (
       component={ProfileScreen}
       options={{
         headerShown: true,
+        headerRight: () => <Button title='提交' color={colors.praimary} />,
       }}
+    />
+    <Stack.Screen
+      name='更多'
+      component={MoreScreen}
+      options={({ route }) => ({
+        title: route.params.categoryName,
+        headerShown: true,
+      })}
     />
   </Stack.Navigator>
 );

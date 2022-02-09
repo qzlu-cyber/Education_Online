@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 14:20:54
- * @LastEditTime: 2022-01-21 18:37:47
+ * @LastEditTime: 2022-02-09 16:51:18
  * @Description: 注册页
  */
 import React from "react";
@@ -18,7 +18,7 @@ export default function RegisterScreen({ navigation }) {
     <View style={styles.container}>
       <RegisterSvg style={styles.svg} />
       <View style={styles.info}>
-        <ImageInput />
+        <ImageInput image={true} />
         <AppTextInput
           title='昵称'
           titleStyle={styles.nickname}
