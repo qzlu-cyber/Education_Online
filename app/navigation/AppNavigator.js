@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 18:49:03
- * @LastEditTime: 2022-02-09 15:51:25
+ * @LastEditTime: 2022-02-10 17:26:16
  * @Description: 底部主导航
  */
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -13,6 +13,7 @@ import CategoryScreen from "../screens/CategoryScreen";
 import MyScreen from "../screens/MyScreen";
 import MyCourcesScreen from "../screens/MyCourcesScreen";
 import CourseEditScreen from "../screens/CourseEditScreen";
+import LearningScreen from "../screens/LearningScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -36,7 +37,7 @@ const AppNavigator = () => (
     <Tab.Screen name='首' component={HomeScreen} />
     <Tab.Screen name='分类' component={CategoryScreen} />
     <Tab.Screen name='发布' component={CourseEditScreen} />
-    <Tab.Screen name='学习' component={MyCourcesScreen} />
+    <Tab.Screen name='学习' component={LearningScreen} />
     <Tab.Screen name='我的' component={MyScreen} />
   </Tab.Navigator>
 );

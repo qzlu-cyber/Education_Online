@@ -2643,6 +2643,11 @@ expo-keep-awake@~10.0.1:
   resolved "https://registry.npmjs.org/expo-keep-awake/-/expo-keep-awake-10.0.1.tgz"
   integrity sha512-kcBtoDGkm3RRe6BpKDvR7gof/ErajEia38u92pRvNRctdh+p8AFO7GQuiipyg3iMfhcCFVTCIV7h3tuA0g/yDw==
 
+expo-linear-gradient@~11.0.3:
+  version "11.0.3"
+  resolved "https://registry.yarnpkg.com/expo-linear-gradient/-/expo-linear-gradient-11.0.3.tgz#bc559b9a251c9dc8aa37fb6c66c7a497fe92993c"
+  integrity sha512-LuzTM5+iEHCQfC2TBHAAI+ZjPvf0TvGiA7GYMsyTnakGA2r4JtsV8Ah/miQPKhfG06jLDOo4grUoSMGqbmSrEw==
+
 expo-modules-autolinking@0.5.5:
   version "0.5.5"
   resolved "https://registry.npmjs.org/expo-modules-autolinking/-/expo-modules-autolinking-0.5.5.tgz"
@@ -4635,7 +4640,7 @@ react-native-pager-view@5.4.9:
 
 react-native-paper@^4.11.2:
   version "4.11.2"
-  resolved "https://registry.npmjs.org/react-native-paper/-/react-native-paper-4.11.2.tgz"
+  resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.11.2.tgz#4ae73282da9be3bf20760c609d3273643d1dd4a9"
   integrity sha512-r+M5unY9Avez4we/RijVh4iy8gqxK93R4840aZmbakOJLIuxjfNh3B6SuoxBEbR6diuPRbKVeWHKju4mhltxWw==
   dependencies:
     "@callstack/react-theme-provider" "^3.0.7"
