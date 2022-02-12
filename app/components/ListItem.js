@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-09 10:34:39
- * @LastEditTime: 2022-01-23 16:57:57
+ * @LastEditTime: 2022-02-12 16:26:45
  * @Description: 列表项
  */
 import React from "react";
@@ -48,11 +48,17 @@ function ListItem({
   rate,
   people,
   withoutPress,
+  navigation,
 }) {
   return (
     <>
       {!withoutPress && (
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("课程详情", {
+              courseName: title,
+            })
+          }>
           <View style={containerStyle}>
             <Image style={imgStyle} source={imgSource} />
             <View style={textContainerStyle}>

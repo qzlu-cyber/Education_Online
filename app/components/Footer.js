@@ -1,20 +1,19 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-09 12:18:55
- * @LastEditTime: 2022-01-24 17:58:08
+ * @LastEditTime: 2022-02-12 18:10:52
  * @Description: Footer组件
  */
-import React from "react";
 import { View, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 import AppText from "./AppText";
 import colors from "../config/colors";
 
-function Footer(props) {
+function Footer() {
   return (
     <View style={styles.container}>
-      <AntDesign name='codesquareo' size={24} style={styles.icon} />
+      <AntDesign name='codesquareo' size={16} style={styles.icon} />
       <AppText text='你已经看到了我的底线' style={styles.text} />
     </View>
   );
@@ -25,16 +24,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   text: {
     color: colors.lightText,
-    fontSize: 16,
+    fontSize: 14,
     marginHorizontal: 5,
-    marginTop: 20,
+    marginTop: 10,
   },
   icon: {
-    marginTop: 20,
+    marginTop: 10,
     color: colors.lightText,
   },
 });

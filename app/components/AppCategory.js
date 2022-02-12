@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 15:32:28
- * @LastEditTime: 2022-02-09 18:44:19
+ * @LastEditTime: 2022-02-12 17:20:47
  * @Description: 首页各种种类组件
  */
 import { View, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
@@ -20,6 +20,10 @@ function AppCategory({
   categoryName,
   categoryNameTextStyle,
   cardContainerStyle,
+  teacherName,
+  tel,
+  email,
+  info,
   navigation,
 }) {
   return (
@@ -130,43 +134,31 @@ function AppCategory({
           horizontal={true}
           showsHorizontalScrollIndicator={false}>
           <AppTeacherCard
-            cardStyle={styles.card}
-            imageStyle={styles.img}
-            imgSource={require("../assets/background/background5.jpg")}
-            text='React'
-            textStyle={styles.title}
-            signText='热门'
-            signTextStyle={styles.text}
+            teacherName={teacherName}
+            tel={tel}
+            email={email}
+            info={info}
             navigation={navigation}
           />
           <AppTeacherCard
-            cardStyle={styles.card}
-            imageStyle={styles.img}
-            imgSource={require("../assets/background/background6.jpg")}
-            text='React Native'
-            textStyle={styles.title}
-            signText='上新'
-            signTextStyle={styles.text}
+            teacherName={teacherName}
+            tel={tel}
+            email={email}
+            info={info}
             navigation={navigation}
           />
           <AppTeacherCard
-            cardStyle={styles.card}
-            imageStyle={styles.img}
-            imgSource={require("../assets/background/background7.jpg")}
-            text='JavaScript'
-            textStyle={styles.title}
-            signText='热门'
-            signTextStyle={styles.text}
+            teacherName={teacherName}
+            tel={tel}
+            email={email}
+            info={info}
             navigation={navigation}
           />
           <AppTeacherCard
-            cardStyle={styles.card}
-            imageStyle={styles.img}
-            imgSource={require("../assets/background/background8.jpg")}
-            text='UI/UX设计'
-            textStyle={styles.title}
-            signText='好评'
-            signTextStyle={styles.text}
+            teacherName={teacherName}
+            tel={tel}
+            email={email}
+            info={info}
             navigation={navigation}
           />
         </ScrollView>

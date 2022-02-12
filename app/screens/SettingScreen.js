@@ -1,14 +1,14 @@
 /*
  * @Author: 刘俊琪
- * @Date: 2022-01-27 17:47:39
- * @LastEditTime: 2022-02-12 18:22:15
- * @Description: 个人信息页
+ * @Date: 2022-02-12 18:20:07
+ * @LastEditTime: 2022-02-12 18:23:03
+ * @Description: 设置页
  */
 import { StyleSheet, View } from "react-native";
 
 import ProfileItem from "../components/ProfileItem";
 
-export default function ProfileScreen() {
+export default function SettingScreen() {
   return (
     <View style={styles.container}>
       <ProfileItem text='头像' avatar />

@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 15:28:48
- * @LastEditTime: 2022-01-24 17:45:29
+ * @LastEditTime: 2022-02-12 16:23:56
  * @Description: 卡片
  */
 import React from "react";
@@ -12,7 +12,6 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
 } from "react-native";
-import colors from "../config/colors";
 
 import AppText from "./AppText";
 
@@ -54,10 +53,10 @@ function AppCard({
 
 const styles = StyleSheet.create({
   card: {
-    shadowColor: colors.lightText,
-    shadowOffset: { width: 5, height: 5 },
-    shadowOpacity: 0.7,
-    elevation: 20,
+    // shadowColor: colors.lightText,
+    // shadowOffset: { width: 5, height: 5 },
+    // shadowOpacity: 0.7,
+    // elevation: 20,
   },
 });
 

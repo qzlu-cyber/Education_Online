@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 10:49:57
- * @LastEditTime: 2022-02-09 18:49:27
+ * @LastEditTime: 2022-02-12 18:11:43
  * @Description: 首页
  */
 import React from "react";
@@ -86,6 +86,10 @@ function HomeScreen({ navigation }) {
               categoryNameTextStyle={styles.categoryText}
               cardContainerStyle={styles.cardContainer}
               navigation={navigation}
+              teacherName='刘俊琪'
+              tel={13839935677}
+              email='qzlu3773@163.com'
+              info='红红火火'
             />
             <View style={styles.more}>
               <AppText text='为您推荐' style={styles.listText} />
@@ -112,6 +116,7 @@ function HomeScreen({ navigation }) {
             subTitle={item.teacher}
             rate={item.rate}
             people={item.people}
+            navigation={navigation}
           />
         )}
         ListFooterComponent={
@@ -142,6 +147,7 @@ function HomeScreen({ navigation }) {
                   subTitle={item.teacher}
                   rate={item.rate}
                   people={item.people}
+                  navigation={navigation}
                 />
               )}
               ListFooterComponent={<Footer />}
@@ -232,11 +238,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     paddingVertical: 10,
     paddingHorizontal: 10,
+    marginBottom: 10,
+    backgroundColor: colors.white,
     borderRadius: 5,
-    shadowColor: "#E0E0E0",
-    shadowOffset: { width: 5, height: 5 },
-    shadowOpacity: 0.7,
-    elevation: 20,
     overflow: "hidden",
   },
   img: {

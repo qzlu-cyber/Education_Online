@@ -1,15 +1,14 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-23 17:30:12
- * @LastEditTime: 2022-01-24 17:42:47
+ * @LastEditTime: 2022-02-12 17:54:01
  * @Description: 描述
  */
-import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
-import CourseInfoScreen from "./CourseInfoScreen";
-import CourseCatelogScreen from "./CourseCatelogScreen";
-import CourseJudgementScreen from "./CourseJudgementScreen";
+import CourseInfoScreen from "../screens/CourseInfoScreen";
+import CourseCatelogScreen from "../screens/CourseCatelogScreen";
+import CourseJudgementScreen from "../screens/CourseJudgementScreen";
 
 const MaterialTopTab = createMaterialTopTabNavigator();
 
@@ -21,6 +20,6 @@ const CourseDetailTab = () => (
   </MaterialTopTab.Navigator>
 );
 
-export default function CourseNavigatorScreen() {
+export default function CourseNavigator() {
   return <CourseDetailTab />;
 }

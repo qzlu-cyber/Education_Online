@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 18:47:19
- * @LastEditTime: 2022-02-09 18:43:53
+ * @LastEditTime: 2022-02-12 18:21:02
  * @Description: 我的 页导航
  */
 import React from "react";
@@ -16,6 +16,8 @@ import ProfileScreen from "../screens/ProfileScreen";
 import { Button } from "react-native";
 import colors from "../config/colors";
 import MoreScreen from "../screens/MoreScreen";
+import TeacherScreen from "../screens/TeacherScreen";
+import SettingScreen from "../screens/SettingScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +58,21 @@ const AccountNavigator = () => (
         title: route.params.categoryName,
         headerShown: true,
       })}
+    />
+    <Stack.Screen
+      name='老师详情'
+      component={TeacherScreen}
+      options={({ route }) => ({
+        title: route.params.teacherName,
+        headerShown: true,
+      })}
+    />
+    <Stack.Screen
+      name='设置'
+      component={SettingScreen}
+      options={{
+        headerShown: true,
+      }}
     />
   </Stack.Navigator>
 );

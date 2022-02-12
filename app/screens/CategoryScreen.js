@@ -136,7 +136,7 @@ const List = React.memo(
 export default function CategoryScreen({ navigation }) {
   const [index, setIndex] = React.useState(0);
   const onConnectPress = React.useCallback(() => {
-    navigation.navigate("分类详情", {
+    navigation.navigate("更多", {
       categoryName: icons[index].name,
     });
   }, [index]); //TODO: 点按动作

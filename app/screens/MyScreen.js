@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-09 15:57:40
- * @LastEditTime: 2022-01-23 17:28:39
+ * @LastEditTime: 2022-02-12 18:19:53
  * @Description: 我的页
  */
 import React from "react";
@@ -10,12 +10,14 @@ import { AntDesign } from "@expo/vector-icons";
 
 import AppText from "../components/AppText";
 import colors from "../config/colors";
-import MyDetailScreen from "./MyDetailScreen";
+import MyDetailNavigator from "../navigation/MyDetailNavigator";
 
 function MyScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.icon}>
+      <TouchableOpacity
+        style={styles.icon}
+        onPress={() => navigation.navigate("设置")}>
         <AntDesign name='setting' size={28} color='black' />
       </TouchableOpacity>
       <View style={styles.header}>
@@ -32,7 +34,7 @@ function MyScreen({ navigation }) {
         <AppText text='刘俊琪' style={styles.name} />
         <AppText text='哈哈哈' style={styles.welcome} />
       </View>
-      <MyDetailScreen />
+      <MyDetailNavigator />
     </View>
   );
 }
