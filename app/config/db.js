@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-09 11:18:16
- * @LastEditTime: 2022-02-12 16:18:59
+ * @LastEditTime: 2022-02-13 17:39:17
  * @Description: 假数据
  */
 const courses = [
@@ -376,5 +376,266 @@ const moreData = [
     text: "Chair and Table",
   },
 ];
+//动态组件数据
+const posts = [
+  {
+    id: "1",
+    userName: "Jenny Doe",
+    userImg: require("../assets/avatar.jpg"),
+    postTime: "2022-02-11 11:49:30",
+    postTitle: "我是标题",
+    post: "Hey there, this is my test for a post of my social app in React Native.",
+    postImg: require("../assets/background/background3.jpg"),
+    liked: true,
+    likes: "14",
+    comments: "5",
+  },
+  {
+    id: "2",
+    userName: "John Doe",
+    userImg: require("../assets/avatar.jpg"),
+    postTime: "2022-02-13 10:49:30",
+    postTitle: "我是标题",
+    post: "Hey there, this is my test for a post of my social app in React Native.",
+    postImg: false,
+    liked: false,
+    likes: "8",
+    comments: "0",
+  },
+  {
+    id: "3",
+    userName: "Ken William",
+    userImg: require("../assets/avatar.jpg"),
+    postTime: "2022-01-13 13:49:30",
+    postTitle: "我是标题",
+    post: "Hey there, this is my test for a post of my social app in React Native.",
+    postImg: require("../assets/background/background2.jpg"),
+    liked: true,
+    likes: "1",
+    comments: "0",
+  },
+  {
+    id: "4",
+    userName: "Selina Paul",
+    userImg: require("../assets/avatar.jpg"),
+    postTime: "2022-02-13 11:49:30",
+    postTitle: "我是标题",
+    post: "Hey there, this is my test for a post of my social app in React Native.",
+    postImg: require("../assets/background/background4.jpg"),
+    liked: true,
+    likes: "22",
+    comments: "4",
+  },
+  {
+    id: "5",
+    userName: "Christy Alex",
+    userImg: require("../assets/avatar.jpg"),
+    postTime: "2022-02-13 11:55:30",
+    postTitle: "我是标题",
+    post: "Hey there, this is my test for a post of my social app in React Native.",
+    postImg: false,
+    liked: false,
+    likes: "0",
+    comments: "0",
+  },
+];
+//评论
+const commentsData = [
+  {
+    id: 1,
+    comment: "我是评论",
+    postTime: "2022-02-13 11:55:30",
+    userName: "Christy Alex",
+    userImg: require("../assets/avatar.jpg"),
+    postImg: false,
+    liked: false,
+    likes: "0",
+    comments: [
+      {
+        id: "ur22ufh",
+        comment: "我是评论",
+        fromUserName: "Christy Alex",
+        toUserName: "Christy Alex",
+      },
+      {
+        id: "uru44fh",
+        comment: "我是评论",
+        fromUserName: "Christy Alex",
+        toUserName: "Christy Alex",
+      },
+      {
+        id: "uru1f5h",
+        comment: "我是评论",
+        fromUserName: "Christy Alex",
+        toUserName: "Christy Alex",
+      },
+    ],
+  },
+  {
+    id: 2,
+    comment: "我是评论",
+    postTime: "2022-02-13 11:55:30",
+    userName: "Christy Alex",
+    userImg: require("../assets/avatar.jpg"),
+    postImg: false,
+    liked: false,
+    likes: "0",
+    comments: [
+      {
+        id: "uru79fh",
+        comment: "我是评论",
+        fromUserName: "Christy Alex",
+        toUserName: "Christy Alex",
+      },
+      {
+        id: "ur17ufh",
+        comment: "我是评论",
+        fromUserName: "Christy Alex",
+        toUserName: "Christy Alex",
+      },
+    ],
+  },
+  {
+    id: 3,
+    comment: "我是评论",
+    postTime: "2022-02-13 11:55:30",
+    userName: "Christy Alex",
+    userImg: require("../assets/avatar.jpg"),
+    postImg: false,
+    liked: false,
+    likes: "0",
+    comments: [
+      {
+        id: "u67rufh",
+        comment: "我是评论",
+        fromUserName: "Christy Alex",
+        toUserName: "Christy Alex",
+      },
+      {
+        id: "ur15ufh",
+        comment: "我是评论",
+        fromUserName: "Christy Alex",
+        toUserName: "Christy Alex",
+      },
+    ],
+  },
+  {
+    id: 4,
+    comment: "我是评论",
+    postTime: "2022-02-13 11:55:30",
+    userName: "Christy Alex",
+    userImg: require("../assets/avatar.jpg"),
+    postImg: false,
+    liked: false,
+    likes: "0",
+    comments: [
+      {
+        id: "uru13fh",
+        comment: "我是评论",
+        fromUserName: "Christy Alex",
+        toUserName: "Christy Alex",
+      },
+    ],
+  },
+  {
+    id: 5,
+    comment: "我是评论",
+    postTime: "2022-02-13 11:55:30",
+    userName: "Christy Alex",
+    userImg: require("../assets/avatar.jpg"),
+    postImg: false,
+    liked: false,
+    likes: "0",
+    comments: [
+      {
+        id: "uru25fh",
+        comment: "我是评论",
+        fromUserName: "Christy Alex",
+        toUserName: "Christy Alex",
+      },
+      {
+        id: "uru09fh",
+        comment: "我是评论",
+        fromUserName: "Christy Alex",
+        toUserName: "Christy Alex",
+      },
+      {
+        id: "uruf89h",
+        comment: "我是评论",
+        fromUserName: "Christy Alex",
+        toUserName: "Christy Alex",
+      },
+      {
+        id: "uru47fh",
+        comment: "我是评论",
+        fromUserName: "Christy Alex",
+        toUserName: "Christy Alex",
+      },
+    ],
+  },
+  {
+    id: 6,
+    comment: "我是评论",
+    postTime: "2022-02-13 11:55:30",
+    userName: "Christy Alex",
+    userImg: require("../assets/avatar.jpg"),
+    postImg: false,
+    liked: false,
+    likes: "0",
+    comments: [
+      {
+        id: "uru34fh",
+        comment: "我是评论",
+        fromUserName: "Christy Alex",
+        toUserName: "Christy Alex",
+      },
+    ],
+  },
+  {
+    id: 7,
+    comment: "我是评论",
+    postTime: "2022-02-13 11:55:30",
+    userName: "Christy Alex",
+    userImg: require("../assets/avatar.jpg"),
+    postImg: false,
+    liked: false,
+    likes: "0",
+    comments: [
+      {
+        id: "urufh123",
+        comment: "我是评论",
+        fromUserName: "Christy Alex",
+        toUserName: "Christy Alex",
+      },
+      {
+        id: "urufh345",
+        comment: "我是评论",
+        fromUserName: "Christy Alex",
+        toUserName: "Christy Alex",
+      },
+      {
+        id: "urufh1445",
+        comment: "我是评论",
+        fromUserName: "Christy Alex",
+        toUserName: "Christy Alex",
+      },
+      {
+        id: "urufh3773",
+        comment: "我是评论",
+        fromUserName: "Christy Alex",
+        toUserName: "Christy Alex",
+      },
+    ],
+  },
+];
 
-export { courses, icons, myCourses, comments, courseList, moreData };
+export {
+  courses,
+  icons,
+  myCourses,
+  comments,
+  courseList,
+  moreData,
+  posts,
+  commentsData,
+};

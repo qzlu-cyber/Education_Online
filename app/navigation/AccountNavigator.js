@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 18:47:19
- * @LastEditTime: 2022-02-12 18:21:02
+ * @LastEditTime: 2022-02-13 14:11:17
  * @Description: 我的 页导航
  */
 import React from "react";
@@ -18,6 +18,7 @@ import colors from "../config/colors";
 import MoreScreen from "../screens/MoreScreen";
 import TeacherScreen from "../screens/TeacherScreen";
 import SettingScreen from "../screens/SettingScreen";
+import ArticleScreen from "../screens/ArticleScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -66,6 +67,13 @@ const AccountNavigator = () => (
         title: route.params.teacherName,
         headerShown: true,
       })}
+    />
+    <Stack.Screen
+      name='动态详情'
+      component={ArticleScreen}
+      options={{
+        headerShown: true,
+      }}
     />
     <Stack.Screen
       name='设置'
