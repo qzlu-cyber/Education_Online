@@ -1,10 +1,10 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 10:49:57
- * @LastEditTime: 2022-02-12 18:11:43
+ * @LastEditTime: 2022-02-14 12:53:27
  * @Description: 首页
  */
-import React from "react";
+import React, { useRef, useState } from "react";
 import {
   Image,
   SafeAreaView,
@@ -12,12 +12,14 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  ScrollView,
   Platform,
   StatusBar,
   FlatList,
   Dimensions,
+  ScrollView,
 } from "react-native";
+import { Value, Transition, Transitioning } from "react-native-reanimated";
+import { useMemoOne } from "use-memo-one";
 import { EvilIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
@@ -26,6 +28,16 @@ import AppCategory from "../components/AppCategory";
 import ListItem from "../components/ListItem";
 import { courses } from "../config/db";
 import Footer from "../components/Footer";
+import Search from "../components/Search";
+import SearchBox from "../components/SearchBox";
+import AppScrollView from "../components/AppScrollView";
+
+const transition = (
+  <Transition.Together>
+    <Transition.In type='scale' durationMs={400} />
+    <Transition.Out type='scale' durationMs={400} />
+  </Transition.Together>
+);
 
 /**
  * @description:
@@ -35,126 +47,148 @@ import Footer from "../components/Footer";
 const windowWidth = Dimensions.get("window").width;
 
 function HomeScreen({ navigation }) {
+  const ref = useRef(null);
+  const [search, setSearch] = useState(false);
+  const translateY = useMemoOne(() => new Value(0), []);
+  const showSearchBox = () => {
+    if (!search && ref.current) {
+      ref.current.animateNextTransition();
+      setSearch(true);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={courses}
-        keyExtractor={(course) => course.id.toString()}
-        ListHeaderComponent={
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.header}>
-              <View style={styles.text}>
-                <AppText style={styles.welcome} text='早上好，刘俊琪' />
-                <AppText style={styles.goal} text='今天打算学点什么？' />
-              </View>
-              <TouchableOpacity>
-                <Image
-                  source={require("../assets/avatar.jpg")}
-                  style={styles.avatar}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.searchContainer}>
-              <TextInput style={styles.search} placeholder='搜索' />
-              <EvilIcons
-                name='search'
-                size={28}
-                color='black'
-                style={styles.searchIcon}
-              />
-            </View>
-            <AppCategory
-              viewStyle={styles.category}
-              categoryNameStyle={styles.categoryName}
-              categoryName='最受欢迎'
-              categoryNameTextStyle={styles.categoryText}
-              cardContainerStyle={styles.cardContainer}
-              navigation={navigation}
-            />
-            <AppCategory
-              viewStyle={styles.category}
-              categoryNameStyle={styles.categoryName}
-              categoryName='本月最多学习'
-              categoryNameTextStyle={styles.categoryText}
-              cardContainerStyle={styles.cardContainer}
-              navigation={navigation}
-            />
-            <AppCategory
-              viewStyle={styles.category}
-              categoryNameStyle={styles.categoryName}
-              categoryName='本月最受欢迎老师'
-              categoryNameTextStyle={styles.categoryText}
-              cardContainerStyle={styles.cardContainer}
-              navigation={navigation}
-              teacherName='刘俊琪'
-              tel={13839935677}
-              email='qzlu3773@163.com'
-              info='红红火火'
-            />
-            <View style={styles.more}>
-              <AppText text='为您推荐' style={styles.listText} />
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("更多", {
-                    categoryName: "为您推荐",
-                  })
-                }>
-                <EvilIcons name='arrow-right' size={28} color='black' />
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-        }
-        renderItem={({ item }) => (
-          <ListItem
-            containerStyle={styles.itemContainer}
-            imgStyle={styles.img}
-            imgSource={item.imgSource}
-            textContainerStyle={styles.textContainer}
-            titleStyle={styles.courseName}
-            title={item.courseName}
-            subTitleStyle={styles.teacherName}
-            subTitle={item.teacher}
-            rate={item.rate}
-            people={item.people}
-            navigation={navigation}
-          />
-        )}
-        ListFooterComponent={
-          <View style={styles.other}>
-            <View style={styles.more}>
-              <AppText text='其他精品课程' style={styles.listText} />
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("更多", {
-                    categoryName: "其他精品课程",
-                  })
-                }>
-                <EvilIcons name='arrow-right' size={28} color='black' />
-              </TouchableOpacity>
-            </View>
-            <FlatList
-              data={courses}
-              keyExtractor={(course) => course.id.toString()}
-              renderItem={({ item }) => (
-                <ListItem
-                  containerStyle={styles.itemContainer}
-                  imgStyle={styles.img}
-                  imgSource={item.imgSource}
-                  textContainerStyle={styles.textContainer}
-                  titleStyle={styles.courseName}
-                  title={item.courseName}
-                  subTitleStyle={styles.teacherName}
-                  subTitle={item.teacher}
-                  rate={item.rate}
-                  people={item.people}
+      <Transitioning.View style={{ flex: 1 }} {...{ transition, ref }}>
+        <Search {...{ translateY }} />
+        <AppScrollView onPull={showSearchBox} {...{ translateY }}>
+          <FlatList
+            data={courses}
+            keyExtractor={(course) => course.id.toString()}
+            ListHeaderComponent={
+              <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={styles.header}>
+                  <View style={styles.text}>
+                    <AppText style={styles.welcome} text='早上好，刘俊琪' />
+                    <AppText style={styles.goal} text='今天打算学点什么？' />
+                  </View>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("个人信息")}>
+                    <Image
+                      source={require("../assets/avatar.jpg")}
+                      style={styles.avatar}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.searchContainer}>
+                  <TextInput
+                    style={styles.search}
+                    placeholder='搜索'
+                    onFocus={() => setSearch(true)}
+                    onBlur={() => setSearch(false)}
+                  />
+                  <EvilIcons
+                    name='search'
+                    size={28}
+                    color='black'
+                    style={styles.searchIcon}
+                  />
+                </View>
+                <AppCategory
+                  viewStyle={styles.category}
+                  categoryNameStyle={styles.categoryName}
+                  categoryName='最受欢迎'
+                  categoryNameTextStyle={styles.categoryText}
+                  cardContainerStyle={styles.cardContainer}
                   navigation={navigation}
                 />
-              )}
-              ListFooterComponent={<Footer />}
-            />
-          </View>
-        }
-      />
+                <AppCategory
+                  viewStyle={styles.category}
+                  categoryNameStyle={styles.categoryName}
+                  categoryName='本月最多学习'
+                  categoryNameTextStyle={styles.categoryText}
+                  cardContainerStyle={styles.cardContainer}
+                  navigation={navigation}
+                />
+                <AppCategory
+                  viewStyle={styles.category}
+                  categoryNameStyle={styles.categoryName}
+                  categoryName='本月最受欢迎老师'
+                  categoryNameTextStyle={styles.categoryText}
+                  cardContainerStyle={styles.cardContainer}
+                  navigation={navigation}
+                  teacherName='刘俊琪'
+                  tel={13839935677}
+                  email='qzlu3773@163.com'
+                  info='红红火火'
+                />
+                <View style={styles.more}>
+                  <AppText text='为您推荐' style={styles.listText} />
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("更多", {
+                        categoryName: "为您推荐",
+                      })
+                    }>
+                    <EvilIcons name='arrow-right' size={28} color='black' />
+                  </TouchableOpacity>
+                </View>
+              </ScrollView>
+            }
+            renderItem={({ item }) => (
+              <ListItem
+                containerStyle={styles.itemContainer}
+                imgStyle={styles.img}
+                imgSource={item.imgSource}
+                textContainerStyle={styles.textContainer}
+                titleStyle={styles.courseName}
+                title={item.courseName}
+                subTitleStyle={styles.teacherName}
+                subTitle={item.teacher}
+                rate={item.rate}
+                people={item.people}
+                navigation={navigation}
+              />
+            )}
+            ListFooterComponent={
+              <View style={styles.other}>
+                <View style={styles.more}>
+                  <AppText text='其他精品课程' style={styles.listText} />
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("更多", {
+                        categoryName: "其他精品课程",
+                      })
+                    }>
+                    <EvilIcons name='arrow-right' size={28} color='black' />
+                  </TouchableOpacity>
+                </View>
+                <FlatList
+                  data={courses}
+                  keyExtractor={(course) => course.id.toString()}
+                  renderItem={({ item }) => (
+                    <ListItem
+                      containerStyle={styles.itemContainer}
+                      imgStyle={styles.img}
+                      imgSource={item.imgSource}
+                      textContainerStyle={styles.textContainer}
+                      titleStyle={styles.courseName}
+                      title={item.courseName}
+                      subTitleStyle={styles.teacherName}
+                      subTitle={item.teacher}
+                      rate={item.rate}
+                      people={item.people}
+                      navigation={navigation}
+                    />
+                  )}
+                  ListFooterComponent={<Footer />}
+                />
+              </View>
+            }
+          />
+        </AppScrollView>
+        <SearchBox visible={search} onRequestClose={() => setSearch(false)} />
+      </Transitioning.View>
     </SafeAreaView>
   );
 }
