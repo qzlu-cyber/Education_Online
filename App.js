@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-07 18:52:21
- * @LastEditTime: 2022-02-14 12:53:50
+ * @LastEditTime: 2022-02-14 18:45:25
  * @Description: 程序入口
  */
 import { NavigationContainer } from "@react-navigation/native";
@@ -14,6 +14,5 @@ export default function App() {
     <NavigationContainer>
       <AccountNavigator />
     </NavigationContainer>
-    // <Things />
   );
 }

@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 11:03:19
- * @LastEditTime: 2022-02-13 14:09:13
+ * @LastEditTime: 2022-02-14 16:01:36
  * @Description: 动态页
  */
 import React from "react";
@@ -31,7 +31,10 @@ const FeedScreen = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
         />
       </View>
-      <ActionButton buttonColor='#2e64e5' />
+      <ActionButton
+        buttonColor='#2e64e5'
+        onPress={() => navigation.navigate("发帖")}
+      />
     </SafeAreaView>
   );
 };

@@ -1,11 +1,13 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 18:47:19
- * @LastEditTime: 2022-02-13 14:11:17
+ * @LastEditTime: 2022-02-14 16:11:51
  * @Description: 我的 页导航
  */
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Button, TouchableOpacity } from "react-native";
+import { Entypo } from "@expo/vector-icons";
 
 import AppNavigator from "./AppNavigator";
 import CategoryDetailScreen from "../screens/CategoryDetailScreen";
@@ -13,12 +15,12 @@ import CourseDetailScreen from "../screens/CourseDetailScreen";
 import VideoScreen from "../screens/VideoScreen";
 import CourseCatelogScreen from "../screens/CourseCatelogScreen";
 import ProfileScreen from "../screens/ProfileScreen";
-import { Button } from "react-native";
 import colors from "../config/colors";
 import MoreScreen from "../screens/MoreScreen";
 import TeacherScreen from "../screens/TeacherScreen";
 import SettingScreen from "../screens/SettingScreen";
 import ArticleScreen from "../screens/ArticleScreen";
+import EditArticleScreen from "../screens/EditArticleScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -49,7 +51,11 @@ const AccountNavigator = () => (
       component={ProfileScreen}
       options={{
         headerShown: true,
-        headerRight: () => <Button title='提交' color={colors.praimary} />,
+        headerRight: () => (
+          <TouchableOpacity>
+            <Entypo name='paper-plane' size={24} color={colors.praimary} />
+          </TouchableOpacity>
+        ),
       }}
     />
     <Stack.Screen
@@ -73,6 +79,18 @@ const AccountNavigator = () => (
       component={ArticleScreen}
       options={{
         headerShown: true,
+      }}
+    />
+    <Stack.Screen
+      name='发帖'
+      component={EditArticleScreen}
+      options={{
+        headerShown: true,
+        headerRight: () => (
+          <TouchableOpacity>
+            <Entypo name='paper-plane' size={24} color={colors.praimary} />
+          </TouchableOpacity>
+        ),
       }}
     />
     <Stack.Screen

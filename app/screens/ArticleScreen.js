@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 14:03:47
- * @LastEditTime: 2022-02-13 18:51:11
+ * @LastEditTime: 2022-02-14 16:10:26
  * @Description: 动态详情页
  */
 import React, { useRef } from "react";
@@ -12,22 +12,16 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
-  TextInput,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
 import moment from "moment";
 import { AntDesign, Ionicons, Entypo } from "@expo/vector-icons";
-import {
-  actions,
-  RichEditor,
-  RichToolbar,
-} from "react-native-pell-rich-editor";
+import { RichEditor } from "react-native-pell-rich-editor";
 
 import ProgressiveImage from "../components/ProgressiveImage";
 import { commentsData } from "../config/db";
-import AppButton from "../components/AppButton";
 
 export default function ArticleScreen({ route }) {
   const { article, likeText, likeIcon, likeIconColor, commentText } =
@@ -148,15 +142,15 @@ export default function ArticleScreen({ route }) {
             />
           </KeyboardAvoidingView>
         </ScrollView>
-        <RichToolbar
+        {/* <RichToolbar
           editor={richText}
-          actions={[actions.setBold, actions.setItalic, actions.setUnderline]}
+          actions={[actions.setBold, actions.setItalic, actions.code]}
           iconMap={{
             [actions.heading1]: ({ tintColor }) => (
               <Text style={[{ color: tintColor }]}>H1</Text>
             ),
           }}
-        />
+        /> */}
         <TouchableOpacity style={styles.button}>
           <Entypo name='paper-plane' size={24} color='#fff' />
         </TouchableOpacity>
