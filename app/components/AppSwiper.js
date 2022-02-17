@@ -1,15 +1,14 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-09 14:03:00
- * @LastEditTime: 2022-01-20 14:02:50
+ * @LastEditTime: 2022-02-17 22:24:39
  * @Description: 轮播图
  */
 import React from "react";
 import { View, StyleSheet, Image } from "react-native";
 import Swiper from "react-native-swiper";
-import colors from "../config/colors";
 
-function AppSwiper(props) {
+function AppSwiper() {
   return (
     <Swiper style={styles.wrapper} autoplay={true} autoplayTimeout={3}>
       <View style={styles.slide}>

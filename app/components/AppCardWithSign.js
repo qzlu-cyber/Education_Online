@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 16:33:20
- * @LastEditTime: 2022-01-23 16:08:36
+ * @LastEditTime: 2022-02-17 22:08:42
  * @Description: 带有标签的卡片
  */
 import React from "react";
@@ -78,12 +78,7 @@ function AppCardWithSign({
 }
 
 const styles = StyleSheet.create({
-  card: {
-    shadowColor: colors.lightText,
-    shadowOffset: { width: 5, height: 5 },
-    shadowOpacity: 0.7,
-    elevation: 20,
-  },
+  card: {},
   sign: {
     position: "absolute",
     justifyContent: "center",

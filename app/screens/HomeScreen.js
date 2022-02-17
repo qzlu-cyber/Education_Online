@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 10:49:57
- * @LastEditTime: 2022-02-14 12:53:27
+ * @LastEditTime: 2022-02-17 22:07:01
  * @Description: 首页
  */
 import React, { useRef, useState } from "react";
@@ -265,6 +265,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     marginHorizontal: 20,
     letterSpacing: 1,
+    marginBottom: 10,
   },
   //item
   itemContainer: {

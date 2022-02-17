@@ -1,16 +1,15 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 18:47:19
- * @LastEditTime: 2022-02-14 16:11:51
+ * @LastEditTime: 2022-02-17 22:17:33
  * @Description: 我的 页导航
  */
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Button, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 
 import AppNavigator from "./AppNavigator";
-import CategoryDetailScreen from "../screens/CategoryDetailScreen";
 import CourseDetailScreen from "../screens/CourseDetailScreen";
 import VideoScreen from "../screens/VideoScreen";
 import CourseCatelogScreen from "../screens/CourseCatelogScreen";
@@ -28,14 +27,6 @@ const AccountNavigator = () => (
   <Stack.Navigator
     screenOptions={{ headerShown: false, headerBackTitle: "返回" }}>
     <Stack.Screen name='首页' component={AppNavigator} />
-    <Stack.Screen
-      name='分类详情'
-      component={CategoryDetailScreen}
-      options={({ route }) => ({
-        title: route.params.categoryName,
-        headerShown: true,
-      })}
-    />
     <Stack.Screen
       name='课程详情'
       component={CourseDetailScreen}

@@ -4,8 +4,6 @@
 import * as React from "react";
 import {
   TouchableOpacity,
-  Alert,
-  StatusBar,
   Dimensions,
   Animated,
   Text,
