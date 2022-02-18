@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 10:49:57
- * @LastEditTime: 2022-02-17 22:07:01
+ * @LastEditTime: 2022-02-18 15:23:23
  * @Description: 首页
  */
 import React, { useRef, useState } from "react";
@@ -81,18 +81,14 @@ function HomeScreen({ navigation }) {
                   </TouchableOpacity>
                 </View>
                 <View style={styles.searchContainer}>
-                  <TextInput
-                    style={styles.search}
-                    placeholder='搜索'
-                    onFocus={() => setSearch(true)}
-                    onBlur={() => setSearch(false)}
-                  />
-                  <EvilIcons
-                    name='search'
-                    size={28}
-                    color='black'
+                  <TextInput style={styles.search} placeholder='搜索' />
+                  <TouchableOpacity
                     style={styles.searchIcon}
-                  />
+                    onPress={() => {
+                      navigation.navigate("更多", { categoryName: "搜索结果" });
+                    }}>
+                    <EvilIcons name='search' size={28} color='black' />
+                  </TouchableOpacity>
                 </View>
                 <AppCategory
                   viewStyle={styles.category}

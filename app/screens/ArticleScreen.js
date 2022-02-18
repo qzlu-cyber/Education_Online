@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 14:03:47
- * @LastEditTime: 2022-02-17 22:26:00
+ * @LastEditTime: 2022-02-18 15:54:39
  * @Description: 动态详情页
  */
 import React, { Component } from "react";
@@ -33,6 +33,7 @@ export default class ArticleScreen extends Component {
   render() {
     const { article, likeText, likeIcon, likeIconColor, commentText } =
       this.props.route.params;
+    const navigation = this.props.navigation;
     const imageList = [
       "https://img.lesmao.vip/k/h256/R/MeiTu/1293.jpg",
       "https://img.lesmao.vip/k/h256/R/MeiTu/1297.jpg",
@@ -59,8 +60,12 @@ export default class ArticleScreen extends Component {
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={
             <View style={{ backgroundColor: "#fff", paddingHorizontal: 10 }}>
-              <TouchableOpacity style={styles.userInfo}>
-                {/*TODO:点击跳转用户主页*/}
+              <TouchableOpacity
+                style={styles.userInfo}
+                onPress={() =>
+                  navigation.navigate("聊天", { userName: article.userName })
+                }>
+                {/*TODO:点击跳转聊天*/}
                 <Image source={article.userImg} style={styles.userImg} />
                 <View style={styles.userInfoText}>
                   <Text style={styles.userName}>{article.userName}</Text>
@@ -134,7 +139,13 @@ export default class ArticleScreen extends Component {
                 ListHeaderComponent={
                   <>
                     <View style={styles.infoContainer}>
-                      <TouchableOpacity style={styles.userInfo}>
+                      <TouchableOpacity
+                        style={styles.userInfo}
+                        onPress={() =>
+                          navigation.navigate("聊天", {
+                            userName: item.userName,
+                          })
+                        }>
                         <Image
                           source={item.userImg}
                           style={styles.commentUserImg}
@@ -170,11 +181,23 @@ export default class ArticleScreen extends Component {
                 renderItem={({ item }) => (
                   <View style={styles.comments}>
                     <View style={styles.commentsContainer}>
-                      <TouchableOpacity style={styles.commentsUserInfo}>
+                      <TouchableOpacity
+                        style={styles.commentsUserInfo}
+                        onPress={() =>
+                          navigation.navigate("聊天", {
+                            userName: item.fromUserName,
+                          })
+                        }>
                         <Text style={styles.userName}>{item.fromUserName}</Text>
                       </TouchableOpacity>
                       <Text>回复</Text>
-                      <TouchableOpacity style={styles.commentsUserInfo}>
+                      <TouchableOpacity
+                        style={styles.commentsUserInfo}
+                        onPress={() =>
+                          navigation.navigate("聊天", {
+                            userName: item.toUserName,
+                          })
+                        }>
                         <Text style={styles.userName}>{item.toUserName}</Text>
                       </TouchableOpacity>
                       <Text>：</Text>

@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-23 15:13:45
- * @LastEditTime: 2022-02-12 17:54:36
+ * @LastEditTime: 2022-02-18 16:00:55
  * @Description: 课程详情页
  */
 import React from "react";
@@ -15,7 +15,7 @@ import AppButton from "../components/AppButton";
 
 const windowWidth = Dimensions.get("window").width;
 
-export default function CourseDetailScreen({ route }) {
+export default function CourseDetailScreen({ route, navigation }) {
   return (
     <>
       <ListItem
@@ -31,7 +31,7 @@ export default function CourseDetailScreen({ route }) {
         people='3000'
         withoutPress
       />
-      <CourseNavigator />
+      <CourseNavigator navigation={navigation} />
       <View style={styles.purchase}>
         <AppButton
           style={styles.button}

@@ -1,17 +1,23 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-24 18:37:58
- * @LastEditTime: 2022-01-27 16:30:03
+ * @LastEditTime: 2022-02-18 16:07:22
  * @Description: 评论组件
  */
 import React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View, TouchableOpacity } from "react-native";
 import { Foundation } from "@expo/vector-icons";
 
 import AppText from "./AppText";
 import colors from "../config/colors";
 
-export default function AppComment({ nickName, avatar, content, star }) {
+export default function AppComment({
+  nickName,
+  avatar,
+  content,
+  star,
+  navigation,
+}) {
   let stars = [false, false, false, false, false];
   for (let i = 0; i < star; i++) {
     stars[i] = true;
@@ -19,10 +25,12 @@ export default function AppComment({ nickName, avatar, content, star }) {
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>
-        <View style={styles.info}>
+        <TouchableOpacity
+          style={styles.info}
+          onPress={() => navigation.navigate("聊天", { userName: nickName })}>
           <Image source={avatar} style={styles.avatar} />
           <AppText text={nickName} style={styles.content} />
-        </View>
+        </TouchableOpacity>
         <View style={styles.star}>
           {stars.map((star, index) => {
             if (star)

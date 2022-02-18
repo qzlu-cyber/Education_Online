@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-09 15:46:38
- * @LastEditTime: 2022-02-09 18:35:39
+ * @LastEditTime: 2022-02-18 15:13:05
  * @Description: 发布课程
  */
 import React, { useState } from "react";
@@ -14,20 +14,33 @@ import {
   View,
   Alert,
 } from "react-native";
+import RNPickerSelect from "react-native-picker-select";
+import { Ionicons } from "@expo/vector-icons";
+import Toast from "react-native-toast-message";
 
 import AppTextInput from "../components/AppTextInput";
 import colors from "../config/colors";
 import ImageInput from "../components/ImageInput";
 import AppButton from "../components/AppButton";
+import AppText from "../components/AppText";
 
 export default function CourseEditScreen() {
   const [videoNum, setVideoNum] = useState([0]);
   const [count, setCount] = useState(1);
+  const [icon, setIcon] = useState("md-arrow-down");
 
   const handlePress = () => {
     setCount(count + 1);
     videoNum.push(count);
     setVideoNum(videoNum);
+  };
+
+  const handleOpen = () => {
+    if (Platform.OS === "ios") setIcon("md-arrow-up");
+  };
+
+  const handleClose = () => {
+    setIcon("md-arrow-down");
   };
 
   const handleSubmit = () => {
@@ -47,6 +60,30 @@ export default function CourseEditScreen() {
             title='课程名称'
             inputStyle={styles.input}
             placeholder='请输入名称'
+          />
+        </View>
+        <View style={styles.category}>
+          <AppText text='课程分类' />
+          <RNPickerSelect
+            style={{
+              ...pickerSelectStyles,
+              iconContainer: {
+                top: 20,
+                right: 12,
+              },
+            }}
+            onValueChange={(value) => console.log(value)}
+            items={[
+              { label: "Football", value: "football" },
+              { label: "Baseball", value: "baseball" },
+              { label: "Hockey", value: "hockey" },
+            ]}
+            useNativeAndroidPickerStyle={false}
+            onOpen={handleOpen}
+            onClose={handleClose}
+            Icon={() => {
+              return <Ionicons name={icon} size={24} color='gray' />;
+            }}
           />
         </View>
         {videoNum.map((index) => (
@@ -70,6 +107,7 @@ export default function CourseEditScreen() {
           textStyle={styles.buttonText}
           onPress={handleSubmit}
         />
+        <Toast visibilityTime={5000} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -91,6 +129,17 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 10,
     marginBottom: 10,
+  },
+  category: {},
+  inputIOS: {
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 4,
+    color: "black",
+    paddingRight: 30, // to ensure the text is never behind the icon
   },
   uploadContainer: {
     width: "100%",
@@ -116,5 +165,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 5,
+  },
+});
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    height: 50,
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    color: colors.boldText,
+  },
+  inputAndroid: {
+    height: 50,
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    color: colors.boldText,
   },
 });

@@ -1,0 +1,48 @@
+/*
+ * @Author: 刘俊琪
+ * @Date: 2022-02-18 16:29:49
+ * @LastEditTime: 2022-02-18 18:21:26
+ * @Description: 描述
+ */
+import { MaterialIcons } from "@expo/vector-icons";
+import React from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+
+import { pickImageAsync, takePictureAsync } from "./mediaUtils";
+
+export default class AccessoryBar extends React.Component {
+  render() {
+    const { onSend } = this.props;
+
+    return (
+      <View style={styles.container}>
+        <Button onPress={() => pickImageAsync(onSend)} name='photo' />
+        <Button onPress={() => takePictureAsync(onSend)} name='camera' />
+      </View>
+    );
+  }
+}
+
+const Button = ({
+  onPress,
+  size = 30,
+  color = "rgba(0,0,0,0.5)",
+  ...props
+}) => (
+  <TouchableOpacity onPress={onPress}>
+    <MaterialIcons size={size} color={color} {...props} />
+  </TouchableOpacity>
+);
+
+const styles = StyleSheet.create({
+  container: {
+    height: 44,
+    width: "100%",
+    backgroundColor: "white",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: "rgba(0,0,0,0.3)",
+  },
+});

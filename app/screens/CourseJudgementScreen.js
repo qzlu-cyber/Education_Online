@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-23 17:09:20
- * @LastEditTime: 2022-01-24 18:57:26
+ * @LastEditTime: 2022-02-18 16:04:48
  * @Description: 课程评价页
  */
 import React from "react";
@@ -10,7 +10,7 @@ import AppComment from "../components/AppComment";
 
 import { comments } from "../config/db";
 
-export default function CourseJudgementScreen() {
+export default function CourseJudgementScreen({ navigation }) {
   return (
     <FlatList
       data={comments}
@@ -21,6 +21,7 @@ export default function CourseJudgementScreen() {
           avatar={item.avatar}
           content={item.content}
           star={item.star}
+          navigation={navigation}
         />
       )}
     />

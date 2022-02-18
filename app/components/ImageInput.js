@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 16:31:16
- * @LastEditTime: 2022-02-09 17:45:10
+ * @LastEditTime: 2022-02-18 15:15:56
  * @Description: 选取头像，图片等
  */
 import React, { useEffect, useState } from "react";
@@ -15,6 +15,7 @@ import {
 import { FontAwesome5 } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { Video } from "expo-av";
+import Toast from "react-native-toast-message";
 
 import colors from "../config/colors";
 import AppText from "./AppText";
@@ -27,6 +28,10 @@ function ImageInput({ image, video }) {
     requestPermission();
   }, []);
 
+  // useEffect(() => {
+  //   showToast();
+  // }, [imageUri, videoUri]);
+
   const requestPermission = async () => {
     const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!granted) alert("请授予必要的访问权限");
@@ -38,7 +43,10 @@ function ImageInput({ image, video }) {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
       });
-      if (!result.cancelled) setImageUri(result.uri);
+      if (!result.cancelled) {
+        setImageUri(result.uri);
+        showToast();
+      }
       console.log(result);
     } catch (error) {
       console.log("Error reading an image", error);
@@ -51,14 +59,37 @@ function ImageInput({ image, video }) {
         mediaTypes: ImagePicker.MediaTypeOptions.Videos,
         allowsEditing: true,
       });
-      if (!result.cancelled) setVideoUri(result.uri);
+      if (!result.cancelled) {
+        setVideoUri(result.uri);
+        showToast();
+      }
     } catch (error) {
       console.log("Error reading an video", error);
     }
   };
 
+  const showToast = () => {
+    Toast.show({
+      type: "info",
+      text1: "提示",
+      text2: "长按可以删除已经上传的图片或视频哦 👋",
+    });
+  };
+
   const handlePress = () => {
-    console.log("begin");
+    if (image) {
+      if (!imageUri) {
+        selectImage();
+      }
+    }
+    if (video) {
+      if (!videoUri) {
+        selectVideo();
+      }
+    }
+  };
+
+  const handleLongPress = () => {
     if (image) {
       if (!imageUri) selectImage();
       else
@@ -78,7 +109,9 @@ function ImageInput({ image, video }) {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={handlePress}>
+    <TouchableWithoutFeedback
+      onPress={handlePress}
+      onLongPress={handleLongPress}>
       <View style={image ? styles.container : styles.uploadContainer}>
         {image && (
           <View style={styles.container}>
