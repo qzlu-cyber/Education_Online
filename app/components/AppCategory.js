@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 15:32:28
- * @LastEditTime: 2022-02-12 17:20:47
+ * @LastEditTime: 2022-04-06 19:02:39
  * @Description: 首页各种种类组件
  */
 import { View, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
@@ -25,6 +25,7 @@ function AppCategory({
   email,
   info,
   navigation,
+  data,
 }) {
   return (
     <View style={[styles.popular, viewStyle]}>
@@ -36,7 +37,7 @@ function AppCategory({
         <TouchableOpacity
           onPress={() =>
             navigation.navigate("更多", {
-              categoryName,
+              data,
             })
           }>
           <EvilIcons name='arrow-right' size={28} color='black' />
@@ -47,38 +48,18 @@ function AppCategory({
           style={[styles.cardContainer, cardContainerStyle]}
           horizontal={true}
           showsHorizontalScrollIndicator={false}>
-          <AppCard
-            cardStyle={styles.card}
-            imageStyle={styles.img}
-            imgSource={require("../assets/background/background1.jpg")}
-            text='React'
-            textStyle={styles.title}
-            navigation={navigation}
-          />
-          <AppCard
-            cardStyle={styles.card}
-            imageStyle={styles.img}
-            imgSource={require("../assets/background/background2.jpg")}
-            text='React Native'
-            textStyle={styles.title}
-            navigation={navigation}
-          />
-          <AppCard
-            cardStyle={styles.card}
-            imageStyle={styles.img}
-            imgSource={require("../assets/background/background3.jpg")}
-            text='JavaScript'
-            textStyle={styles.title}
-            navigation={navigation}
-          />
-          <AppCard
-            cardStyle={styles.card}
-            imageStyle={styles.img}
-            imgSource={require("../assets/background/background4.jpg")}
-            text='UI/UX设计'
-            textStyle={styles.title}
-            navigation={navigation}
-          />
+          {data.map((item) => (
+            <AppCard
+              key={item._id}
+              item={item}
+              cardStyle={styles.card}
+              imageStyle={styles.img}
+              imgSource={{ uri: item.cover }}
+              text={item.name}
+              textStyle={styles.title}
+              navigation={navigation}
+            />
+          ))}
         </ScrollView>
       )}
       {categoryName === "本月最多学习" && (
@@ -86,46 +67,20 @@ function AppCategory({
           style={[styles.cardContainer, cardContainerStyle]}
           horizontal={true}
           showsHorizontalScrollIndicator={false}>
-          <AppCardWithSign
-            cardStyle={styles.card}
-            imageStyle={styles.img}
-            imgSource={require("../assets/background/background5.jpg")}
-            text='React'
-            textStyle={styles.title}
-            signText='热门'
-            signTextStyle={styles.text}
-            navigation={navigation}
-          />
-          <AppCardWithSign
-            cardStyle={styles.card}
-            imageStyle={styles.img}
-            imgSource={require("../assets/background/background6.jpg")}
-            text='React Native'
-            textStyle={styles.title}
-            signText='上新'
-            signTextStyle={styles.text}
-            navigation={navigation}
-          />
-          <AppCardWithSign
-            cardStyle={styles.card}
-            imageStyle={styles.img}
-            imgSource={require("../assets/background/background7.jpg")}
-            text='JavaScript'
-            textStyle={styles.title}
-            signText='热门'
-            signTextStyle={styles.text}
-            navigation={navigation}
-          />
-          <AppCardWithSign
-            cardStyle={styles.card}
-            imageStyle={styles.img}
-            imgSource={require("../assets/background/background8.jpg")}
-            text='UI/UX设计'
-            textStyle={styles.title}
-            signText='好评'
-            signTextStyle={styles.text}
-            navigation={navigation}
-          />
+          {data.map((item) => (
+            <AppCardWithSign
+              key={item._id}
+              item={item}
+              cardStyle={styles.card}
+              imageStyle={styles.img}
+              imgSource={{ uri: item.cover }}
+              text={item.name}
+              textStyle={styles.title}
+              signText='上新'
+              signTextStyle={styles.text}
+              navigation={navigation}
+            />
+          ))}
         </ScrollView>
       )}
       {categoryName === "本月最受欢迎老师" && (

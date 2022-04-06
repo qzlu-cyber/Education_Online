@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-23 15:13:45
- * @LastEditTime: 2022-02-18 16:00:55
+ * @LastEditTime: 2022-04-06 18:54:45
  * @Description: 课程详情页
  */
 import React from "react";
@@ -21,14 +21,15 @@ export default function CourseDetailScreen({ route, navigation }) {
       <ListItem
         containerStyle={styles.itemContainer}
         imgStyle={styles.img}
-        imgSource={route.params.imgSource}
-        title={route.params.courseName}
+        imgUrl={route.params.item.cover}
+        title={route.params.item.name}
         textContainerStyle={styles.textContainer}
         titleStyle={styles.courseName}
         subTitleStyle={styles.teacherName}
-        subTitle='hhh'
-        rate='5'
-        people='3000'
+        subTitle={route.params.teacherName}
+        rate={route.params.item.stars}
+        people={route.params.item.saleNum}
+        price={route.params.item.price}
         withoutPress
       />
       <CourseNavigator navigation={navigation} />

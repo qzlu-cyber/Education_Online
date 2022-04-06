@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-09 18:37:22
- * @LastEditTime: 2022-02-12 16:22:33
+ * @LastEditTime: 2022-04-06 19:06:26
  * @Description: icon更多
  */
 import React, { useMemo } from "react";
@@ -12,13 +12,13 @@ import AppCard from "../components/AppCard";
 import colors from "../config/colors";
 import { moreData } from "../config/db";
 
-export default function MoreScreen({ navigation }) {
+export default function MoreScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
       <MasonryList
         numColumns={2}
-        data={moreData}
-        keyExtractor={(item) => item.id.toString()}
+        data={route.params.data}
+        keyExtractor={(item) => item._id}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => {
           const randomBool = useMemo(() => Math.random() < 0.5, []);
@@ -26,8 +26,7 @@ export default function MoreScreen({ navigation }) {
             <AppCard
               cardStyle={styles.card}
               imageStyle={[styles.img, { height: randomBool ? 140 : 200 }]}
-              imgSource={{ uri: item.imgURL }}
-              text={item.text}
+              item={item}
               textStyle={styles.title}
               navigation={navigation}
             />

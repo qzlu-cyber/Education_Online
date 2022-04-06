@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 15:28:48
- * @LastEditTime: 2022-02-12 16:23:56
+ * @LastEditTime: 2022-04-06 19:04:58
  * @Description: 卡片
  */
 import React from "react";
@@ -15,35 +15,35 @@ import {
 
 import AppText from "./AppText";
 
-function AppCard({
-  cardStyle,
-  imageStyle,
-  imgSource,
-  text,
-  textStyle,
-  navigation,
-}) {
+function AppCard({ cardStyle, imageStyle, textStyle, navigation, item }) {
   return (
     <>
       {navigation && (
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("课程详情", {
-              courseName: text,
-              imgSource,
+              item: item,
             });
           }}>
           <View style={[styles.card, cardStyle]}>
-            <Image source={imgSource} style={[imageStyle]} resizeMode='cover' />
-            <AppText text={text} style={[textStyle]} />
+            <Image
+              source={{ uri: item.cover }}
+              style={[imageStyle]}
+              resizeMode='cover'
+            />
+            <AppText text={item.name} style={[textStyle]} />
           </View>
         </TouchableOpacity>
       )}
       {!navigation && (
         <TouchableWithoutFeedback>
           <View style={[styles.card, cardStyle]}>
-            <Image source={imgSource} style={[imageStyle]} resizeMode='cover' />
-            <AppText text={text} style={[textStyle]} />
+            <Image
+              source={{ uri: item.cover }}
+              style={[imageStyle]}
+              resizeMode='cover'
+            />
+            <AppText text={item.name} style={[textStyle]} />
           </View>
         </TouchableWithoutFeedback>
       )}

@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 16:33:20
- * @LastEditTime: 2022-02-17 22:08:42
+ * @LastEditTime: 2022-04-06 18:56:50
  * @Description: 带有标签的卡片
  */
 import React from "react";
@@ -19,12 +19,13 @@ function AppCardWithSign({
   signText,
   signTextStyle,
   navigation,
+  item,
 }) {
   return (
     <View>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("课程详情", { courseName: text });
+          navigation.navigate("课程详情", { item: item });
         }}>
         <View style={[styles.card, cardStyle]}>
           <Image source={imgSource} style={[imageStyle]} resizeMode='cover' />
@@ -34,11 +35,11 @@ function AppCardWithSign({
         <AppText text={signText} style={[signTextStyle]} />
       </View>
       <View style={styles.nameAndRateContainer}>
-        <AppText text={text} style={styles.title} />
-        <AppText text='哈哈哈' style={styles.subtitle} />
+        <AppText text={item.name} style={styles.title} />
+        <AppText text={item.teacherName} style={styles.subtitle} />
       </View>
       <View style={styles.rateContainer}>
-        <AppText text='5.0' style={styles.rate} />
+        <AppText text={item.stars + ".0"} style={styles.rate} />
         <View style={styles.star}>
           <Foundation
             name='star'
@@ -70,7 +71,7 @@ function AppCardWithSign({
             color={colors.sign}
             style={styles.starIcon}
           />
-          <AppText text='(3737)' style={styles.subtitle} />
+          <AppText text={item.saleNum} style={styles.subtitle} />
         </View>
       </View>
     </View>

@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-09 10:34:39
- * @LastEditTime: 2022-02-12 16:26:45
+ * @LastEditTime: 2022-04-06 18:18:05
  * @Description: 列表项
  */
 import React from "react";
@@ -39,7 +39,7 @@ import colors from "../config/colors";
 function ListItem({
   containerStyle,
   imgStyle,
-  imgSource,
+  imgUrl,
   textContainerStyle,
   titleStyle,
   title,
@@ -49,6 +49,7 @@ function ListItem({
   people,
   withoutPress,
   navigation,
+  price,
 }) {
   return (
     <>
@@ -60,12 +61,12 @@ function ListItem({
             })
           }>
           <View style={containerStyle}>
-            <Image style={imgStyle} source={imgSource} />
+            <Image style={imgStyle} source={{ uri: imgUrl }} />
             <View style={textContainerStyle}>
               <AppText text={title} style={titleStyle} />
               <AppText text={subTitle} style={subTitleStyle} />
               <View style={styles.rate}>
-                <AppText text={`￥${people}`} style={styles.price} />
+                <AppText text={`￥${price}`} style={styles.price} />
                 <View style={styles.info}>
                   <Ionicons name='people' size={16} color='black' />
                   <AppText text={people} style={styles.text} />
@@ -85,12 +86,12 @@ function ListItem({
       {withoutPress && (
         <TouchableWithoutFeedback>
           <View style={containerStyle}>
-            <Image style={imgStyle} source={imgSource} />
+            <Image style={imgStyle} source={{ uri: imgUrl }} />
             <View style={textContainerStyle}>
               <AppText text={title} style={titleStyle} />
               <AppText text={subTitle} style={subTitleStyle} />
               <View style={styles.rate}>
-                <AppText text={`￥${people}`} style={styles.price} />
+                <AppText text={`￥${price}`} style={styles.price} />
                 <View style={styles.info}>
                   <Ionicons name='people' size={16} color='black' />
                   <AppText text={people} style={styles.text} />

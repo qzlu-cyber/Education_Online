@@ -1,10 +1,10 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 10:49:57
- * @LastEditTime: 2022-02-18 15:23:23
+ * @LastEditTime: 2022-04-06 19:08:55
  * @Description: 首页
  */
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Image,
   SafeAreaView,
@@ -26,11 +26,12 @@ import colors from "../config/colors";
 import AppText from "../components/AppText";
 import AppCategory from "../components/AppCategory";
 import ListItem from "../components/ListItem";
-import { courses } from "../config/db";
 import Footer from "../components/Footer";
 import Search from "../components/Search";
 import SearchBox from "../components/SearchBox";
 import AppScrollView from "../components/AppScrollView";
+
+import coursesApi from "../api/courses";
 
 const transition = (
   <Transition.Together>
@@ -57,6 +58,27 @@ function HomeScreen({ navigation }) {
     }
   };
 
+  const [courses, setCourses] = useState([]); // 推荐课程
+  const [popularCourses, setPopularCourses] = useState([]); // 受欢迎课程课程
+  const [newestCourses, setNewestCourses] = useState([]); // 最新课程
+  const [otherCourses, setOtherCourses] = useState([]); // 其他精品课程
+
+  useEffect(() => {
+    loadCourses();
+  }, []);
+
+  const loadCourses = async () => {
+    const response = await coursesApi.getCommandCourses();
+    const popularResponse = await coursesApi.getPopularCourses();
+    const newestResponse = await coursesApi.getNewestCourses();
+    const otherResponse = await coursesApi.getOtherCourses();
+
+    setCourses(response.data);
+    setPopularCourses(popularResponse.data);
+    setNewestCourses(newestResponse.data);
+    setOtherCourses(otherResponse.data);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Transitioning.View style={{ flex: 1 }} {...{ transition, ref }}>
@@ -64,7 +86,7 @@ function HomeScreen({ navigation }) {
         <AppScrollView onPull={showSearchBox} {...{ translateY }}>
           <FlatList
             data={courses}
-            keyExtractor={(course) => course.id.toString()}
+            keyExtractor={(course) => course._id}
             ListHeaderComponent={
               <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.header}>
@@ -97,6 +119,7 @@ function HomeScreen({ navigation }) {
                   categoryNameTextStyle={styles.categoryText}
                   cardContainerStyle={styles.cardContainer}
                   navigation={navigation}
+                  data={popularCourses}
                 />
                 <AppCategory
                   viewStyle={styles.category}
@@ -105,6 +128,7 @@ function HomeScreen({ navigation }) {
                   categoryNameTextStyle={styles.categoryText}
                   cardContainerStyle={styles.cardContainer}
                   navigation={navigation}
+                  data={newestCourses}
                 />
                 <AppCategory
                   viewStyle={styles.category}
@@ -124,6 +148,7 @@ function HomeScreen({ navigation }) {
                     onPress={() =>
                       navigation.navigate("更多", {
                         categoryName: "为您推荐",
+                        data: courses,
                       })
                     }>
                     <EvilIcons name='arrow-right' size={28} color='black' />
@@ -135,14 +160,15 @@ function HomeScreen({ navigation }) {
               <ListItem
                 containerStyle={styles.itemContainer}
                 imgStyle={styles.img}
-                imgSource={item.imgSource}
+                imgUrl={item.cover}
                 textContainerStyle={styles.textContainer}
                 titleStyle={styles.courseName}
-                title={item.courseName}
+                title={item.name}
                 subTitleStyle={styles.teacherName}
-                subTitle={item.teacher}
-                rate={item.rate}
-                people={item.people}
+                subTitle={item.teacherName}
+                rate={item.stars}
+                people={item.saleNum}
+                price={item.price}
                 navigation={navigation}
               />
             )}
@@ -154,6 +180,7 @@ function HomeScreen({ navigation }) {
                     onPress={() =>
                       navigation.navigate("更多", {
                         categoryName: "其他精品课程",
+                        data: courses,
                       })
                     }>
                     <EvilIcons name='arrow-right' size={28} color='black' />
@@ -161,19 +188,20 @@ function HomeScreen({ navigation }) {
                 </View>
                 <FlatList
                   data={courses}
-                  keyExtractor={(course) => course.id.toString()}
+                  keyExtractor={(course) => course._id}
                   renderItem={({ item }) => (
                     <ListItem
                       containerStyle={styles.itemContainer}
                       imgStyle={styles.img}
-                      imgSource={item.imgSource}
+                      imgUrl={item.cover}
                       textContainerStyle={styles.textContainer}
                       titleStyle={styles.courseName}
-                      title={item.courseName}
+                      title={item.name}
                       subTitleStyle={styles.teacherName}
-                      subTitle={item.teacher}
-                      rate={item.rate}
-                      people={item.people}
+                      subTitle={item.teacherName}
+                      rate={item.stars}
+                      price={item.price}
+                      people={item.saleNum}
                       navigation={navigation}
                     />
                   )}

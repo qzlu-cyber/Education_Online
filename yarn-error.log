@@ -1,8 +1,8 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add dayjs/locale/zh-cn
+  /usr/local/bin/node /usr/local/bin/yarn add apisauce@^1.1.1
 
 PATH: 
-  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/Library/Apple/usr/bin
 
 Yarn version: 
   1.22.17
@@ -14,17 +14,17 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.npmjs.org/dayjs%2flocale/zh-cn: Request "https://registry.npmjs.org/dayjs%2flocale/zh-cn" returned a 405
-      at Request.params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:67038:18)
-      at Request.self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:140883:22)
+  Error: https://registry.yarnpkg.com/@wxik/core/-/core-0.5.3.tgz: Request failed "404 Not Found"
+      at ResponseError.ExtendableBuiltin (/usr/local/lib/node_modules/yarn/lib/cli.js:696:66)
+      at new ResponseError (/usr/local/lib/node_modules/yarn/lib/cli.js:802:124)
+      at Request.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:67099:16)
       at Request.emit (node:events:390:28)
-      at Request.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141855:10)
-      at Request.emit (node:events:390:28)
-      at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141777:12)
-      at Object.onceWrapper (node:events:509:28)
-      at IncomingMessage.emit (node:events:402:35)
-      at endReadableNT (node:internal/streams/readable:1343:12)
-      at processTicksAndRejections (node:internal/process/task_queues:83:21)
+      at Request.module.exports.Request.onRequestResponse (/usr/local/lib/node_modules/yarn/lib/cli.js:141760:10)
+      at ClientRequest.emit (node:events:390:28)
+      at HTTPParser.parserOnIncomingClient (node:_http_client:623:27)
+      at HTTPParser.parserOnHeadersComplete (node:_http_common:128:17)
+      at TLSSocket.socketOnData (node:_http_client:487:22)
+      at TLSSocket.emit (node:events:390:28)
 
 npm manifest: 
   {
@@ -53,8 +53,6 @@ npm manifest:
       "expo-constants": "^13.0.2",
       "expo-image-picker": "~12.0.1",
       "expo-linear-gradient": "~11.0.3",
-      "expo-location": "~14.0.1",
-      "expo-permissions": "~13.1.0",
       "expo-status-bar": "~1.2.0",
       "moment": "^2.29.1",
       "prop-types": "^15.8.1",
@@ -65,7 +63,6 @@ npm manifest:
       "react-native-autoheight-webview": "^1.6.1",
       "react-native-gesture-handler": "~2.1.0",
       "react-native-gifted-chat": "^0.16.3",
-      "react-native-maps": "^0.30.1",
       "react-native-modal": "^13.0.0",
       "react-native-modalize": "^2.0.13",
       "react-native-nav": "^2.0.2",
@@ -1618,11 +1615,6 @@ Lockfile:
     resolved "https://registry.npmjs.org/@sideway/pinpoint/-/pinpoint-2.0.0.tgz"
     integrity sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==
   
-  "@types/geojson@^7946.0.7":
-    version "7946.0.8"
-    resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.8.tgz#30744afdb385e2945e22f3b033f897f76b1f12ca"
-    integrity sha512-1rkryxURpr6aWP7R786/UQOkJ3PcpQiWkAXBmdWc7ryFWqN6a4xfK7BtjXvFBKO9LjQ+MWQSWxYeZX1OApnArA==
-  
   "@types/graceful-fs@^4.1.2":
     version "4.1.5"
     resolved "https://registry.npmjs.org/@types/graceful-fs/-/graceful-fs-4.1.5.tgz"
@@ -2842,14 +2834,6 @@ Lockfile:
     resolved "https://registry.npmjs.org/expo-linear-gradient/-/expo-linear-gradient-11.0.3.tgz"
     integrity sha512-LuzTM5+iEHCQfC2TBHAAI+ZjPvf0TvGiA7GYMsyTnakGA2r4JtsV8Ah/miQPKhfG06jLDOo4grUoSMGqbmSrEw==
   
-  expo-location@~14.0.1:
-    version "14.0.2"
-    resolved "https://registry.yarnpkg.com/expo-location/-/expo-location-14.0.2.tgz#933276b36558f546964753f107493b37953068b7"
-    integrity sha512-xFlj03NM0g9LZfWyIyL8q6AIXDhXskctX96806QGqZKv9C+JI2osEiTiyFxG8ei1MeTJojHfx+E07ORuByWiMw==
-    dependencies:
-      "@expo/config-plugins" "^4.0.2"
-      unimodules-task-manager-interface "~7.1.0"
-  
   expo-modules-autolinking@0.5.5:
     version "0.5.5"
     resolved "https://registry.npmjs.org/expo-modules-autolinking/-/expo-modules-autolinking-0.5.5.tgz"
@@ -2868,11 +2852,6 @@ Lockfile:
     dependencies:
       compare-versions "^3.4.0"
       invariant "^2.2.4"
-  
-  expo-permissions@~13.1.0:
-    version "13.1.1"
-    resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-13.1.1.tgz#67414ea027d0e7db61f1bfa83a98ef6af512b59e"
-    integrity sha512-vo2sDlxDJE+THLhUO7G8kMHYnNJoMvYjurFNRvHjEvZAUvFmRgulejr8HlzCpb820brXNg+QWalZCtyA5oQkqg==
   
   expo-status-bar@~1.2.0:
     version "1.2.0"
@@ -4907,13 +4886,6 @@ Lockfile:
     dependencies:
       prop-types "^15.7.2"
   
-  react-native-maps@^0.30.1:
-    version "0.30.1"
-    resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.30.1.tgz#b227f3cbf68947bbd22fcf2b7470a7ab3a4f3fbb"
-    integrity sha512-VDgGygFcXwKLFNmdGb5DVy3DJhjP3qCe3txzDfeO6kQyNELj875ZbZMTYW84XsLUBFNpAWXKffWvMKHMQKv2Gg==
-    dependencies:
-      "@types/geojson" "^7946.0.7"
-  
   react-native-modal@^13.0.0:
     version "13.0.0"
     resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-13.0.0.tgz#b7117400cae8548e713eed760077dee44f78628e"
@@ -5880,11 +5852,6 @@ Lockfile:
     version "2.0.0"
     resolved "https://registry.npmjs.org/unicode-property-aliases-ecmascript/-/unicode-property-aliases-ecmascript-2.0.0.tgz"
     integrity sha512-5Zfuy9q/DFr4tfO7ZPeVXb1aPoeQSdeFMLpYuFebehDAhbuevLs5yxSZmIFN1tP5F9Wl4IpJrYojg85/zgyZHQ==
-  
-  unimodules-task-manager-interface@~7.1.0:
-    version "7.1.1"
-    resolved "https://registry.yarnpkg.com/unimodules-task-manager-interface/-/unimodules-task-manager-interface-7.1.1.tgz#1d48585012018971a0f0b62bc5ac53508a7addb4"
-    integrity sha512-vvtxJO3O6fJXvSc9qvgB2FS9xJk2nWG4NOvwCMmTmfblmvzGPFcTheOKzV7Z1dvjlqTZZ+TDqd5XOGa+0+NXVA==
   
   union-value@^1.0.0:
     version "1.0.1"
