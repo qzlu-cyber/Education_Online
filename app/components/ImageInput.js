@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 16:31:16
- * @LastEditTime: 2022-02-18 15:15:56
+ * @LastEditTime: 2022-04-08 17:04:49
  * @Description: 选取头像，图片等
  */
 import React, { useEffect, useState } from "react";
@@ -20,7 +20,7 @@ import Toast from "react-native-toast-message";
 import colors from "../config/colors";
 import AppText from "./AppText";
 
-function ImageInput({ image, video }) {
+function ImageInput({ image, video, getVideoUri }) {
   const [imageUri, setImageUri] = useState();
   const [videoUri, setVideoUri] = useState();
 
@@ -61,6 +61,7 @@ function ImageInput({ image, video }) {
       });
       if (!result.cancelled) {
         setVideoUri(result.uri);
+        getVideoUri(result.uri);
         showToast();
       }
     } catch (error) {
@@ -102,7 +103,12 @@ function ImageInput({ image, video }) {
       if (!videoUri) selectVideo();
       else
         Alert.alert("删除", "你确定删除吗？", [
-          { text: "确定", onPress: () => setVideoUri(null) },
+          {
+            text: "确定",
+            onPress: () => {
+              setVideoUri(null), getVideoUri(null);
+            },
+          },
           { text: "返回" },
         ]);
     }

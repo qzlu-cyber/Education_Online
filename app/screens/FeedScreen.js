@@ -1,10 +1,10 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 11:03:19
- * @LastEditTime: 2022-02-14 16:01:36
+ * @LastEditTime: 2022-04-08 13:22:16
  * @Description: 动态页
  */
-import React from "react";
+import React, { useEffect } from "react";
 import {
   FlatList,
   Platform,
@@ -18,12 +18,20 @@ import ActionButton from "react-native-action-button";
 import PostCard from "../components/PostCard";
 import { posts } from "../config/db";
 
+import articlesApi from "../api/articles";
+import useApi from "../hooks/useApi";
+
 const FeedScreen = ({ navigation }) => {
+  const getArticles = useApi(articlesApi.getArticles);
+
+  useEffect(() => {
+    getArticles.request();
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.feedContainer}>
         <FlatList
-          data={posts}
+          data={getArticles.data}
           renderItem={({ item }) => (
             <PostCard item={item} navigation={navigation} />
           )}

@@ -1,15 +1,18 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 10:43:36
- * @LastEditTime: 2022-02-13 15:41:24
+ * @LastEditTime: 2022-04-08 14:03:03
  * @Description: 动态 组件
  */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import moment from "moment";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 
 import ProgressiveImage from "./ProgressiveImage";
+
+import usersApi from "../api/users";
+import useApi from "../hooks/useApi";
 
 const PostCard = ({ item, navigation }) => {
   const [like, setLike] = useState(item.liked);
@@ -40,11 +43,17 @@ const PostCard = ({ item, navigation }) => {
 
   if (item.comments == 1) {
     commentText = "1 条评论";
-  } else if (item.comments > 1) {
+  } else if (item.comments.length > 1) {
     commentText = item.comments + " 条评论";
   } else {
     commentText = "评论";
   }
+
+  const getUsers = useApi(usersApi.getUsers);
+
+  useEffect(() => {
+    getUsers.request(item.author);
+  }, []);
 
   return (
     <TouchableOpacity
@@ -57,20 +66,27 @@ const PostCard = ({ item, navigation }) => {
           likeIcon,
           likeIconColor,
           commentText,
+          avatar: getUsers.data.avatar,
+          userName: getUsers.data.name,
         })
       }>
       <TouchableOpacity style={styles.userInfo}>
-        <Image source={item.userImg} style={styles.userImg} />
+        <Image source={{ uri: getUsers.data.avatar }} style={styles.userImg} />
         <View style={styles.userInfoText}>
-          <Text style={styles.userName}>{item.userName}</Text>
+          <Text style={styles.userName}>{getUsers.data.name}</Text>
           <Text style={styles.postTime}>
             {moment(item.postTime, "YYYY-MMDD HH:mm").fromNow()}
           </Text>
         </View>
       </TouchableOpacity>
-      <Text style={styles.postTitle}>{item.postTitle}</Text>
-      <Text style={styles.postText}>{item.post}</Text>
-      {item.postImg != false ? (
+      <Text style={styles.postTitle}>{item.title}</Text>
+      <Text style={styles.postText}>
+        {item.body
+          .match(/[\u4e00-\u9fa5]/g)
+          .join("")
+          .substring(1, 51)}
+      </Text>
+      {item.postImg != false && item.postImg ? (
         <ProgressiveImage
           source={item.postImg}
           style={{ width: "100%", height: 150 }}

@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-09 10:34:39
- * @LastEditTime: 2022-04-06 18:18:05
+ * @LastEditTime: 2022-04-08 12:58:25
  * @Description: 列表项
  */
 import React from "react";
@@ -50,6 +50,7 @@ function ListItem({
   withoutPress,
   navigation,
   price,
+  item,
 }) {
   return (
     <>
@@ -58,6 +59,7 @@ function ListItem({
           onPress={() =>
             navigation.navigate("课程详情", {
               courseName: title,
+              item: item,
             })
           }>
           <View style={containerStyle}>

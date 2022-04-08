@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 14:03:47
- * @LastEditTime: 2022-04-06 19:22:10
+ * @LastEditTime: 2022-04-08 20:04:38
  * @Description: 动态详情页
  */
 import React, { Component } from "react";
@@ -21,38 +21,62 @@ import moment from "moment";
 import { AntDesign, Ionicons, Entypo } from "@expo/vector-icons";
 import { RichEditor } from "react-native-pell-rich-editor";
 import AutoHeightWebView from "react-native-autoheight-webview";
+import { WebView } from "react-native-webview";
 
 import { commentsData } from "../config/db";
+
+import articlesApi from "../api/articles";
 export default class ArticleScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       link: "",
+      html: "",
+      like: false,
+      height: 200,
     };
   }
+
+  handleDecode = (str) => {
+    const s = str
+      .replace(/\\\"/g, '"')
+      .replace(/这是空格/g, " ")
+      .replace(/这是换行/g, "<br/>");
+    return s;
+  };
+
+  getArticles = async () => {
+    const result = await articlesApi.getArticles();
+
+    // console.log(result.data[0].body);
+    if (result.ok) {
+      this.setState({
+        html: this.handleDecode(result.data[3].body),
+      });
+    }
+  };
+
+  componentDidMount() {
+    this.getArticles();
+  }
+
   render() {
-    const { article, likeText, likeIcon, likeIconColor, commentText } =
+    const { article, likeText, commentText, avatar, userName } =
       this.props.route.params;
+    const handlePress = () => {
+      if (!this.state.like) {
+        this.setState({ like: true });
+        article.likes++;
+      } else {
+        this.setState({ like: false });
+        article.likes--;
+      }
+    };
+
+    let likeIcon = this.state.like ? "heart" : "hearto";
+    let likeIconColor = this.state.like ? "#2e64e5" : "#333";
+    const { html } = this.state;
     const navigation = this.props.navigation;
-    const imageList = [
-      "https://img.lesmao.vip/k/h256/R/MeiTu/1293.jpg",
-      "https://img.lesmao.vip/k/h256/R/MeiTu/1297.jpg",
-      "https://img.lesmao.vip/k/h256/R/MeiTu/1292.jpg",
-    ];
-    const initHTML = `<br/>
-<center><b onclick="_.sendEvent('TitleClick')" id="title" contenteditable="false">Rich Editor</b></center>
-<center>
-<a href="https://github.com/wxik/react-native-rich-editor">React Native</a>
-<span>And</span>
-<a href="https://github.com/wxik/flutter-rich-editor">Flutter</a>
-</center>
-<br/>
-<div><center><img src="${imageList[0]}" onclick="_.sendEvent('ImgClick')" contenteditable="false" height="170px"/></center></div>
-<pre type="javascript"><code>const editor = ReactNative;</code>
-<code>console.log(editor);</code>
-</pre>
-`;
-    const html = `<html><head><meta name="viewport" content="user-scalable=1.0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0"></head><body>${initHTML}</body></html>`;
 
     return (
       <View style={styles.container}>
@@ -66,9 +90,9 @@ export default class ArticleScreen extends Component {
                   navigation.navigate("聊天", { userName: article.userName })
                 }>
                 {/*TODO:点击跳转聊天*/}
-                <Image source={article.userImg} style={styles.userImg} />
+                <Image source={{ uri: avatar }} style={styles.userImg} />
                 <View style={styles.userInfoText}>
-                  <Text style={styles.userName}>{article.userName}</Text>
+                  <Text style={styles.userName}>{userName}</Text>
                   <Text style={styles.postTime}>
                     {moment(article.postTime, "YYYY-MMDD HH:mm").fromNow()}
                   </Text>
@@ -93,7 +117,7 @@ export default class ArticleScreen extends Component {
                   }}
                 />
               )}
-              {Platform.OS === "android" && (
+              {/* {Platform.OS === "android" && (
                 <AutoHeightWebView
                   ref={(ref) => {
                     this.webview = ref;
@@ -114,7 +138,7 @@ export default class ArticleScreen extends Component {
                     }
                   }}
                 />
-              )}
+              )} */}
               <View style={styles.likeComment}>
                 <TouchableOpacity style={styles.interaction}>
                   <Ionicons name='md-chatbubble-outline' size={20} />
@@ -122,10 +146,11 @@ export default class ArticleScreen extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.interaction}
-                  active={article.liked}>
+                  active={this.state.like}
+                  onPress={handlePress}>
                   <AntDesign name={likeIcon} size={20} color={likeIconColor} />
                   <Text active={article.liked} style={styles.interactionText}>
-                    {likeText}
+                    {article.likes === 0 ? "赞" : article.likes + "个赞"}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -160,11 +185,7 @@ export default class ArticleScreen extends Component {
                       <TouchableOpacity
                         style={styles.interaction}
                         active={item.liked}>
-                        <AntDesign
-                          name={likeIcon}
-                          size={20}
-                          color={likeIconColor}
-                        />
+                        <AntDesign name='hearto' size={20} color='#333' />
                         <Text
                           active={item.liked}
                           style={styles.interactionText}>

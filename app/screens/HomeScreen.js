@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 10:49:57
- * @LastEditTime: 2022-04-06 19:08:55
+ * @LastEditTime: 2022-04-08 13:46:58
  * @Description: 首页
  */
 import React, { useEffect, useRef, useState } from "react";
@@ -24,14 +24,17 @@ import { EvilIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
 import AppText from "../components/AppText";
+import AppButton from "../components/AppButton";
 import AppCategory from "../components/AppCategory";
 import ListItem from "../components/ListItem";
 import Footer from "../components/Footer";
 import Search from "../components/Search";
 import SearchBox from "../components/SearchBox";
 import AppScrollView from "../components/AppScrollView";
+import ActivityIndicator from "../components/ActivityIndicator";
 
 import coursesApi from "../api/courses";
+import useApi from "../hooks/useApi";
 
 const transition = (
   <Transition.Together>
@@ -58,161 +61,167 @@ function HomeScreen({ navigation }) {
     }
   };
 
-  const [courses, setCourses] = useState([]); // 推荐课程
-  const [popularCourses, setPopularCourses] = useState([]); // 受欢迎课程课程
-  const [newestCourses, setNewestCourses] = useState([]); // 最新课程
-  const [otherCourses, setOtherCourses] = useState([]); // 其他精品课程
+  const getCommandCourses = useApi(coursesApi.getCommandCourses);
+  const getPopularCourses = useApi(coursesApi.getPopularCourses);
+  const getNewestCourses = useApi(coursesApi.getNewestCourses);
+  const getOtherCourses = useApi(coursesApi.getOtherCourses);
 
   useEffect(() => {
-    loadCourses();
+    getCommandCourses.request();
+    getPopularCourses.request();
+    getNewestCourses.request();
+    getOtherCourses.request();
   }, []);
-
-  const loadCourses = async () => {
-    const response = await coursesApi.getCommandCourses();
-    const popularResponse = await coursesApi.getPopularCourses();
-    const newestResponse = await coursesApi.getNewestCourses();
-    const otherResponse = await coursesApi.getOtherCourses();
-
-    setCourses(response.data);
-    setPopularCourses(popularResponse.data);
-    setNewestCourses(newestResponse.data);
-    setOtherCourses(otherResponse.data);
-  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Transitioning.View style={{ flex: 1 }} {...{ transition, ref }}>
-        <Search {...{ translateY }} />
-        <AppScrollView onPull={showSearchBox} {...{ translateY }}>
-          <FlatList
-            data={courses}
-            keyExtractor={(course) => course._id}
-            ListHeaderComponent={
-              <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={styles.header}>
-                  <View style={styles.text}>
-                    <AppText style={styles.welcome} text='早上好，刘俊琪' />
-                    <AppText style={styles.goal} text='今天打算学点什么？' />
+      <ActivityIndicator visiable={getNewestCourses.loading} />
+      {getCommandCourses.error && (
+        <>
+          <AppText text='连接服务器失败，请检查网络...' />
+          <AppButton title='重试' style={styles.button} />
+        </>
+      )}
+      {!getCommandCourses.error && (
+        <Transitioning.View style={{ flex: 1 }} {...{ transition, ref }}>
+          <Search {...{ translateY }} />
+          <AppScrollView onPull={showSearchBox} {...{ translateY }}>
+            <FlatList
+              data={getCommandCourses.data}
+              keyExtractor={(course) => course._id}
+              ListHeaderComponent={
+                <ScrollView showsVerticalScrollIndicator={false}>
+                  <View style={styles.header}>
+                    <View style={styles.text}>
+                      <AppText style={styles.welcome} text='早上好，刘俊琪' />
+                      <AppText style={styles.goal} text='今天打算学点什么？' />
+                    </View>
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate("个人信息")}>
+                      <Image
+                        source={require("../assets/avatar.jpg")}
+                        style={styles.avatar}
+                      />
+                    </TouchableOpacity>
                   </View>
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate("个人信息")}>
-                    <Image
-                      source={require("../assets/avatar.jpg")}
-                      style={styles.avatar}
-                    />
-                  </TouchableOpacity>
+                  <View style={styles.searchContainer}>
+                    <TextInput style={styles.search} placeholder='搜索' />
+                    <TouchableOpacity
+                      style={styles.searchIcon}
+                      onPress={() => {
+                        navigation.navigate("更多", {
+                          categoryName: "搜索结果",
+                        });
+                      }}>
+                      <EvilIcons name='search' size={28} color='black' />
+                    </TouchableOpacity>
+                  </View>
+                  <AppCategory
+                    viewStyle={styles.category}
+                    categoryNameStyle={styles.categoryName}
+                    categoryName='最受欢迎'
+                    categoryNameTextStyle={styles.categoryText}
+                    cardContainerStyle={styles.cardContainer}
+                    navigation={navigation}
+                    data={getPopularCourses.data}
+                  />
+                  <AppCategory
+                    viewStyle={styles.category}
+                    categoryNameStyle={styles.categoryName}
+                    categoryName='本月最多学习'
+                    categoryNameTextStyle={styles.categoryText}
+                    cardContainerStyle={styles.cardContainer}
+                    navigation={navigation}
+                    data={getNewestCourses.data}
+                  />
+                  <AppCategory
+                    viewStyle={styles.category}
+                    categoryNameStyle={styles.categoryName}
+                    categoryName='本月最受欢迎老师'
+                    categoryNameTextStyle={styles.categoryText}
+                    cardContainerStyle={styles.cardContainer}
+                    navigation={navigation}
+                    teacherName='刘俊琪'
+                    tel={13839935677}
+                    email='qzlu3773@163.com'
+                    info='红红火火'
+                  />
+                  <View style={styles.more}>
+                    <AppText text='为您推荐' style={styles.listText} />
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate("更多", {
+                          categoryName: "为您推荐",
+                          data: getCommandCourses.data,
+                        })
+                      }>
+                      <EvilIcons name='arrow-right' size={28} color='black' />
+                    </TouchableOpacity>
+                  </View>
+                </ScrollView>
+              }
+              renderItem={({ item }) => {
+                return (
+                  <ListItem
+                    containerStyle={styles.itemContainer}
+                    imgStyle={styles.img}
+                    imgUrl={item.cover}
+                    textContainerStyle={styles.textContainer}
+                    titleStyle={styles.courseName}
+                    title={item.name}
+                    subTitleStyle={styles.teacherName}
+                    subTitle={item.teacherName}
+                    rate={item.stars}
+                    people={item.saleNum}
+                    price={item.price}
+                    item={item}
+                    navigation={navigation}
+                  />
+                );
+              }}
+              ListFooterComponent={
+                <View style={styles.other}>
+                  <View style={styles.more}>
+                    <AppText text='其他精品课程' style={styles.listText} />
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate("更多", {
+                          categoryName: "其他精品课程",
+                          data: getCommandCourses.data,
+                        })
+                      }>
+                      <EvilIcons name='arrow-right' size={28} color='black' />
+                    </TouchableOpacity>
+                  </View>
+                  <FlatList
+                    data={getCommandCourses.data}
+                    keyExtractor={(course) => course._id}
+                    renderItem={({ item }) => (
+                      <ListItem
+                        containerStyle={styles.itemContainer}
+                        imgStyle={styles.img}
+                        imgUrl={item.cover}
+                        textContainerStyle={styles.textContainer}
+                        titleStyle={styles.courseName}
+                        title={item.name}
+                        subTitleStyle={styles.teacherName}
+                        subTitle={item.teacherName}
+                        rate={item.stars}
+                        price={item.price}
+                        people={item.saleNum}
+                        item={item}
+                        navigation={navigation}
+                      />
+                    )}
+                    ListFooterComponent={<Footer />}
+                  />
                 </View>
-                <View style={styles.searchContainer}>
-                  <TextInput style={styles.search} placeholder='搜索' />
-                  <TouchableOpacity
-                    style={styles.searchIcon}
-                    onPress={() => {
-                      navigation.navigate("更多", { categoryName: "搜索结果" });
-                    }}>
-                    <EvilIcons name='search' size={28} color='black' />
-                  </TouchableOpacity>
-                </View>
-                <AppCategory
-                  viewStyle={styles.category}
-                  categoryNameStyle={styles.categoryName}
-                  categoryName='最受欢迎'
-                  categoryNameTextStyle={styles.categoryText}
-                  cardContainerStyle={styles.cardContainer}
-                  navigation={navigation}
-                  data={popularCourses}
-                />
-                <AppCategory
-                  viewStyle={styles.category}
-                  categoryNameStyle={styles.categoryName}
-                  categoryName='本月最多学习'
-                  categoryNameTextStyle={styles.categoryText}
-                  cardContainerStyle={styles.cardContainer}
-                  navigation={navigation}
-                  data={newestCourses}
-                />
-                <AppCategory
-                  viewStyle={styles.category}
-                  categoryNameStyle={styles.categoryName}
-                  categoryName='本月最受欢迎老师'
-                  categoryNameTextStyle={styles.categoryText}
-                  cardContainerStyle={styles.cardContainer}
-                  navigation={navigation}
-                  teacherName='刘俊琪'
-                  tel={13839935677}
-                  email='qzlu3773@163.com'
-                  info='红红火火'
-                />
-                <View style={styles.more}>
-                  <AppText text='为您推荐' style={styles.listText} />
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate("更多", {
-                        categoryName: "为您推荐",
-                        data: courses,
-                      })
-                    }>
-                    <EvilIcons name='arrow-right' size={28} color='black' />
-                  </TouchableOpacity>
-                </View>
-              </ScrollView>
-            }
-            renderItem={({ item }) => (
-              <ListItem
-                containerStyle={styles.itemContainer}
-                imgStyle={styles.img}
-                imgUrl={item.cover}
-                textContainerStyle={styles.textContainer}
-                titleStyle={styles.courseName}
-                title={item.name}
-                subTitleStyle={styles.teacherName}
-                subTitle={item.teacherName}
-                rate={item.stars}
-                people={item.saleNum}
-                price={item.price}
-                navigation={navigation}
-              />
-            )}
-            ListFooterComponent={
-              <View style={styles.other}>
-                <View style={styles.more}>
-                  <AppText text='其他精品课程' style={styles.listText} />
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate("更多", {
-                        categoryName: "其他精品课程",
-                        data: courses,
-                      })
-                    }>
-                    <EvilIcons name='arrow-right' size={28} color='black' />
-                  </TouchableOpacity>
-                </View>
-                <FlatList
-                  data={courses}
-                  keyExtractor={(course) => course._id}
-                  renderItem={({ item }) => (
-                    <ListItem
-                      containerStyle={styles.itemContainer}
-                      imgStyle={styles.img}
-                      imgUrl={item.cover}
-                      textContainerStyle={styles.textContainer}
-                      titleStyle={styles.courseName}
-                      title={item.name}
-                      subTitleStyle={styles.teacherName}
-                      subTitle={item.teacherName}
-                      rate={item.stars}
-                      price={item.price}
-                      people={item.saleNum}
-                      navigation={navigation}
-                    />
-                  )}
-                  ListFooterComponent={<Footer />}
-                />
-              </View>
-            }
-          />
-        </AppScrollView>
-        <SearchBox visible={search} onRequestClose={() => setSearch(false)} />
-      </Transitioning.View>
+              }
+            />
+          </AppScrollView>
+          <SearchBox visible={search} onRequestClose={() => setSearch(false)} />
+        </Transitioning.View>
+      )}
     </SafeAreaView>
   );
 }
@@ -338,6 +347,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginRight: 20,
     alignItems: "center",
+  },
+  //重试按钮
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 5,
+    backgroundColor: colors.praimary,
+    marginVertical: 20,
   },
 });
 
