@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 15:34:31
- * @LastEditTime: 2022-04-09 12:46:56
+ * @LastEditTime: 2022-04-09 17:37:47
  * @Description: 发布帖子页
  */
 import React, { useCallback, useState, useRef, useEffect } from "react";
@@ -20,29 +20,60 @@ import {
 } from "react-native-pell-rich-editor";
 import { XMath } from "@wxik/core";
 import * as ImagePicker from "expo-image-picker";
+import { Entypo } from "@expo/vector-icons";
+import ActionButton from "react-native-action-button";
+import { useNavigation } from "@react-navigation/native";
 
+import colors from "../config/colors";
 import { InsertLinkModal } from "../components/InsertLink";
+import articlesApi from "../api/articles";
 
 export default function EditArticleScreen({
   courseDescription,
   getCourseDescription,
 }) {
+  const navigation = useNavigation();
   let richText = useRef();
   let linkModal = useRef();
   let scrollRef = useRef();
   // save on html
+  let titleRef = useRef();
   let contentRef = useRef();
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  const handleTitleChange = useCallback((html) => {
+    console.log(html);
+    titleRef.current = html;
+    setTitle(html);
+    console.log(title);
+  }, []);
 
   // editor change data
   let handleChange = useCallback((html) => {
+    console.log(html);
     // save html to content ref;
     contentRef.current = html;
     if (courseDescription) {
       getCourseDescription(html);
     }
+    setContent(html);
+    console.log(content);
   }, []);
 
-  const [imageUri, setImageUri] = useState();
+  //submit
+  const handleSubmit = async () => {
+    if (title && content) {
+      const result = await articlesApi.addArticles({
+        title: title,
+        body: content,
+        author: "624d5f825c5e1906920afbfb",
+      });
+      if (result.ok) {
+        navigation.navigate("动态");
+      }
+    }
+  };
 
   useEffect(() => {
     requestPermission();
@@ -61,8 +92,8 @@ export default function EditArticleScreen({
         base64: true,
       });
       if (!result.cancelled) {
-        setImageUri(result.base64);
-        console.log(result.uri);
+        // setImageUri(result.base64);
+        // console.log(result.uri);
         // richText.current?.insertImage(imageUri);
         richText.current?.insertImage(
           `data:image/jpeg;base64,${result.base64}`
@@ -209,6 +240,7 @@ export default function EditArticleScreen({
         nestedScrollEnabled={true}
         scrollEventThrottle={20}>
         <RichEditor
+          onChange={handleTitleChange}
           initialFocus={true}
           style={styles.richTitle}
           useContainer={true}
@@ -295,6 +327,14 @@ export default function EditArticleScreen({
           hiliteColor={handleHiliteColor}
         />
       </KeyboardAvoidingView>
+      <ActionButton
+        buttonColor='#2e64e5'
+        offsetY={100}
+        renderIcon={() => (
+          <Entypo name='paper-plane' size={24} color={colors.white} />
+        )}
+        onPress={handleSubmit}
+      />
     </SafeAreaView>
   );
 }
@@ -359,4 +399,5 @@ const styles = StyleSheet.create({
   flatStyle: {
     paddingHorizontal: 12,
   },
+  submit: {},
 });

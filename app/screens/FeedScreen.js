@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 11:03:19
- * @LastEditTime: 2022-04-08 13:22:16
+ * @LastEditTime: 2022-04-09 16:57:00
  * @Description: 动态页
  */
 import React, { useEffect } from "react";
@@ -16,7 +16,6 @@ import {
 import ActionButton from "react-native-action-button";
 
 import PostCard from "../components/PostCard";
-import { posts } from "../config/db";
 
 import articlesApi from "../api/articles";
 import useApi from "../hooks/useApi";
@@ -33,9 +32,9 @@ const FeedScreen = ({ navigation }) => {
         <FlatList
           data={getArticles.data}
           renderItem={({ item }) => (
-            <PostCard item={item} navigation={navigation} />
+            <PostCard key={item._id} item={item} navigation={navigation} />
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item._id}
           showsVerticalScrollIndicator={false}
         />
       </View>

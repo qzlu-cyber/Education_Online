@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-23 17:30:12
- * @LastEditTime: 2022-04-09 12:49:09
+ * @LastEditTime: 2022-04-09 16:57:21
  * @Description: 描述
  */
 import React from "react";
@@ -14,13 +14,13 @@ import {
   FlatList,
 } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { RichEditor } from "react-native-pell-rich-editor";
 
-import AppText from "../components/AppText";
 import Footer from "../components/Footer";
 import AppComment from "../components/AppComment";
 import { comments } from "../config/db";
-
-const windowWidth = Dimensions.get("window").width;
+import colors from "../config/colors";
+import Chapters from "../components/Chapters";
 
 const MaterialTopTab = createMaterialTopTabNavigator();
 
@@ -38,9 +38,6 @@ export default function CourseNavigator({ course }) {
   courseDetail = course;
   return <CourseDetailTab />;
 }
-
-import colors from "../config/colors";
-import Chapters from "../components/Chapters";
 
 function CourseCatelogScreen({ navigation }) {
   return (
@@ -62,29 +59,38 @@ function CourseCatelogScreen({ navigation }) {
   );
 }
 
+//autoGetHeight
+const BaseScript = `
+    (function () {
+        var height = null;
+        function changeHeight() {
+          if (document.body.scrollHeight != height) {
+            height = document.body.scrollHeight;
+            if (window.postMessage) {
+              window.postMessage(JSON.stringify({
+                type: 'setHeight',
+                height: height,
+              }))
+            }
+          }
+        }
+        setTimeout(changeHeight, 300);
+    } ())
+    `;
+
 function CourseInfoScreen() {
   return (
-    <View style={styles.courseInfoContainer}>
+    <View>
       <ScrollView>
-        <View style={styles.imgContainer}>
-          <Image
-            source={require("../assets/background/background1.jpg")}
-            resizeMode='contain'
-          />
-          <Image
-            source={require("../assets/background/background2.jpg")}
-            resizeMode='contain'
-          />
-          <Image
-            source={require("../assets/background/background3.jpg")}
-            resizeMode='contain'
-          />
-        </View>
-        <View style={styles.textInfoContainer}>
-          <AppText text='Info' />
-        </View>
-        <Footer />
+        <RichEditor
+          initialContentHTML={courseDetail.description}
+          disabled={true}
+          useContainer={true}
+          initialHeight={1000}
+          enterKeyHint={"done"}
+        />
       </ScrollView>
+      <Footer />
     </View>
   );
 }
@@ -141,16 +147,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  imgContainer: {
-    width: windowWidth,
-  },
-  textInfoContainer: {
-    marginVertical: 20,
-  },
-  actionButtonIcon: {
-    fontSize: 20,
-    height: 22,
-    color: "white",
   },
 });

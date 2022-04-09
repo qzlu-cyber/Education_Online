@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 16:31:16
- * @LastEditTime: 2022-04-08 17:04:49
+ * @LastEditTime: 2022-04-09 15:33:14
  * @Description: 选取头像，图片等
  */
 import React, { useEffect, useState } from "react";
@@ -20,7 +20,7 @@ import Toast from "react-native-toast-message";
 import colors from "../config/colors";
 import AppText from "./AppText";
 
-function ImageInput({ image, video, getVideoUri }) {
+function ImageInput({ image, video, getVideoUri, getCoverUri }) {
   const [imageUri, setImageUri] = useState();
   const [videoUri, setVideoUri] = useState();
 
@@ -42,12 +42,15 @@ function ImageInput({ image, video, getVideoUri }) {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
+        base64: true,
       });
       if (!result.cancelled) {
         setImageUri(result.uri);
+        if (getCoverUri) {
+          getCoverUri(result.base64);
+        }
         showToast();
       }
-      console.log(result);
     } catch (error) {
       console.log("Error reading an image", error);
     }

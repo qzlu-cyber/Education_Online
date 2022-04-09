@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 14:03:47
- * @LastEditTime: 2022-04-09 09:59:05
+ * @LastEditTime: 2022-04-09 16:40:17
  * @Description: 动态详情页
  */
 import React, { Component } from "react";
@@ -21,7 +21,6 @@ import moment from "moment";
 import { AntDesign, Ionicons, Entypo } from "@expo/vector-icons";
 import { RichEditor } from "react-native-pell-rich-editor";
 import AutoHeightWebView from "react-native-autoheight-webview";
-import { WebView } from "react-native-webview";
 
 import { commentsData } from "../config/db";
 
@@ -34,6 +33,7 @@ export default class ArticleScreen extends Component {
       html: "",
       like: false,
       height: 200,
+      showWebView: false,
     };
   }
 
@@ -58,6 +58,11 @@ export default class ArticleScreen extends Component {
 
   componentDidMount() {
     this.getArticles();
+    setTimeout(() => {
+      this.setState({
+        showWebView: true,
+      });
+    }, 1000);
   }
 
   render() {
@@ -117,7 +122,7 @@ export default class ArticleScreen extends Component {
                   }}
                 />
               )}
-              {/* {Platform.OS === "android" && (
+              {Platform.OS === "android" && this.state.showWebView && (
                 <AutoHeightWebView
                   ref={(ref) => {
                     this.webview = ref;
@@ -138,7 +143,7 @@ export default class ArticleScreen extends Component {
                     }
                   }}
                 />
-              )} */}
+              )}
               <View style={styles.likeComment}>
                 <TouchableOpacity style={styles.interaction}>
                   <Ionicons name='md-chatbubble-outline' size={20} />

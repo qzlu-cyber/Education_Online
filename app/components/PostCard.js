@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 10:43:36
- * @LastEditTime: 2022-04-08 14:03:03
+ * @LastEditTime: 2022-04-09 18:09:45
  * @Description: 动态 组件
  */
 import React, { useEffect, useState } from "react";
@@ -12,19 +12,28 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 import ProgressiveImage from "./ProgressiveImage";
 
 import usersApi from "../api/users";
+import articlesApi from "../api/articles";
 import useApi from "../hooks/useApi";
 
 const PostCard = ({ item, navigation }) => {
   const [like, setLike] = useState(item.liked);
 
-  const handlePress = () => {
+  const handlePress = async () => {
     setLike(!like);
     if (!like) {
       item.liked = true;
       item.likes++;
+      const result = await articlesApi.likeArticle({
+        _id: item._id,
+        likes: item.likes,
+      });
     } else {
       item.liked = false;
       item.likes--;
+      const result = await articlesApi.likeArticle({
+        _id: item._id,
+        likes: item.likes,
+      });
     }
   };
 

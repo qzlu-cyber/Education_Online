@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-23 15:13:45
- * @LastEditTime: 2022-04-09 11:52:45
+ * @LastEditTime: 2022-04-09 16:34:16
  * @Description: 课程详情页
  */
 import React from "react";
@@ -20,6 +20,7 @@ export default function CourseDetailScreen({ route, navigation }) {
     <>
       <ListItem
         containerStyle={styles.itemContainer}
+        item={route.params.item}
         imgStyle={styles.img}
         imgUrl={route.params.item.cover}
         title={route.params.item.name}

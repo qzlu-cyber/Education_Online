@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-09 10:34:39
- * @LastEditTime: 2022-04-08 12:58:25
+ * @LastEditTime: 2022-04-09 16:35:33
  * @Description: 列表项
  */
 import React from "react";
@@ -63,7 +63,15 @@ function ListItem({
             })
           }>
           <View style={containerStyle}>
-            <Image style={imgStyle} source={{ uri: imgUrl }} />
+            <Image
+              style={imgStyle}
+              source={{
+                uri:
+                  item.cover.length > 100
+                    ? `data:image/jpeg;base64,${item.cover}`
+                    : item.cover,
+              }}
+            />
             <View style={textContainerStyle}>
               <AppText text={title} style={titleStyle} />
               <AppText text={subTitle} style={subTitleStyle} />
@@ -88,7 +96,15 @@ function ListItem({
       {withoutPress && (
         <TouchableWithoutFeedback>
           <View style={containerStyle}>
-            <Image style={imgStyle} source={{ uri: imgUrl }} />
+            <Image
+              style={imgStyle}
+              source={{
+                uri:
+                  item.cover.length > 100
+                    ? `data:image/jpeg;base64,${item.cover}`
+                    : item.cover,
+              }}
+            />
             <View style={textContainerStyle}>
               <AppText text={title} style={titleStyle} />
               <AppText text={subTitle} style={subTitleStyle} />

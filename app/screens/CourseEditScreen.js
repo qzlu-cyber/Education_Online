@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-09 15:46:38
- * @LastEditTime: 2022-04-09 12:46:41
+ * @LastEditTime: 2022-04-09 15:23:16
  * @Description: 发布课程
  */
 import React, { useState } from "react";
@@ -33,6 +33,7 @@ export default function CourseEditScreen() {
   const [icon, setIcon] = useState("md-arrow-down");
 
   const [courseName, setCourseName] = useState("");
+  const [cover, setCover] = useState("");
   const [description, setDescription] = useState("");
   const [tag, setTag] = useState("");
   const [courseDetails, setCourseDetails] = useState([]);
@@ -48,17 +49,19 @@ export default function CourseEditScreen() {
   };
 
   const getCourseDescription = (value) => {
-    console.log(value);
     setDescription(value);
   };
 
   const getVideoUri = (value) => {
-    console.log(value);
     obj.uri = value;
     if (obj.uri) {
       courseDetails.push(obj);
       setCourseDetails(courseDetails);
     }
+  };
+
+  const getCoverUri = (value) => {
+    setCover(value);
   };
 
   const handleOpen = () => {
@@ -96,6 +99,7 @@ export default function CourseEditScreen() {
     // ]);
     let course = {
       name: courseName,
+      cover: cover,
       description: description,
       tag: tag,
       teacherName: "刘俊琪",
@@ -119,13 +123,13 @@ export default function CourseEditScreen() {
         .addCourse(course)
         .then((res) => {
           console.log(res);
+          setCourseName("");
+          setTag("");
+          setCourseDetails([]);
+          setDescription("");
         })
         .catch((e) => console.log(e));
     }
-
-    setCourseName("");
-    setTag("");
-    setCourseDetails([]);
   };
 
   return (
@@ -133,16 +137,17 @@ export default function CourseEditScreen() {
       <ScrollView
         style={{ width: "100%" }}
         showsVerticalScrollIndicator={false}>
-        <View style={{ width: "100%" }}>
+        <View style={{ width: "100%", flexDirection: "row" }}>
           <AppTextInput
             title='课程名称'
             value={courseName}
-            inputStyle={styles.input}
+            inputStyle={[styles.input, { width: 250, marginRight: 20 }]}
             placeholder='请输入名称'
             onChangeText={(text) => {
               setCourseName(text);
             }}
           />
+          <ImageInput image={true} getCoverUri={getCoverUri} />
         </View>
         <EditArticleScreen
           courseDescription={true}

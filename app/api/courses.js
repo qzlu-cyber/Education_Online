@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-04-06 17:31:43
- * @LastEditTime: 2022-04-09 11:21:19
+ * @LastEditTime: 2022-04-09 15:35:35
  * @Description: 请求课程
  */
 import client from "./client";
@@ -31,6 +31,7 @@ const addCourse = async (course) => {
   data.teacherName = course.teacherName;
   data.price = course.price;
   data.courseDetail = course.courseDetail;
+  data.cover = course.cover;
 
   return client.post(endpoint, data);
 };

@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 18:47:19
- * @LastEditTime: 2022-04-09 12:30:31
+ * @LastEditTime: 2022-04-09 17:12:23
  * @Description: 我的 页导航
  */
 import React from "react";
@@ -79,11 +79,11 @@ const AccountNavigator = () => (
       component={EditArticleScreen}
       options={{
         headerShown: true,
-        headerRight: () => (
-          <TouchableOpacity>
-            <Entypo name='paper-plane' size={24} color={colors.praimary} />
-          </TouchableOpacity>
-        ),
+        // headerRight: () => (
+        //   <TouchableOpacity>
+        //     <Entypo name='paper-plane' size={24} color={colors.praimary} />
+        //   </TouchableOpacity>
+        // ),
       }}
     />
     <Stack.Screen
