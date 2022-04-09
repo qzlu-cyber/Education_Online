@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 14:54:34
- * @LastEditTime: 2022-04-08 15:21:41
+ * @LastEditTime: 2022-04-09 11:36:58
  * @Description: 输入框
  */
 import React from "react";
@@ -17,11 +17,13 @@ export default function AppTextInput({
   warnTextStyle,
   placeholder,
   onChangeText,
+  value,
 }) {
   return (
     <View style={styles.container}>
       {title && <AppText text={title} style={titleStyle} />}
       <TextInput
+        value={value}
         style={inputStyle}
         placeholder={placeholder}
         onChangeText={onChangeText}

@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 15:34:31
- * @LastEditTime: 2022-02-17 17:52:07
+ * @LastEditTime: 2022-04-09 12:46:56
  * @Description: 发布帖子页
  */
 import React, { useCallback, useState, useRef, useEffect } from "react";
@@ -23,7 +23,10 @@ import * as ImagePicker from "expo-image-picker";
 
 import { InsertLinkModal } from "../components/InsertLink";
 
-export default function EditArticleScreen() {
+export default function EditArticleScreen({
+  courseDescription,
+  getCourseDescription,
+}) {
   let richText = useRef();
   let linkModal = useRef();
   let scrollRef = useRef();
@@ -34,6 +37,9 @@ export default function EditArticleScreen() {
   let handleChange = useCallback((html) => {
     // save html to content ref;
     contentRef.current = html;
+    if (courseDescription) {
+      getCourseDescription(html);
+    }
   }, []);
 
   const [imageUri, setImageUri] = useState();
@@ -103,6 +109,96 @@ export default function EditArticleScreen() {
     scrollRef.current.scrollTo({ y: scrollY - 30, animated: true });
   }, []);
 
+  if (courseDescription)
+    return (
+      <>
+        <ScrollView
+          style={[styles.scroll]}
+          keyboardDismissMode={"none"}
+          ref={scrollRef}
+          nestedScrollEnabled={true}
+          scrollEventThrottle={20}>
+          <RichToolbar
+            style={[styles.richBar]}
+            flatContainerStyle={styles.flatStyle}
+            editor={richText}
+            selectedIconTint={"#2095F2"}
+            disabledIconTint={"#bfbfbf"}
+            onPressAddImage={onPressAddImage}
+            onInsertLink={onInsertLink}
+          />
+          <RichEditor
+            ref={richText}
+            style={styles.richTitle}
+            useContainer={true}
+            initialHeight={400}
+            enterKeyHint={"done"}
+            placeholder={"请输入课程描述..."}
+            onChange={handleChange}
+            onCursorPosition={handleCursorPosition}
+            pasteAsPlainText={true}
+          />
+        </ScrollView>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}>
+          <RichToolbar
+            style={[styles.richBar]}
+            flatContainerStyle={styles.flatStyle}
+            editor={richText}
+            // iconTint={color}
+            selectedIconTint={"#2095F2"}
+            disabledIconTint={"#bfbfbf"}
+            onPressAddImage={onPressAddImage}
+            onInsertLink={onInsertLink}
+            // iconSize={24}
+            // iconGap={10}
+            actions={[
+              actions.undo,
+              actions.redo,
+              actions.insertImage,
+              actions.setStrikethrough,
+              // actions.checkboxList,
+              actions.insertOrderedList,
+              actions.blockquote,
+              actions.alignLeft,
+              actions.alignCenter,
+              actions.alignRight,
+              actions.code,
+              actions.line,
+
+              actions.foreColor,
+              actions.hiliteColor,
+              actions.heading1,
+              actions.heading4,
+              "fontSize",
+            ]} // default defaultActions
+            iconMap={{
+              [actions.foreColor]: ({ tintColor }) => (
+                <Text style={[styles.tib, { color: "blue" }]}>FC</Text>
+              ),
+              [actions.hiliteColor]: ({ tintColor }) => (
+                <Text
+                  style={[
+                    styles.tib,
+                    { color: tintColor, backgroundColor: "red" },
+                  ]}>
+                  BC
+                </Text>
+              ),
+              [actions.heading1]: ({ tintColor }) => (
+                <Text style={[styles.tib, { color: tintColor }]}>H1</Text>
+              ),
+              [actions.heading4]: ({ tintColor }) => (
+                <Text style={[styles.tib, { color: tintColor }]}>H4</Text>
+              ),
+            }}
+            fontSize={handleFontSize}
+            foreColor={handleForeColor}
+            hiliteColor={handleHiliteColor}
+          />
+        </KeyboardAvoidingView>
+      </>
+    );
   return (
     <SafeAreaView style={[styles.container]}>
       <InsertLinkModal onDone={onLinkDone} ref={linkModal} />

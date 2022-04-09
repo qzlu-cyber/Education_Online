@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2021-11-29 22:18:14
- * @LastEditTime: 2022-01-27 16:18:36
+ * @LastEditTime: 2022-04-09 12:51:53
  * @Description: 播放页
  */
 import React from "react";
@@ -11,12 +11,12 @@ import { Video } from "expo-av";
 import Chapters from "../components/Chapters";
 import AppText from "../components/AppText";
 
-export default function VideoScreen() {
+export default function VideoScreen({ route }) {
   return (
     <View style={style.container}>
       <Video
         source={{
-          uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+          uri: route.params.videoUri,
         }}
         rate={1.0}
         isMuted={false}
@@ -31,8 +31,8 @@ export default function VideoScreen() {
           color='#fde6e6'
           percent={25}
           duration='2 hours, 20 minutes'
-          title='Introduction'
-          num={1}
+          title={route.params.title}
+          num={route.params.num}
         />
         <AppText
           style={style.info}

@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-23 15:13:45
- * @LastEditTime: 2022-04-06 18:54:45
+ * @LastEditTime: 2022-04-09 11:52:45
  * @Description: 课程详情页
  */
 import React from "react";
@@ -32,7 +32,7 @@ export default function CourseDetailScreen({ route, navigation }) {
         price={route.params.item.price}
         withoutPress
       />
-      <CourseNavigator navigation={navigation} />
+      <CourseNavigator navigation={navigation} course={route.params.item} />
       <View style={styles.purchase}>
         <AppButton
           style={styles.button}

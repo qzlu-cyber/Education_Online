@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2021-11-29 22:18:14
- * @LastEditTime: 2022-01-27 17:43:17
+ * @LastEditTime: 2022-04-09 12:51:23
  * @Description: 分节视频
  */
 import React from "react";
@@ -18,13 +18,20 @@ export default function Chapters({
   num,
   navigation,
   bg,
+  videoUri,
 }) {
   return (
     <>
       {navigation && (
         <TouchableOpacity
           style={[styles.container, bg ? { backgroundColor: bg } : null]}
-          onPress={() => navigation.navigate("视频")}>
+          onPress={() =>
+            navigation.navigate("视频", {
+              videoUri,
+              num,
+              title,
+            })
+          }>
           <>
             <View style={styles.number}>
               <AppText text={num} style={{ color: "#f58084" }} />
@@ -79,6 +86,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: 10,
   },
   number: {
     backgroundColor: colors.white,

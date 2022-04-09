@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-09 15:46:38
- * @LastEditTime: 2022-04-08 19:02:22
+ * @LastEditTime: 2022-04-09 12:46:41
  * @Description: 发布课程
  */
 import React, { useState } from "react";
@@ -12,7 +12,6 @@ import {
   StatusBar,
   StyleSheet,
   View,
-  Alert,
 } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import { Ionicons } from "@expo/vector-icons";
@@ -24,6 +23,7 @@ import colors from "../config/colors";
 import ImageInput from "../components/ImageInput";
 import AppButton from "../components/AppButton";
 import AppText from "../components/AppText";
+import EditArticleScreen from "./EditArticleScreen";
 
 import coursesApi from "../api/courses";
 
@@ -33,7 +33,7 @@ export default function CourseEditScreen() {
   const [icon, setIcon] = useState("md-arrow-down");
 
   const [courseName, setCourseName] = useState("");
-  const [description, setDescription] = useState("test");
+  const [description, setDescription] = useState("");
   const [tag, setTag] = useState("");
   const [courseDetails, setCourseDetails] = useState([]);
 
@@ -45,6 +45,11 @@ export default function CourseEditScreen() {
     setCount(count + 1);
     videoNum.push(count);
     setVideoNum(videoNum);
+  };
+
+  const getCourseDescription = (value) => {
+    console.log(value);
+    setDescription(value);
   };
 
   const getVideoUri = (value) => {
@@ -95,22 +100,32 @@ export default function CourseEditScreen() {
       tag: tag,
       teacherName: "刘俊琪",
       price: 37,
-      courseDetails: arrayUtil(courseDetails, "title"),
+      courseDetail: arrayUtil(courseDetails, "title"),
     };
     console.log(course);
 
-    FileSystem.uploadAsync(
-      "http://192.168.31.52:3000/api/courses/",
-      course.courseDetails[0].uri,
-      {
-        httpMethod: "PATCH",
-      }
-    )
-      .then(async () => {
-        const result = await coursesApi.addCourse(course);
-        console.log(result);
-      })
-      .catch((e) => console.log(e));
+    let i = 0;
+    for (i = 0; i < course.courseDetail.length; i++) {
+      FileSystem.uploadAsync(
+        "http://192.168.31.52:3000/api/courses/",
+        course.courseDetail[i].uri,
+        {
+          httpMethod: "PATCH",
+        }
+      );
+    }
+    if (i === course.courseDetail.length) {
+      coursesApi
+        .addCourse(course)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((e) => console.log(e));
+    }
+
+    setCourseName("");
+    setTag("");
+    setCourseDetails([]);
   };
 
   return (
@@ -121,6 +136,7 @@ export default function CourseEditScreen() {
         <View style={{ width: "100%" }}>
           <AppTextInput
             title='课程名称'
+            value={courseName}
             inputStyle={styles.input}
             placeholder='请输入名称'
             onChangeText={(text) => {
@@ -128,9 +144,14 @@ export default function CourseEditScreen() {
             }}
           />
         </View>
+        <EditArticleScreen
+          courseDescription={true}
+          getCourseDescription={getCourseDescription}
+        />
         <View style={styles.category}>
           <AppText text='课程分类' />
           <RNPickerSelect
+            value={tag}
             style={{
               ...pickerSelectStyles,
               iconContainer: {
@@ -142,9 +163,18 @@ export default function CourseEditScreen() {
               setTag(value);
             }}
             items={[
-              { label: "Football", value: "football" },
-              { label: "Baseball", value: "baseball" },
-              { label: "Hockey", value: "hockey" },
+              { label: "JavaScript", value: "JavaScript" },
+              { label: "React", value: "React" },
+              { label: "Angular", value: "Angular" },
+              { label: "Vue", value: "Vue" },
+              { label: "Nodejs", value: "Nodejs" },
+              { label: "Java", value: "Java" },
+              { label: "PHP", value: "PHP" },
+              { label: "Python", value: "Python" },
+              { label: "Unity", value: "Unity" },
+              { label: "Figma", value: "Figma" },
+              { label: "爬虫", value: "爬虫" },
+              { label: "其他", value: "others" },
             ]}
             useNativeAndroidPickerStyle={false}
             onOpen={handleOpen}

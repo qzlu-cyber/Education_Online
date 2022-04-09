@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 18:47:19
- * @LastEditTime: 2022-02-18 16:04:15
+ * @LastEditTime: 2022-04-09 12:30:31
  * @Description: 我的 页导航
  */
 import React from "react";
@@ -12,7 +12,7 @@ import { Entypo } from "@expo/vector-icons";
 import AppNavigator from "./AppNavigator";
 import CourseDetailScreen from "../screens/CourseDetailScreen";
 import VideoScreen from "../screens/VideoScreen";
-import CourseCatelogScreen from "../screens/CourseCatelogScreen";
+// import CourseCatelogScreen from "../screens/CourseCatelogScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import colors from "../config/colors";
 import MoreScreen from "../screens/MoreScreen";
@@ -21,7 +21,7 @@ import SettingScreen from "../screens/SettingScreen";
 import ArticleScreen from "../screens/ArticleScreen";
 import EditArticleScreen from "../screens/EditArticleScreen";
 import ChatScreen from "../screens/ChatScreen";
-import CourseJudgementScreen from "../screens/CourseJudgementScreen";
+// import CourseJudgementScreen from "../screens/CourseJudgementScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,7 +38,7 @@ const AccountNavigator = () => (
       })}
     />
     <Stack.Screen name='视频' component={VideoScreen} />
-    <Stack.Screen name='目录' component={CourseCatelogScreen} />
+    {/* <Stack.Screen name='目录' component={CourseCatelogScreen} /> */}
     <Stack.Screen
       name='个人信息'
       component={ProfileScreen}
@@ -94,7 +94,7 @@ const AccountNavigator = () => (
         headerShown: true,
       })}
     />
-    <Stack.Screen name='评论' component={CourseJudgementScreen} />
+    {/* <Stack.Screen name='评论' component={CourseJudgementScreen} /> */}
     <Stack.Screen
       name='设置'
       component={SettingScreen}
