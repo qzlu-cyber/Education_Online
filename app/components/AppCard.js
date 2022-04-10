@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 15:28:48
- * @LastEditTime: 2022-04-06 19:04:58
+ * @LastEditTime: 2022-04-10 14:37:42
  * @Description: 卡片
  */
 import React from "react";
@@ -27,7 +27,12 @@ function AppCard({ cardStyle, imageStyle, textStyle, navigation, item }) {
           }}>
           <View style={[styles.card, cardStyle]}>
             <Image
-              source={{ uri: item.cover }}
+              source={{
+                uri:
+                  item.cover.length > 100
+                    ? `data:image/jpeg;base64,${item.cover}`
+                    : item.cover,
+              }}
               style={[imageStyle]}
               resizeMode='cover'
             />

@@ -1,18 +1,21 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-09 15:57:40
- * @LastEditTime: 2022-02-12 18:19:53
+ * @LastEditTime: 2022-04-10 18:16:58
  * @Description: 我的页
  */
 import React from "react";
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
+import useAuth from "../auth/useAuth";
+
 import AppText from "../components/AppText";
 import colors from "../config/colors";
 import MyDetailNavigator from "../navigation/MyDetailNavigator";
 
 function MyScreen({ navigation }) {
+  const { user } = useAuth();
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -25,14 +28,19 @@ function MyScreen({ navigation }) {
           style={styles.avatarContainer}
           onPress={() => navigation.navigate("个人信息")}>
           <Image
-            source={require("../assets/avatar.jpg")}
+            source={{
+              uri:
+                user.avatar.length > 100
+                  ? `data:image/jpeg;base64,${user.avatar}`
+                  : user.avatar,
+            }}
             style={styles.avatar}
           />
         </TouchableOpacity>
       </View>
       <View style={styles.textContainer}>
-        <AppText text='刘俊琪' style={styles.name} />
-        <AppText text='哈哈哈' style={styles.welcome} />
+        <AppText text={user.name} style={styles.name} />
+        <AppText text={user.signature} style={styles.welcome} />
       </View>
       <MyDetailNavigator />
     </View>

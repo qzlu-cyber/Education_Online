@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 10:49:57
- * @LastEditTime: 2022-04-09 16:29:33
+ * @LastEditTime: 2022-04-10 18:26:13
  * @Description: 首页
  */
 import React, { useEffect, useRef, useState } from "react";
@@ -21,6 +21,8 @@ import {
 import { Value, Transition, Transitioning } from "react-native-reanimated";
 import { useMemoOne } from "use-memo-one";
 import { EvilIcons } from "@expo/vector-icons";
+
+import useAuth from "../auth/useAuth";
 
 import colors from "../config/colors";
 import AppText from "../components/AppText";
@@ -51,6 +53,8 @@ const transition = (
 const windowWidth = Dimensions.get("window").width;
 
 function HomeScreen({ navigation }) {
+  const { user, setUser } = useAuth();
+
   const ref = useRef(null);
   const [search, setSearch] = useState(false);
   const translateY = useMemoOne(() => new Value(0), []);
@@ -93,13 +97,21 @@ function HomeScreen({ navigation }) {
                 <ScrollView showsVerticalScrollIndicator={false}>
                   <View style={styles.header}>
                     <View style={styles.text}>
-                      <AppText style={styles.welcome} text='早上好，刘俊琪' />
+                      <AppText
+                        style={styles.welcome}
+                        text={"早上好，" + user.name}
+                      />
                       <AppText style={styles.goal} text='今天打算学点什么？' />
                     </View>
                     <TouchableOpacity
                       onPress={() => navigation.navigate("个人信息")}>
                       <Image
-                        source={require("../assets/avatar.jpg")}
+                        source={{
+                          uri:
+                            user.avatar.length > 100
+                              ? `data:image/jpeg;base64,${user.avatar}`
+                              : user.avatar,
+                        }}
                         style={styles.avatar}
                       />
                     </TouchableOpacity>

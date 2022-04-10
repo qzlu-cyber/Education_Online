@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 14:54:34
- * @LastEditTime: 2022-04-09 11:36:58
+ * @LastEditTime: 2022-04-10 18:31:47
  * @Description: 输入框
  */
 import React from "react";
@@ -18,6 +18,8 @@ export default function AppTextInput({
   placeholder,
   onChangeText,
   value,
+  keyboardType,
+  secureTextEntry,
 }) {
   return (
     <View style={styles.container}>
@@ -27,6 +29,8 @@ export default function AppTextInput({
         style={inputStyle}
         placeholder={placeholder}
         onChangeText={onChangeText}
+        keyboardType={keyboardType}
+        secureTextEntry={secureTextEntry}
       />
       {warningText && <AppText text={warningText} style={warnTextStyle} />}
     </View>

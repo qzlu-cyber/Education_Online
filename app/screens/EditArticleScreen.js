@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 15:34:31
- * @LastEditTime: 2022-04-09 17:37:47
+ * @LastEditTime: 2022-04-10 14:53:28
  * @Description: 发布帖子页
  */
 import React, { useCallback, useState, useRef, useEffect } from "react";
@@ -31,6 +31,7 @@ import articlesApi from "../api/articles";
 export default function EditArticleScreen({
   courseDescription,
   getCourseDescription,
+  description,
 }) {
   const navigation = useNavigation();
   let richText = useRef();
@@ -162,7 +163,8 @@ export default function EditArticleScreen({
             ref={richText}
             style={styles.richTitle}
             useContainer={true}
-            initialHeight={400}
+            initialHeight={200}
+            initialContentHTML={description}
             enterKeyHint={"done"}
             placeholder={"请输入课程描述..."}
             onChange={handleChange}

@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-09 15:46:38
- * @LastEditTime: 2022-04-09 15:23:16
+ * @LastEditTime: 2022-04-10 14:53:41
  * @Description: 发布课程
  */
 import React, { useState } from "react";
@@ -34,6 +34,7 @@ export default function CourseEditScreen() {
 
   const [courseName, setCourseName] = useState("");
   const [cover, setCover] = useState("");
+  const [price, setPrice] = useState();
   const [description, setDescription] = useState("");
   const [tag, setTag] = useState("");
   const [courseDetails, setCourseDetails] = useState([]);
@@ -103,7 +104,7 @@ export default function CourseEditScreen() {
       description: description,
       tag: tag,
       teacherName: "刘俊琪",
-      price: 37,
+      price: price,
       courseDetail: arrayUtil(courseDetails, "title"),
     };
     console.log(course);
@@ -127,6 +128,7 @@ export default function CourseEditScreen() {
           setTag("");
           setCourseDetails([]);
           setDescription("");
+          setPrice();
         })
         .catch((e) => console.log(e));
     }
@@ -149,9 +151,21 @@ export default function CourseEditScreen() {
           />
           <ImageInput image={true} getCoverUri={getCoverUri} />
         </View>
+        <View>
+          <AppTextInput
+            title='价格'
+            value={price}
+            inputStyle={[styles.input]}
+            placeholder='请输入价格'
+            onChangeText={(text) => {
+              setPrice(text);
+            }}
+          />
+        </View>
         <EditArticleScreen
           courseDescription={true}
           getCourseDescription={getCourseDescription}
+          description={description}
         />
         <View style={styles.category}>
           <AppText text='课程分类' />
@@ -213,7 +227,13 @@ export default function CourseEditScreen() {
           style={styles.button}
           title='提交'
           textStyle={styles.buttonText}
-          onPress={handleSubmit}
+          onPress={
+            courseName && cover && tag && description && courseDetails && price
+              ? handleSubmit
+              : () => {
+                  console.log("请将课程信息填写完整");
+                }
+          }
         />
         <Toast visibilityTime={5000} />
       </ScrollView>
