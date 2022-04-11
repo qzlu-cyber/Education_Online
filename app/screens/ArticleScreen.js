@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 14:03:47
- * @LastEditTime: 2022-04-11 19:54:25
+ * @LastEditTime: 2022-04-11 19:56:48
  * @Description: 动态详情页
  */
 import React, { Component } from "react";
@@ -301,6 +301,7 @@ export default class ArticleScreen extends Component {
           data={this.state.comments}
           renderItem={({ item }) => {
             const comentId = item.comment._id;
+            //TODO: 点赞评论
             if (this.state.likedComments.indexOf(comentId) > -1) {
               console.log("liked");
             } else {
