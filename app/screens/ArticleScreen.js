@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 14:03:47
- * @LastEditTime: 2022-04-11 13:07:01
+ * @LastEditTime: 2022-04-11 19:54:25
  * @Description: 动态详情页
  */
 import React, { Component } from "react";
@@ -16,6 +16,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Linking,
+  Dimensions,
 } from "react-native";
 import moment from "moment";
 import { AntDesign, Ionicons, Entypo } from "@expo/vector-icons";
@@ -23,21 +24,28 @@ import { RichEditor } from "react-native-pell-rich-editor";
 import AutoHeightWebView from "react-native-autoheight-webview";
 
 import { commentsData } from "../config/db";
+import AppText from "../components/AppText";
 
 import articlesApi from "../api/articles";
 import commentsApi from "../api/comments";
+import usersApi from "../api/users";
 export default class ArticleScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       link: "",
-      html: "",
+      title: "", //文章标题
+      html: "", //文章内容
       height: 200,
       showWebView: false,
       likes: this.props.route.params.article.likes,
       isLike: this.props.route.params.like,
       comments: [], //获取到的文章评论
       comment: "", //要发表的评论
+      user: {},
+      isLikeComment: false,
+      commentLike: 0,
+      likedComments: this.props.route.params.likedComments,
     };
   }
 
@@ -54,26 +62,27 @@ export default class ArticleScreen extends Component {
       this.props.route.params.article._id
     );
 
-    console.log(result.data);
     if (result.ok) {
       this.setState({
-        html: `<html><head><meta name="viewport" content="user-scalable=1.0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0"></head><body>${result.data.body}</body></html>`,
+        html: result.data.body,
+        title: result.data.title,
       });
     }
   };
 
   getComments = async () => {
-    const result = await articlesApi.getComments(
+    const result = await commentsApi.getComments(
       this.props.route.params.article._id
     );
 
     if (result.ok) {
       this.setState({
-        comments: result.data.comments,
+        comments: result.data,
       });
     }
   };
 
+  //给文章点赞
   handlePress = async () => {
     if (!this.state.isLike) {
       this.setState({
@@ -102,6 +111,30 @@ export default class ArticleScreen extends Component {
     }
   };
 
+  //给评论点赞
+  handleLike = async (comment) => {
+    if (!this.state.isLikeComment) {
+      this.setState({
+        isLikeComment: true,
+        commentLike: comment.like,
+      });
+
+      console.log(comment);
+
+      const result = await commentsApi.likeComments(comment);
+      // console.log(result);
+    } else {
+      this.setState({
+        isLikeComment: false,
+        commentLike: comment.like,
+      });
+
+      const result = await commentsApi.likeComments(comment);
+      console.log(result);
+    }
+  };
+
+  //给文章评论
   handleSubmit = async () => {
     const comment = {
       comment: this.state.comment, //评论体
@@ -115,9 +148,34 @@ export default class ArticleScreen extends Component {
       });
   };
 
+  //楼中楼评论
+  handleCicSubmit = async (commentId, toUserId) => {
+    let comment = {};
+    if (!toUserId) {
+      comment = {
+        comment: this.state.comment, //评论体
+        toUser: this.props.route.params.userId, //给谁发的评论
+        article: this.props.route.params.article._id, //在哪篇文章下的评论
+        commentId: commentId, //哪一条主楼评论下的评论
+      };
+    } else {
+      comment = {
+        comment: this.state.comment, //评论体
+        toUser: this.props.route.params.userId, //给谁发的评论
+        article: this.props.route.params.article._id, //在哪篇文章下的评论
+        commentId: commentId, //哪一条主楼评论下的评论
+        toUserId: toUserId, //楼中楼中楼，直接向服务端发过去向哪个用户发送的评论
+      };
+    }
+
+    const result = await commentsApi.addCicComments(comment);
+
+    console.log(result.data);
+  };
+
   componentDidMount() {
-    this.getComments();
     this.getArticles();
+    this.getComments();
     setTimeout(() => {
       this.setState({
         showWebView: true,
@@ -126,13 +184,33 @@ export default class ArticleScreen extends Component {
   }
 
   render() {
-    const { article, likeText, commentText, avatar, userName } =
-      this.props.route.params;
+    const { article, commentText, avatar, userName } = this.props.route.params;
 
     const { isLike } = this.state;
     let likeIcon = isLike ? "heart" : "hearto";
     let likeIconColor = isLike ? "#2e64e5" : "#333";
     const navigation = this.props.navigation;
+
+    let likeCommentIcon = this.state.isLikeComment ? "heart" : "hearto";
+    let likeCommentIconColor = this.state.isLikeComment ? "#2e64e5" : "#333";
+
+    moment.updateLocale("zh-cn", {
+      relativeTime: {
+        future: "%s内",
+        past: "%s前",
+        s: "几秒",
+        m: "1 分钟",
+        mm: "%d 分钟",
+        h: "1 小时",
+        hh: "%d 小时",
+        d: "1 天",
+        dd: "%d 天",
+        M: "1 个月",
+        MM: "%d 个月",
+        y: "1 年",
+        yy: "%d 年",
+      },
+    });
 
     return (
       <View style={styles.container}>
@@ -150,16 +228,21 @@ export default class ArticleScreen extends Component {
                 <View style={styles.userInfoText}>
                   <Text style={styles.userName}>{userName}</Text>
                   <Text style={styles.postTime}>
-                    {moment(article.postTime, "YYYY-MMDD HH:mm").fromNow()}
+                    {moment(article.postTime).fromNow()}
                   </Text>
                 </View>
               </TouchableOpacity>
+              <AppText text={this.state.title} style={styles.postTitle} />
               {Platform.OS === "ios" && (
                 <AutoHeightWebView
                   ref={(ref) => {
                     this.webview = ref;
                   }}
-                  source={this.state.html}
+                  style={{
+                    width: Dimensions.get("window").width - 20,
+                    marginTop: 10,
+                  }}
+                  source={{ html: `${this.state.html}` }}
                   onNavigationStateChange={(event) => {
                     if (event.url) {
                       this.setState({ link: event.url });
@@ -178,7 +261,11 @@ export default class ArticleScreen extends Component {
                   ref={(ref) => {
                     this.webview = ref;
                   }}
-                  source={this.state.html}
+                  style={{
+                    width: Dimensions.get("window").width - 20,
+                    marginTop: 35,
+                  }}
+                  source={{ html: this.state.html }}
                   onLoadStart={() => {
                     Platform.select({
                       android: () => this.webview.goBack(),
@@ -211,83 +298,126 @@ export default class ArticleScreen extends Component {
               </View>
             </View>
           }
-          data={commentsData}
-          renderItem={({ item }) => (
-            <View style={styles.commentContainer}>
-              <FlatList
-                showsVerticalScrollIndicator={false}
-                ListHeaderComponent={
-                  <>
-                    <View style={styles.infoContainer}>
-                      <TouchableOpacity
-                        style={styles.userInfo}
-                        onPress={() =>
-                          navigation.navigate("聊天", {
-                            userName: item.userName,
-                          })
-                        }>
-                        <Image
-                          source={item.userImg}
-                          style={styles.commentUserImg}
-                        />
-                        <View style={styles.userInfoText}>
-                          <Text style={styles.userName}>{item.userName}</Text>
-                          <Text style={styles.postTime}>
-                            {moment(item.postTime, "YYYY-MMDD HH:mm").fromNow()}
+          data={this.state.comments}
+          renderItem={({ item }) => {
+            const comentId = item.comment._id;
+            if (this.state.likedComments.indexOf(comentId) > -1) {
+              console.log("liked");
+            } else {
+              console.log("unlike");
+            }
+            return (
+              <View style={styles.commentContainer}>
+                <FlatList
+                  showsVerticalScrollIndicator={false}
+                  ListHeaderComponent={
+                    <>
+                      <View style={styles.infoContainer}>
+                        <TouchableOpacity
+                          style={styles.userInfo}
+                          onPress={() =>
+                            navigation.navigate("聊天", {
+                              userName: item.userInfo.name,
+                            })
+                          }>
+                          <Image
+                            source={{
+                              uri:
+                                item.userInfo.avatar.length > 100
+                                  ? `data:image/jpeg;base64,${item.userInfo.avatar}`
+                                  : item.userInfo.avatar,
+                            }}
+                            style={styles.commentUserImg}
+                          />
+                          <View style={styles.userInfoText}>
+                            <Text style={styles.userName}>
+                              {item.userInfo.name}
+                            </Text>
+                            <Text style={styles.postTime}>
+                              {moment(item.comment.postTime).fromNow()}
+                            </Text>
+                          </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={styles.interaction}
+                          onPress={() => {
+                            this.state.isLikeComment && item.comment.likes > 0
+                              ? this.handleLike({
+                                  _id: item.comment._id,
+                                  likes: item.comment.likes + 1,
+                                })
+                              : this.handleLike({
+                                  _id: item.comment._id,
+                                  likes: item.comment.likes - 1,
+                                });
+                          }}>
+                          <AntDesign
+                            name={likeCommentIcon}
+                            size={20}
+                            color={likeCommentIconColor}
+                          />
+                          <Text style={styles.interactionText}>
+                            {item.comment.likes === 0
+                              ? "赞"
+                              : item.comment.likes + "个赞"}
                           </Text>
-                        </View>
-                      </TouchableOpacity>
+                        </TouchableOpacity>
+                      </View>
                       <TouchableOpacity
-                        style={styles.interaction}
-                        active={item.liked}>
-                        <AntDesign name='hearto' size={20} color='#333' />
-                        <Text
-                          active={item.liked}
-                          style={styles.interactionText}>
-                          {likeText}
+                        style={styles.comment}
+                        onPress={() => this.handleCicSubmit(item.comment._id)}>
+                        <Text style={styles.commentText}>
+                          {item.comment.comment}
                         </Text>
                       </TouchableOpacity>
+                    </>
+                  }
+                  data={item.comment.comments}
+                  renderItem={({ item }) => (
+                    <View style={styles.comments}>
+                      <View style={styles.commentsContainer}>
+                        <TouchableOpacity
+                          style={styles.commentsUserInfo}
+                          onPress={() =>
+                            navigation.navigate("聊天", {
+                              userName: item.author.name,
+                            })
+                          }>
+                          <Text style={styles.userName}>
+                            {item.author.name}
+                          </Text>
+                        </TouchableOpacity>
+                        <Text>回复</Text>
+                        <TouchableOpacity
+                          style={styles.commentsUserInfo}
+                          onPress={() =>
+                            navigation.navigate("聊天", {
+                              userName: item.toUser.name,
+                            })
+                          }>
+                          <Text style={styles.userName}>
+                            {item.toUser.name}
+                          </Text>
+                        </TouchableOpacity>
+                        <Text>：</Text>
+                        <TouchableOpacity
+                          style={styles.commentsUserInfo}
+                          onPress={() =>
+                            this.handleCicSubmit(comentId, item.toUserId)
+                          }>
+                          <Text style={styles.commentsText}>
+                            {item.comment}
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
-                    <TouchableOpacity style={styles.comment}>
-                      <Text style={styles.commentText}>{item.comment}</Text>
-                    </TouchableOpacity>
-                  </>
-                }
-                data={item.comments}
-                renderItem={({ item }) => (
-                  <View style={styles.comments}>
-                    <View style={styles.commentsContainer}>
-                      <TouchableOpacity
-                        style={styles.commentsUserInfo}
-                        onPress={() =>
-                          navigation.navigate("聊天", {
-                            userName: item.fromUserName,
-                          })
-                        }>
-                        <Text style={styles.userName}>{item.fromUserName}</Text>
-                      </TouchableOpacity>
-                      <Text>回复</Text>
-                      <TouchableOpacity
-                        style={styles.commentsUserInfo}
-                        onPress={() =>
-                          navigation.navigate("聊天", {
-                            userName: item.toUserName,
-                          })
-                        }>
-                        <Text style={styles.userName}>{item.toUserName}</Text>
-                      </TouchableOpacity>
-                      <Text>：</Text>
-                      <TouchableOpacity style={styles.commentsUserInfo}>
-                        <Text style={styles.commentsText}>{item.comment}</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                )}
-                keyExtractor={(comment) => comment.id}
-              />
-            </View>
-          )}
-          keyExtractor={(comment) => comment.id.toString()}
+                  )}
+                  keyExtractor={(comment) => comment._id}
+                />
+              </View>
+            );
+          }}
+          keyExtractor={(comment) => comment.comment._id}
         />
         <View style={styles.submitContainer}>
           <ScrollView style={styles.inputView}>

@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 10:43:36
- * @LastEditTime: 2022-04-11 12:54:50
+ * @LastEditTime: 2022-04-11 19:47:29
  * @Description: 动态 组件
  */
 import React, { useEffect, useState } from "react";
@@ -17,11 +17,13 @@ import useApi from "../hooks/useApi";
 
 const PostCard = ({ item, navigation }) => {
   const [like, setLike] = useState(false);
+  const [likedComments, setLikedComments] = useState([]);
 
   const getMyInfo = async () => {
     const result = await usersApi.getMyInfo();
     if (result.ok) {
       setLike(result.data.likedArticles.indexOf(item._id) > -1 ? true : false);
+      setLikedComments(result.data.likedComments);
     }
   };
 
@@ -88,6 +90,7 @@ const PostCard = ({ item, navigation }) => {
           avatar: `data:image/jpeg;base64,${getUsers.data.avatar}`,
           userName: getUsers.data.name,
           userId: getUsers.data._id,
+          likedComments,
         })
       }>
       <TouchableOpacity style={styles.userInfo}>

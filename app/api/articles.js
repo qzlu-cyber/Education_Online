@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-04-08 10:28:59
- * @LastEditTime: 2022-04-11 13:02:14
+ * @LastEditTime: 2022-04-11 19:18:59
  * @Description: 动态文章相关
  */
 import client from "./client";
@@ -19,7 +19,6 @@ const addArticles = async (article) => {
 };
 
 const likeArticle = async (article) => {
-  console.log(article);
   return client.put(`${endpoint}/${article._id}`, { likes: article.likes });
 };
 
