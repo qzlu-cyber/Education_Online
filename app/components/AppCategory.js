@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 15:32:28
- * @LastEditTime: 2022-04-09 15:58:19
+ * @LastEditTime: 2022-04-11 07:27:48
  * @Description: 首页各种种类组件
  */
 import { View, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
@@ -48,18 +48,19 @@ function AppCategory({
           style={[styles.cardContainer, cardContainerStyle]}
           horizontal={true}
           showsHorizontalScrollIndicator={false}>
-          {data.map((item) => (
-            <AppCard
-              key={item._id}
-              item={item}
-              cardStyle={styles.card}
-              imageStyle={styles.img}
-              imgSource={{ uri: item.cover }}
-              text={item.name}
-              textStyle={styles.title}
-              navigation={navigation}
-            />
-          ))}
+          {data &&
+            data.map((item) => (
+              <AppCard
+                key={item._id}
+                item={item}
+                cardStyle={styles.card}
+                imageStyle={styles.img}
+                imgSource={{ uri: item.cover }}
+                text={item.name}
+                textStyle={styles.title}
+                navigation={navigation}
+              />
+            ))}
         </ScrollView>
       )}
       {categoryName === "本月最多学习" && (
@@ -67,27 +68,28 @@ function AppCategory({
           style={[styles.cardContainer, cardContainerStyle]}
           horizontal={true}
           showsHorizontalScrollIndicator={false}>
-          {data.map((item) => {
-            return (
-              <AppCardWithSign
-                key={item._id}
-                item={item}
-                cardStyle={styles.card}
-                imageStyle={styles.img}
-                imgSource={{
-                  uri:
-                    item.cover.length > 100
-                      ? `data:image/jpeg;base64,${item.cover}`
-                      : item.cover,
-                }}
-                text={item.name}
-                textStyle={styles.title}
-                signText='上新'
-                signTextStyle={styles.text}
-                navigation={navigation}
-              />
-            );
-          })}
+          {data &&
+            data.map((item) => {
+              return (
+                <AppCardWithSign
+                  key={item._id}
+                  item={item}
+                  cardStyle={styles.card}
+                  imageStyle={styles.img}
+                  imgSource={{
+                    uri:
+                      item.cover.length > 100
+                        ? `data:image/jpeg;base64,${item.cover}`
+                        : item.cover,
+                  }}
+                  text={item.name}
+                  textStyle={styles.title}
+                  signText='上新'
+                  signTextStyle={styles.text}
+                  navigation={navigation}
+                />
+              );
+            })}
         </ScrollView>
       )}
       {categoryName === "本月最受欢迎老师" && (

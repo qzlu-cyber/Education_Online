@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-27 17:54:08
- * @LastEditTime: 2022-02-12 18:26:04
+ * @LastEditTime: 2022-04-11 08:16:16
  * @Description: 个人信息项
  */
 import React, { useState, useEffect } from "react";
@@ -19,9 +19,18 @@ import AppText from "./AppText";
 
 const windowWidth = Dimensions.get("window").width;
 
-export default function ProfileItem({ text, avatar, data, sign, nickname }) {
-  const [imageUri, setImageUri] = useState();
-  const [value, onChangeText] = React.useState("");
+export default function ProfileItem({
+  text,
+  avatar,
+  data,
+  sign,
+  nickname,
+  initiaAvatar,
+  signature,
+}) {
+  console.log(signature);
+  const [imageUri, setImageUri] = useState("");
+  const [value, onChangeText] = React.useState(signature);
 
   useEffect(() => {
     requestPermission();
@@ -53,9 +62,7 @@ export default function ProfileItem({ text, avatar, data, sign, nickname }) {
       {avatar && (
         <TouchableOpacity onPress={handlePress}>
           <Image
-            source={
-              imageUri ? { uri: imageUri } : require("../assets/avatar.jpg")
-            }
+            source={imageUri ? { uri: imageUri } : { uri: initiaAvatar }}
             style={styles.avatar}
           />
         </TouchableOpacity>
@@ -73,7 +80,6 @@ export default function ProfileItem({ text, avatar, data, sign, nickname }) {
         <TextInput
           style={styles.textInput}
           maxLength={15}
-          placeholder='这个人很神秘，什么也没留下'
           onChangeText={(text) => onChangeText(text)}
           value={value}
           textAlign='right'

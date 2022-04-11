@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-12 18:20:07
- * @LastEditTime: 2022-04-10 18:25:01
+ * @LastEditTime: 2022-04-11 08:19:39
  * @Description: 设置页
  */
 import { StyleSheet, View } from "react-native";
@@ -12,15 +12,19 @@ import ProfileItem from "../components/ProfileItem";
 import AppButton from "../components/AppButton";
 import colors from "../config/colors";
 
-export default function SettingScreen() {
+export default function SettingScreen({ route }) {
   const { logOut } = useAuth();
 
   return (
     <View style={styles.container}>
-      <ProfileItem text='头像' avatar />
-      <ProfileItem text='昵称' nickname='Kaesar' />
-      <ProfileItem text='个性签名' sign />
-      <ProfileItem text='邮箱' data='941648981@qq.com' />
+      <ProfileItem text='头像' avatar initiaAvatar={route.params.avatar} />
+      <ProfileItem text='昵称' nickname={route.params.user.name} />
+      <ProfileItem
+        text='个性签名'
+        sign
+        signature={route.params.user.signature}
+      />
+      <ProfileItem text='邮箱' data={route.params.user.email} />
       <AppButton
         style={styles.button}
         title='退出登录'

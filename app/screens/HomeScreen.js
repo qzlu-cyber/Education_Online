@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 10:49:57
- * @LastEditTime: 2022-04-10 18:26:13
+ * @LastEditTime: 2022-04-11 08:08:07
  * @Description: 首页
  */
 import React, { useEffect, useRef, useState } from "react";
@@ -37,6 +37,7 @@ import ActivityIndicator from "../components/ActivityIndicator";
 
 import coursesApi from "../api/courses";
 import useApi from "../hooks/useApi";
+import usersApi from "../api/users";
 
 const transition = (
   <Transition.Together>
@@ -53,7 +54,11 @@ const transition = (
 const windowWidth = Dimensions.get("window").width;
 
 function HomeScreen({ navigation }) {
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
+
+  const [avatar, setAvatar] = useState(
+    "https://s1.ax1x.com/2020/08/01/a3Pbff.jpg"
+  );
 
   const ref = useRef(null);
   const [search, setSearch] = useState(false);
@@ -70,12 +75,28 @@ function HomeScreen({ navigation }) {
   const getNewestCourses = useApi(coursesApi.getNewestCourses);
   const getOtherCourses = useApi(coursesApi.getOtherCourses);
 
+  const getMyInfo = async () => {
+    const result = await usersApi.getMyInfo();
+    if (result.ok) setAvatar(`data:image/jpeg;base64,${result.data.avatar}`);
+  };
+
   useEffect(() => {
     getCommandCourses.request();
     getPopularCourses.request();
     getNewestCourses.request();
     getOtherCourses.request();
+
+    getMyInfo();
   }, []);
+
+  const handleRetry = () => {
+    getCommandCourses.request();
+    getPopularCourses.request();
+    getNewestCourses.request();
+    getOtherCourses.request();
+
+    getMyInfo();
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -83,7 +104,7 @@ function HomeScreen({ navigation }) {
       {getCommandCourses.error && (
         <>
           <AppText text='连接服务器失败，请检查网络...' />
-          <AppButton title='重试' style={styles.button} />
+          <AppButton title='重试' style={styles.button} onPress={handleRetry} />
         </>
       )}
       {!getCommandCourses.error && (
@@ -105,15 +126,7 @@ function HomeScreen({ navigation }) {
                     </View>
                     <TouchableOpacity
                       onPress={() => navigation.navigate("个人信息")}>
-                      <Image
-                        source={{
-                          uri:
-                            user.avatar.length > 100
-                              ? `data:image/jpeg;base64,${user.avatar}`
-                              : user.avatar,
-                        }}
-                        style={styles.avatar}
-                      />
+                      <Image source={{ uri: avatar }} style={styles.avatar} />
                     </TouchableOpacity>
                   </View>
                   <View style={styles.searchContainer}>

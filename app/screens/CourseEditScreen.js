@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-09 15:46:38
- * @LastEditTime: 2022-04-10 14:53:41
+ * @LastEditTime: 2022-04-11 07:48:18
  * @Description: 发布课程
  */
 import React, { useState } from "react";
@@ -107,7 +107,6 @@ export default function CourseEditScreen() {
       price: price,
       courseDetail: arrayUtil(courseDetails, "title"),
     };
-    console.log(course);
 
     let i = 0;
     for (i = 0; i < course.courseDetail.length; i++) {
@@ -123,7 +122,6 @@ export default function CourseEditScreen() {
       coursesApi
         .addCourse(course)
         .then((res) => {
-          console.log(res);
           setCourseName("");
           setTag("");
           setCourseDetails([]);
