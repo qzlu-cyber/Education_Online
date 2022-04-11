@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 11:03:19
- * @LastEditTime: 2022-04-10 13:53:18
+ * @LastEditTime: 2022-04-11 12:46:39
  * @Description: 动态页
  */
 import React, { useEffect } from "react";
@@ -26,6 +26,7 @@ const FeedScreen = ({ navigation }) => {
   useEffect(() => {
     getArticles.request();
   }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.feedContainer}>

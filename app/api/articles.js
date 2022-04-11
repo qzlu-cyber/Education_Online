@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-04-08 10:28:59
- * @LastEditTime: 2022-04-09 18:07:45
+ * @LastEditTime: 2022-04-11 13:02:14
  * @Description: 动态文章相关
  */
 import client from "./client";
@@ -9,6 +9,10 @@ import client from "./client";
 const endpoint = "/articles";
 
 const getArticles = () => client.get(endpoint);
+
+const getArticleById = (id) => client.get(`${endpoint}/${id}`);
+
+const getComments = (id) => client.get(`${endpoint}/comments/${id}`);
 
 const addArticles = async (article) => {
   return client.post(endpoint, article);
@@ -21,6 +25,8 @@ const likeArticle = async (article) => {
 
 export default {
   getArticles,
+  getArticleById,
+  getComments,
   addArticles,
   likeArticle,
 };

@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 15:34:31
- * @LastEditTime: 2022-04-10 14:53:28
+ * @LastEditTime: 2022-04-11 12:37:08
  * @Description: 发布帖子页
  */
 import React, { useCallback, useState, useRef, useEffect } from "react";
@@ -68,7 +68,6 @@ export default function EditArticleScreen({
       const result = await articlesApi.addArticles({
         title: title,
         body: content,
-        author: "624d5f825c5e1906920afbfb",
       });
       if (result.ok) {
         navigation.navigate("动态");

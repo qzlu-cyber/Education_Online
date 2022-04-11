@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 14:03:47
- * @LastEditTime: 2022-04-09 16:40:17
+ * @LastEditTime: 2022-04-11 13:07:01
  * @Description: 动态详情页
  */
 import React, { Component } from "react";
@@ -25,15 +25,19 @@ import AutoHeightWebView from "react-native-autoheight-webview";
 import { commentsData } from "../config/db";
 
 import articlesApi from "../api/articles";
+import commentsApi from "../api/comments";
 export default class ArticleScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       link: "",
       html: "",
-      like: false,
       height: 200,
       showWebView: false,
+      likes: this.props.route.params.article.likes,
+      isLike: this.props.route.params.like,
+      comments: [], //获取到的文章评论
+      comment: "", //要发表的评论
     };
   }
 
@@ -46,17 +50,73 @@ export default class ArticleScreen extends Component {
   };
 
   getArticles = async () => {
-    const result = await articlesApi.getArticles();
+    const result = await articlesApi.getArticleById(
+      this.props.route.params.article._id
+    );
 
-    // console.log(result.data[0].body);
+    console.log(result.data);
     if (result.ok) {
       this.setState({
-        html: this.handleDecode(result.data[3].body),
+        html: `<html><head><meta name="viewport" content="user-scalable=1.0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0"></head><body>${result.data.body}</body></html>`,
       });
     }
   };
 
+  getComments = async () => {
+    const result = await articlesApi.getComments(
+      this.props.route.params.article._id
+    );
+
+    if (result.ok) {
+      this.setState({
+        comments: result.data.comments,
+      });
+    }
+  };
+
+  handlePress = async () => {
+    if (!this.state.isLike) {
+      this.setState({
+        isLike: true,
+      });
+      this.props.route.params.article.likes++;
+      await articlesApi.likeArticle({
+        _id: this.props.route.params.article._id,
+        likes: this.props.route.params.article.likes,
+      });
+      this.setState({
+        likes: this.state.likes + 1,
+      });
+    } else {
+      this.setState({
+        isLike: false,
+      });
+      this.props.route.params.article.likes--;
+      await articlesApi.likeArticle({
+        _id: this.props.route.params.article._id,
+        likes: this.props.route.params.article.likes,
+      });
+      this.setState({
+        likes: this.state.likes - 1,
+      });
+    }
+  };
+
+  handleSubmit = async () => {
+    const comment = {
+      comment: this.state.comment, //评论体
+      toUser: this.props.route.params.userId, //给谁发的评论
+      article: this.props.route.params.article._id, //在哪篇文章下的评论
+    };
+    const result = await commentsApi.addComments(comment);
+    if (result.ok)
+      this.setState({
+        comment: "",
+      });
+  };
+
   componentDidMount() {
+    this.getComments();
     this.getArticles();
     setTimeout(() => {
       this.setState({
@@ -68,19 +128,10 @@ export default class ArticleScreen extends Component {
   render() {
     const { article, likeText, commentText, avatar, userName } =
       this.props.route.params;
-    const handlePress = () => {
-      if (!this.state.like) {
-        this.setState({ like: true });
-        article.likes++;
-      } else {
-        this.setState({ like: false });
-        article.likes--;
-      }
-    };
 
-    let likeIcon = this.state.like ? "heart" : "hearto";
-    let likeIconColor = this.state.like ? "#2e64e5" : "#333";
-    const { html } = this.state;
+    const { isLike } = this.state;
+    let likeIcon = isLike ? "heart" : "hearto";
+    let likeIconColor = isLike ? "#2e64e5" : "#333";
     const navigation = this.props.navigation;
 
     return (
@@ -108,7 +159,7 @@ export default class ArticleScreen extends Component {
                   ref={(ref) => {
                     this.webview = ref;
                   }}
-                  source={{ html }}
+                  source={this.state.html}
                   onNavigationStateChange={(event) => {
                     if (event.url) {
                       this.setState({ link: event.url });
@@ -127,7 +178,7 @@ export default class ArticleScreen extends Component {
                   ref={(ref) => {
                     this.webview = ref;
                   }}
-                  source={{ html }}
+                  source={this.state.html}
                   onLoadStart={() => {
                     Platform.select({
                       android: () => this.webview.goBack(),
@@ -151,11 +202,10 @@ export default class ArticleScreen extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.interaction}
-                  active={this.state.like}
-                  onPress={handlePress}>
+                  onPress={this.handlePress}>
                   <AntDesign name={likeIcon} size={20} color={likeIconColor} />
                   <Text active={article.liked} style={styles.interactionText}>
-                    {article.likes === 0 ? "赞" : article.likes + "个赞"}
+                    {this.state.likes === 0 ? "赞" : this.state.likes + "个赞"}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -245,13 +295,15 @@ export default class ArticleScreen extends Component {
               behavior={Platform.OS === "ios" ? "padding" : "height"}
               style={{ flex: 1 }}>
               <RichEditor
-                onChange={(descriptionText) => {
-                  console.log("descriptionText:", descriptionText);
+                onChange={(comment) => {
+                  this.setState({
+                    comment: comment,
+                  });
                 }}
               />
             </KeyboardAvoidingView>
           </ScrollView>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
             <Entypo name='paper-plane' size={24} color='#fff' />
           </TouchableOpacity>
         </View>
