@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 15:28:48
- * @LastEditTime: 2022-04-10 14:37:42
+ * @LastEditTime: 2022-04-12 15:04:59
  * @Description: 卡片
  */
 import React from "react";
@@ -15,7 +15,14 @@ import {
 
 import AppText from "./AppText";
 
-function AppCard({ cardStyle, imageStyle, textStyle, navigation, item }) {
+function AppCard({
+  cardStyle,
+  imageStyle,
+  textStyle,
+  navigation,
+  item,
+  myCourses,
+}) {
   return (
     <>
       {navigation && (
@@ -23,6 +30,7 @@ function AppCard({ cardStyle, imageStyle, textStyle, navigation, item }) {
           onPress={() => {
             navigation.navigate("课程详情", {
               item: item,
+              mycourse: myCourses.includes(item._id),
             });
           }}>
           <View style={[styles.card, cardStyle]}>

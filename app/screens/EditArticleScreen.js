@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 15:34:31
- * @LastEditTime: 2022-04-11 12:37:08
+ * @LastEditTime: 2022-04-12 16:13:48
  * @Description: 发布帖子页
  */
 import React, { useCallback, useState, useRef, useEffect } from "react";
@@ -44,22 +44,18 @@ export default function EditArticleScreen({
   const [content, setContent] = useState("");
 
   const handleTitleChange = useCallback((html) => {
-    console.log(html);
     titleRef.current = html;
     setTitle(html);
-    console.log(title);
   }, []);
 
   // editor change data
   let handleChange = useCallback((html) => {
-    console.log(html);
     // save html to content ref;
     contentRef.current = html;
     if (courseDescription) {
       getCourseDescription(html);
     }
     setContent(html);
-    console.log(content);
   }, []);
 
   //submit

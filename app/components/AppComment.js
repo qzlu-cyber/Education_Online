@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-24 18:37:58
- * @LastEditTime: 2022-02-18 16:07:22
+ * @LastEditTime: 2022-04-12 11:35:24
  * @Description: 评论组件
  */
 import React from "react";
@@ -28,7 +28,7 @@ export default function AppComment({
         <TouchableOpacity
           style={styles.info}
           onPress={() => navigation.navigate("聊天", { userName: nickName })}>
-          <Image source={avatar} style={styles.avatar} />
+          <Image source={{ uri: avatar }} style={styles.avatar} />
           <AppText text={nickName} style={styles.content} />
         </TouchableOpacity>
         <View style={styles.star}>

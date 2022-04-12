@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-23 17:03:25
- * @LastEditTime: 2022-04-09 11:50:04
+ * @LastEditTime: 2022-04-12 16:13:26
  * @Description: 课程目录页
  */
 import React from "react";
@@ -11,7 +11,6 @@ import colors from "../config/colors";
 import Chapters from "../components/Chapters";
 
 export default function CourseCatelogScreen({ navigation, route }) {
-  console.log(route.params);
   return (
     <ScrollView style={styles.container}>
       <Chapters

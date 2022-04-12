@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-09 10:34:39
- * @LastEditTime: 2022-04-09 16:35:33
+ * @LastEditTime: 2022-04-12 15:08:01
  * @Description: 列表项
  */
 import React from "react";
@@ -39,7 +39,6 @@ import colors from "../config/colors";
 function ListItem({
   containerStyle,
   imgStyle,
-  imgUrl,
   textContainerStyle,
   titleStyle,
   title,
@@ -51,6 +50,7 @@ function ListItem({
   navigation,
   price,
   item,
+  mycourse,
 }) {
   return (
     <>
@@ -60,6 +60,7 @@ function ListItem({
             navigation.navigate("课程详情", {
               courseName: title,
               item: item,
+              mycourse,
             })
           }>
           <View style={containerStyle}>

@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 10:49:57
- * @LastEditTime: 2022-04-11 08:08:07
+ * @LastEditTime: 2022-04-12 16:25:29
  * @Description: 首页
  */
 import React, { useEffect, useRef, useState } from "react";
@@ -60,6 +60,9 @@ function HomeScreen({ navigation }) {
     "https://s1.ax1x.com/2020/08/01/a3Pbff.jpg"
   );
 
+  const [myCourses, setMyCourses] = useState([]);
+  const [teachers, setTeachers] = useState([]);
+
   const ref = useRef(null);
   const [search, setSearch] = useState(false);
   const translateY = useMemoOne(() => new Value(0), []);
@@ -77,7 +80,18 @@ function HomeScreen({ navigation }) {
 
   const getMyInfo = async () => {
     const result = await usersApi.getMyInfo();
-    if (result.ok) setAvatar(`data:image/jpeg;base64,${result.data.avatar}`);
+    if (result.ok) {
+      setAvatar(`data:image/jpeg;base64,${result.data.avatar}`);
+      setMyCourses(result.data.courses);
+    }
+  };
+
+  const getTeachers = async () => {
+    const result = await usersApi.getTeachers();
+
+    if (result.ok) {
+      setTeachers(result.data);
+    }
   };
 
   useEffect(() => {
@@ -87,6 +101,7 @@ function HomeScreen({ navigation }) {
     getOtherCourses.request();
 
     getMyInfo();
+    getTeachers();
   }, []);
 
   const handleRetry = () => {
@@ -96,6 +111,7 @@ function HomeScreen({ navigation }) {
     getOtherCourses.request();
 
     getMyInfo();
+    getTeachers();
   };
 
   return (
@@ -125,7 +141,7 @@ function HomeScreen({ navigation }) {
                       <AppText style={styles.goal} text='今天打算学点什么？' />
                     </View>
                     <TouchableOpacity
-                      onPress={() => navigation.navigate("个人信息")}>
+                      onPress={() => navigation.navigate("聊天列表")}>
                       <Image source={{ uri: avatar }} style={styles.avatar} />
                     </TouchableOpacity>
                   </View>
@@ -136,6 +152,7 @@ function HomeScreen({ navigation }) {
                       onPress={() => {
                         navigation.navigate("更多", {
                           categoryName: "搜索结果",
+                          myCourses: myCourses,
                         });
                       }}>
                       <EvilIcons name='search' size={28} color='black' />
@@ -149,20 +166,22 @@ function HomeScreen({ navigation }) {
                     cardContainerStyle={styles.cardContainer}
                     navigation={navigation}
                     data={getPopularCourses.data}
+                    myCourses={myCourses}
                   />
                   <AppCategory
                     viewStyle={styles.category}
                     categoryNameStyle={styles.categoryName}
-                    categoryName='本月最多学习'
+                    categoryName='最新上架'
                     categoryNameTextStyle={styles.categoryText}
                     cardContainerStyle={styles.cardContainer}
                     navigation={navigation}
                     data={getNewestCourses.data}
+                    myCourses={myCourses}
                   />
                   <AppCategory
                     viewStyle={styles.category}
                     categoryNameStyle={styles.categoryName}
-                    categoryName='本月最受欢迎老师'
+                    categoryName='最受欢迎老师'
                     categoryNameTextStyle={styles.categoryText}
                     cardContainerStyle={styles.cardContainer}
                     navigation={navigation}
@@ -170,6 +189,7 @@ function HomeScreen({ navigation }) {
                     tel={13839935677}
                     email='qzlu3773@163.com'
                     info='红红火火'
+                    data={teachers}
                   />
                   <View style={styles.more}>
                     <AppText text='为您推荐' style={styles.listText} />
@@ -178,6 +198,7 @@ function HomeScreen({ navigation }) {
                         navigation.navigate("更多", {
                           categoryName: "为您推荐",
                           data: getCommandCourses.data,
+                          myCourses,
                         })
                       }>
                       <EvilIcons name='arrow-right' size={28} color='black' />
@@ -200,6 +221,7 @@ function HomeScreen({ navigation }) {
                     people={item.saleNum}
                     price={item.price}
                     item={item}
+                    mycourse={myCourses.includes(item._id)}
                     navigation={navigation}
                   />
                 );
@@ -213,6 +235,7 @@ function HomeScreen({ navigation }) {
                         navigation.navigate("更多", {
                           categoryName: "其他精品课程",
                           data: getCommandCourses.data,
+                          myCourses,
                         })
                       }>
                       <EvilIcons name='arrow-right' size={28} color='black' />
@@ -235,6 +258,7 @@ function HomeScreen({ navigation }) {
                         price={item.price}
                         people={item.saleNum}
                         item={item}
+                        mycourse={myCourses.includes(item._id)}
                         navigation={navigation}
                       />
                     )}

@@ -1,12 +1,13 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2021-11-29 22:18:14
- * @LastEditTime: 2022-04-09 12:51:23
+ * @LastEditTime: 2022-04-12 16:09:45
  * @Description: 分节视频
  */
 import React from "react";
 import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import ProgressCircle from "react-native-progress-circle";
+import Toast from "react-native-toast-message";
 
 import colors from "../config/colors";
 import AppText from "./AppText";
@@ -19,18 +20,29 @@ export default function Chapters({
   navigation,
   bg,
   videoUri,
+  myCourse,
 }) {
+  const showErrorToast = () => {
+    Toast.show({
+      type: "error",
+      text1: "还未购买该课程",
+      text2: "请先购买再进行学习哦",
+    });
+  };
+
   return (
     <>
       {navigation && (
         <TouchableOpacity
           style={[styles.container, bg ? { backgroundColor: bg } : null]}
           onPress={() =>
-            navigation.navigate("视频", {
-              videoUri,
-              num,
-              title,
-            })
+            myCourse
+              ? navigation.navigate("视频", {
+                  videoUri,
+                  num,
+                  title,
+                })
+              : showErrorToast()
           }>
           <>
             <View style={styles.number}>
@@ -74,6 +86,7 @@ export default function Chapters({
           </ProgressCircle>
         </View>
       )}
+      <Toast visibilityTime={3000} />
     </>
   );
 }

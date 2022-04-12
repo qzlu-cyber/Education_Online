@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-21 18:47:19
- * @LastEditTime: 2022-04-09 17:12:23
+ * @LastEditTime: 2022-04-12 16:25:10
  * @Description: 我的 页导航
  */
 import React from "react";
@@ -21,6 +21,8 @@ import SettingScreen from "../screens/SettingScreen";
 import ArticleScreen from "../screens/ArticleScreen";
 import EditArticleScreen from "../screens/EditArticleScreen";
 import ChatScreen from "../screens/ChatScreen";
+import EditCourseCommentScreen from "../screens/EditCourseCommentScreen";
+import ChatListScreen from "../screens/ChatListScreen";
 // import CourseJudgementScreen from "../screens/CourseJudgementScreen";
 
 const Stack = createNativeStackNavigator();
@@ -32,6 +34,14 @@ const AccountNavigator = () => (
     <Stack.Screen
       name='课程详情'
       component={CourseDetailScreen}
+      options={({ route }) => ({
+        title: route.params.courseName,
+        headerShown: true,
+      })}
+    />
+    <Stack.Screen
+      name='评价课程'
+      component={EditCourseCommentScreen}
       options={({ route }) => ({
         title: route.params.courseName,
         headerShown: true,
@@ -56,6 +66,13 @@ const AccountNavigator = () => (
       component={MoreScreen}
       options={({ route }) => ({
         title: route.params.categoryName,
+        headerShown: true,
+      })}
+    />
+    <Stack.Screen
+      name='聊天列表'
+      component={ChatListScreen}
+      options={() => ({
         headerShown: true,
       })}
     />

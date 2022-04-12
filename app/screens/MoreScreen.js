@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-09 18:37:22
- * @LastEditTime: 2022-04-08 10:24:45
+ * @LastEditTime: 2022-04-12 15:23:37
  * @Description: icon更多
  */
 import React, { useMemo, useEffect } from "react";
@@ -38,6 +38,7 @@ export default function MoreScreen({ navigation, route }) {
                 item={item}
                 textStyle={styles.title}
                 navigation={navigation}
+                myCourses={route.params.myCourses}
               />
             );
           }}
@@ -58,6 +59,7 @@ export default function MoreScreen({ navigation, route }) {
                 item={item}
                 textStyle={styles.title}
                 navigation={navigation}
+                myCourses={route.params.myCourses}
               />
             );
           }}

@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 16:33:20
- * @LastEditTime: 2022-04-09 15:50:24
+ * @LastEditTime: 2022-04-12 15:05:45
  * @Description: 带有标签的卡片
  */
 import React from "react";
@@ -15,17 +15,20 @@ function AppCardWithSign({
   cardStyle,
   imageStyle,
   imgSource,
-  text,
   signText,
   signTextStyle,
   navigation,
   item,
+  myCourses,
 }) {
   return (
     <View>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("课程详情", { item: item });
+          navigation.navigate("课程详情", {
+            item: item,
+            mycourse: myCourses.includes(item._id),
+          });
         }}>
         <View style={[styles.card, cardStyle]}>
           <Image source={imgSource} style={[imageStyle]} resizeMode='cover' />

@@ -1,26 +1,26 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-23 17:30:12
- * @LastEditTime: 2022-04-09 16:57:21
+ * @LastEditTime: 2022-04-12 16:12:29
  * @Description: 描述
  */
-import React from "react";
+import React, { useEffect, useState, Component } from "react";
 import {
   StyleSheet,
   ScrollView,
   View,
-  Image,
-  Dimensions,
   FlatList,
+  Dimensions,
+  Platform,
 } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { RichEditor } from "react-native-pell-rich-editor";
+import AutoHeightWebView from "react-native-autoheight-webview";
 
-import Footer from "../components/Footer";
 import AppComment from "../components/AppComment";
-import { comments } from "../config/db";
 import colors from "../config/colors";
 import Chapters from "../components/Chapters";
+
+import coursesApi from "../api/courses";
 
 const MaterialTopTab = createMaterialTopTabNavigator();
 
@@ -33,28 +33,34 @@ const CourseDetailTab = () => (
 );
 
 let courseDetail;
+let myCourse;
 
-export default function CourseNavigator({ course }) {
+export default function CourseNavigator({ course, isMyCourse }) {
   courseDetail = course;
+  myCourse = isMyCourse;
+
   return <CourseDetailTab />;
 }
 
 function CourseCatelogScreen({ navigation }) {
   return (
     <ScrollView style={styles.container}>
-      {courseDetail.courseDetail.map((item, index) => (
-        <Chapters
-          key={index}
-          color='#fde6e6'
-          percent={25}
-          duration='2 hours, 20 minutes'
-          title={item.title}
-          num={index + 1}
-          navigation={navigation}
-          bg={colors.test}
-          videoUri={item.uri}
-        />
-      ))}
+      {courseDetail.courseDetail.map((item, index) => {
+        return (
+          <Chapters
+            key={index}
+            color='#fde6e6'
+            percent={25}
+            duration='2 hours, 20 minutes'
+            title={item.title}
+            num={index + 1}
+            navigation={navigation}
+            bg={colors.test}
+            videoUri={item.uri}
+            myCourse={myCourse}
+          />
+        );
+      })}
     </ScrollView>
   );
 }
@@ -77,35 +83,99 @@ const BaseScript = `
         setTimeout(changeHeight, 300);
     } ())
     `;
+class CourseInfoScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showWebView: false,
+    };
+  }
 
-function CourseInfoScreen() {
-  return (
-    <View>
-      <ScrollView>
-        <RichEditor
-          initialContentHTML={courseDetail.description}
-          disabled={true}
-          useContainer={true}
-          initialHeight={1000}
-          enterKeyHint={"done"}
-        />
-      </ScrollView>
-      <Footer />
-    </View>
-  );
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        showWebView: true,
+      });
+    }, 1000);
+  }
+
+  render() {
+    return (
+      <View style={styles.courseInfoContainer}>
+        {Platform.OS === "ios" && (
+          <AutoHeightWebView
+            ref={(ref) => {
+              this.webview = ref;
+            }}
+            style={{
+              width: Dimensions.get("window").width - 20,
+              marginTop: 10,
+            }}
+            source={{ html: `${courseDetail.description}` }}
+            onNavigationStateChange={(event) => {
+              if (event.url) {
+                this.setState({ link: event.url });
+                this.webview.stopLoading();
+                if (event.url !== "about:blank") {
+                  Linking.openURL(event.url).catch((err) => console.error(err));
+                }
+              }
+            }}
+          />
+        )}
+        {Platform.OS === "android" && this.state.showWebView && (
+          <AutoHeightWebView
+            ref={(ref) => {
+              this.webview = ref;
+            }}
+            style={{
+              width: Dimensions.get("window").width - 20,
+              marginTop: 10,
+            }}
+            source={{ html: `${courseDetail.description}` }}
+            onLoadStart={() => {
+              Platform.select({
+                android: () => this.webview.goBack(),
+              })();
+            }}
+            onShouldStartLoadWithRequest={(event) => {
+              if (event.url === "about:blank") return false;
+              else {
+                Linking.openURL(event.url).catch((err) => console.error(err));
+                return true;
+              }
+            }}
+          />
+        )}
+      </View>
+    );
+  }
 }
 
 function CourseJudgementScreen({ navigation }) {
+  const [comments, setComments] = useState([]);
+  const getCourseComments = async () => {
+    const result = await coursesApi.getJudge(courseDetail._id);
+
+    if (result.ok) {
+      setComments(result.data.comments);
+    }
+  };
+
+  useEffect(() => {
+    getCourseComments();
+  }, []);
+
   return (
     <FlatList
       data={comments}
-      keyExtractor={(comment) => comment.id.toString()}
+      keyExtractor={(index) => index}
       renderItem={({ item }) => (
         <AppComment
-          nickName={item.nickName}
+          nickName={item.userName}
           avatar={item.avatar}
-          content={item.content}
-          star={item.star}
+          content={item.comment}
+          star={item.stars}
           navigation={navigation}
         />
       )}
@@ -145,7 +215,6 @@ const styles = StyleSheet.create({
   //
   courseInfoContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    marginHorizontal: 20,
   },
 });

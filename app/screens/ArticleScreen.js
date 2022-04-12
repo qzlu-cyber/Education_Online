@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 14:03:47
- * @LastEditTime: 2022-04-11 19:56:48
+ * @LastEditTime: 2022-04-12 16:13:11
  * @Description: 动态详情页
  */
 import React, { Component } from "react";
@@ -22,13 +22,12 @@ import moment from "moment";
 import { AntDesign, Ionicons, Entypo } from "@expo/vector-icons";
 import { RichEditor } from "react-native-pell-rich-editor";
 import AutoHeightWebView from "react-native-autoheight-webview";
+import Toast from "react-native-toast-message";
 
-import { commentsData } from "../config/db";
 import AppText from "../components/AppText";
 
 import articlesApi from "../api/articles";
 import commentsApi from "../api/comments";
-import usersApi from "../api/users";
 export default class ArticleScreen extends Component {
   constructor(props) {
     super(props);
@@ -113,25 +112,45 @@ export default class ArticleScreen extends Component {
 
   //给评论点赞
   handleLike = async (comment) => {
-    if (!this.state.isLikeComment) {
-      this.setState({
-        isLikeComment: true,
-        commentLike: comment.like,
-      });
+    // if (!this.state.isLikeComment) {
+    //   this.setState({
+    //     isLikeComment: true,
+    //     commentLike: comment.like,
+    //   });
 
-      console.log(comment);
+    //   console.log(comment);
 
-      const result = await commentsApi.likeComments(comment);
-      // console.log(result);
-    } else {
-      this.setState({
-        isLikeComment: false,
-        commentLike: comment.like,
-      });
+    //   const result = await commentsApi.likeComments(comment);
+    //   // console.log(result);
+    // } else {
+    //   this.setState({
+    //     isLikeComment: false,
+    //     commentLike: comment.like,
+    //   });
 
-      const result = await commentsApi.likeComments(comment);
-      console.log(result);
-    }
+    //   const result = await commentsApi.likeComments(comment);
+    //   console.log(result);
+    // }
+
+    this.setState({
+      isLikeComment: !this.state.isLikeComment,
+    });
+  };
+
+  showErrorToast = (msg) => {
+    Toast.show({
+      type: "error",
+      text1: "评论失败",
+      text2: msg,
+    });
+  };
+
+  showSuccessToast = (msg) => {
+    Toast.show({
+      type: "success",
+      text1: "成功",
+      text2: msg,
+    });
   };
 
   //给文章评论
@@ -141,11 +160,20 @@ export default class ArticleScreen extends Component {
       toUser: this.props.route.params.userId, //给谁发的评论
       article: this.props.route.params.article._id, //在哪篇文章下的评论
     };
-    const result = await commentsApi.addComments(comment);
-    if (result.ok)
-      this.setState({
-        comment: "",
-      });
+
+    if (comment) {
+      const result = await commentsApi.addComments(comment);
+      if (result.ok) {
+        this.setState({
+          comment: "",
+        });
+        this.showSuccessToast("评论成功");
+      } else {
+        this.showErrorToast(result.data);
+      }
+    } else {
+      this.showErrorToast("评论内容不能为空");
+    }
   };
 
   //楼中楼评论
@@ -168,9 +196,15 @@ export default class ArticleScreen extends Component {
       };
     }
 
-    const result = await commentsApi.addCicComments(comment);
+    if (comment) {
+      //评论内容不为空
+      const result = await commentsApi.addCicComments(comment);
 
-    console.log(result.data);
+      if (result.ok) this.showSuccessToast("评论成功");
+      else this.showErrorToast(result.data);
+    } else {
+      this.showErrorToast("评论内容不能为空");
+    }
   };
 
   componentDidMount() {
@@ -190,9 +224,6 @@ export default class ArticleScreen extends Component {
     let likeIcon = isLike ? "heart" : "hearto";
     let likeIconColor = isLike ? "#2e64e5" : "#333";
     const navigation = this.props.navigation;
-
-    let likeCommentIcon = this.state.isLikeComment ? "heart" : "hearto";
-    let likeCommentIconColor = this.state.isLikeComment ? "#2e64e5" : "#333";
 
     moment.updateLocale("zh-cn", {
       relativeTime: {
@@ -265,7 +296,7 @@ export default class ArticleScreen extends Component {
                     width: Dimensions.get("window").width - 20,
                     marginTop: 35,
                   }}
-                  source={{ html: this.state.html }}
+                  source={{ html: `${this.state.html}` }}
                   onLoadStart={() => {
                     Platform.select({
                       android: () => this.webview.goBack(),
@@ -300,13 +331,33 @@ export default class ArticleScreen extends Component {
           }
           data={this.state.comments}
           renderItem={({ item }) => {
+            // //TODO: 点赞评论
             const comentId = item.comment._id;
-            //TODO: 点赞评论
-            if (this.state.likedComments.indexOf(comentId) > -1) {
-              console.log("liked");
-            } else {
-              console.log("unlike");
-            }
+            // let liked = false;
+            // let likeCommentIcon = "hearto";
+            // let likeCommentIconColor = "#333";
+            // // if (this.state.likedComments.indexOf(comentId) > -1) {
+            // //   console.log("liked");
+            // // } else {
+            // //   console.log("unlike");
+            // // }
+            // const handleLike = async (comment) => {
+            //   console.log(comment);
+
+            //   if (comment.liked) {
+            //     item.comment.likes -= 1;
+            //     liked = false;
+            //     likeCommentIcon = "hearto";
+            //     likeCommentIconColor = "#333";
+            //   } else {
+            //     item.comment.likes += 1;
+            //     liked = true;
+            //     likeCommentIcon = "heart";
+            //     likeCommentIconColor = "#2e64e5";
+            //   }
+
+            //   console.log(liked, likeCommentIcon, likeCommentIconColor);
+            // };
             return (
               <View style={styles.commentContainer}>
                 <FlatList
@@ -339,19 +390,22 @@ export default class ArticleScreen extends Component {
                             </Text>
                           </View>
                         </TouchableOpacity>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                           style={styles.interaction}
-                          onPress={() => {
-                            this.state.isLikeComment && item.comment.likes > 0
-                              ? this.handleLike({
-                                  _id: item.comment._id,
-                                  likes: item.comment.likes + 1,
-                                })
-                              : this.handleLike({
-                                  _id: item.comment._id,
-                                  likes: item.comment.likes - 1,
-                                });
-                          }}>
+                          // onPress={() => {
+                          //   this.state.isLikeComment
+                          //     ? handleLike({
+                          //         _id: item.comment._id,
+                          //         likes: item.comment.likes - 1,
+                          //         liked: true, //已点过赞
+                          //       })
+                          //     : handleLike({
+                          //         _id: item.comment._id,
+                          //         likes: item.comment.likes + 1,
+                          //         liked: false, //未点过赞
+                          //       });
+                          // }}
+                          >
                           <AntDesign
                             name={likeCommentIcon}
                             size={20}
@@ -362,7 +416,7 @@ export default class ArticleScreen extends Component {
                               ? "赞"
                               : item.comment.likes + "个赞"}
                           </Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                       </View>
                       <TouchableOpacity
                         style={styles.comment}
@@ -438,6 +492,7 @@ export default class ArticleScreen extends Component {
             <Entypo name='paper-plane' size={24} color='#fff' />
           </TouchableOpacity>
         </View>
+        <Toast visibilityTime={3000} />
       </View>
     );
   }

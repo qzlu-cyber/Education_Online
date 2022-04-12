@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 17:48:58
- * @LastEditTime: 2022-02-12 17:14:55
+ * @LastEditTime: 2022-04-12 14:43:22
  * @Description: 首页老师卡片
  */
 import React from "react";
@@ -10,13 +10,26 @@ import { TouchableOpacity, View, Image, StyleSheet } from "react-native";
 import colors from "../config/colors";
 import AppText from "./AppText";
 
-//TODO: 点击跳转到老师界面，显示老师的所有课程
-function AppTeacherCard({ navigation, teacherName, tel, email, info }) {
+// 点击跳转到老师界面，显示老师的所有课程
+function AppTeacherCard({
+  navigation,
+  teacherName,
+  tel,
+  email,
+  info,
+  teacher,
+}) {
   return (
     <View>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("老师详情", { teacherName, tel, email, info });
+          navigation.navigate("老师详情", {
+            teacherName,
+            tel,
+            email,
+            info,
+            teacher,
+          });
         }}>
         <View style={[styles.card]}>
           <Image
@@ -30,7 +43,7 @@ function AppTeacherCard({ navigation, teacherName, tel, email, info }) {
           />
         </View>
       </TouchableOpacity>
-      <AppText text='人名' style={styles.title} />
+      <AppText text={teacherName} style={styles.title} />
       <AppText text='React大神' style={styles.subtitle} />
     </View>
   );

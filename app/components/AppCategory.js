@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 15:32:28
- * @LastEditTime: 2022-04-11 07:27:48
+ * @LastEditTime: 2022-04-12 15:28:43
  * @Description: 首页各种种类组件
  */
 import { View, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
@@ -20,12 +20,11 @@ function AppCategory({
   categoryName,
   categoryNameTextStyle,
   cardContainerStyle,
-  teacherName,
   tel,
-  email,
   info,
   navigation,
   data,
+  myCourses,
 }) {
   return (
     <View style={[styles.popular, viewStyle]}>
@@ -34,14 +33,17 @@ function AppCategory({
           text={categoryName}
           style={[styles.categoryText, categoryNameTextStyle]}
         />
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("更多", {
-              data,
-            })
-          }>
-          <EvilIcons name='arrow-right' size={28} color='black' />
-        </TouchableOpacity>
+        {categoryName !== "最受欢迎老师" && (
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("更多", {
+                data,
+                myCourses,
+              })
+            }>
+            <EvilIcons name='arrow-right' size={28} color='black' />
+          </TouchableOpacity>
+        )}
       </View>
       {categoryName === "最受欢迎" && (
         <ScrollView
@@ -49,82 +51,75 @@ function AppCategory({
           horizontal={true}
           showsHorizontalScrollIndicator={false}>
           {data &&
-            data.map((item) => (
-              <AppCard
-                key={item._id}
-                item={item}
-                cardStyle={styles.card}
-                imageStyle={styles.img}
-                imgSource={{ uri: item.cover }}
-                text={item.name}
-                textStyle={styles.title}
-                navigation={navigation}
-              />
-            ))}
+            data.map((item, index) => {
+              if (index < 4)
+                return (
+                  <AppCard
+                    key={item._id}
+                    item={item}
+                    cardStyle={styles.card}
+                    imageStyle={styles.img}
+                    imgSource={{ uri: item.cover }}
+                    text={item.name}
+                    textStyle={styles.title}
+                    navigation={navigation}
+                    myCourses={myCourses}
+                  />
+                );
+            })}
         </ScrollView>
       )}
-      {categoryName === "本月最多学习" && (
+      {categoryName === "最新上架" && (
         <ScrollView
           style={[styles.cardContainer, cardContainerStyle]}
           horizontal={true}
           showsHorizontalScrollIndicator={false}>
           {data &&
-            data.map((item) => {
-              return (
-                <AppCardWithSign
-                  key={item._id}
-                  item={item}
-                  cardStyle={styles.card}
-                  imageStyle={styles.img}
-                  imgSource={{
-                    uri:
-                      item.cover.length > 100
-                        ? `data:image/jpeg;base64,${item.cover}`
-                        : item.cover,
-                  }}
-                  text={item.name}
-                  textStyle={styles.title}
-                  signText='上新'
-                  signTextStyle={styles.text}
-                  navigation={navigation}
-                />
-              );
+            data.map((item, index) => {
+              if (index < 4)
+                return (
+                  <AppCardWithSign
+                    key={item._id}
+                    item={item}
+                    cardStyle={styles.card}
+                    imageStyle={styles.img}
+                    imgSource={{
+                      uri:
+                        item.cover.length > 100
+                          ? `data:image/jpeg;base64,${item.cover}`
+                          : item.cover,
+                    }}
+                    text={item.name}
+                    textStyle={styles.title}
+                    signText='上新'
+                    signTextStyle={styles.text}
+                    navigation={navigation}
+                    myCourses={myCourses}
+                  />
+                );
             })}
         </ScrollView>
       )}
-      {categoryName === "本月最受欢迎老师" && (
+      {categoryName === "最受欢迎老师" && (
         <ScrollView
           style={[styles.cardContainer, cardContainerStyle]}
           horizontal={true}
           showsHorizontalScrollIndicator={false}>
-          <AppTeacherCard
-            teacherName={teacherName}
-            tel={tel}
-            email={email}
-            info={info}
-            navigation={navigation}
-          />
-          <AppTeacherCard
-            teacherName={teacherName}
-            tel={tel}
-            email={email}
-            info={info}
-            navigation={navigation}
-          />
-          <AppTeacherCard
-            teacherName={teacherName}
-            tel={tel}
-            email={email}
-            info={info}
-            navigation={navigation}
-          />
-          <AppTeacherCard
-            teacherName={teacherName}
-            tel={tel}
-            email={email}
-            info={info}
-            navigation={navigation}
-          />
+          {data &&
+            data.map((teacher, index) => {
+              if (index < 4)
+                return (
+                  <AppTeacherCard
+                    key={teacher._id}
+                    teacherName={teacher.name}
+                    tel={tel}
+                    email={teacher.email}
+                    info={info}
+                    navigation={navigation}
+                    teacher={teacher}
+                  />
+                );
+            })}
         </ScrollView>
       )}
     </View>

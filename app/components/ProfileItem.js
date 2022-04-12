@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-27 17:54:08
- * @LastEditTime: 2022-04-11 08:16:16
+ * @LastEditTime: 2022-04-12 16:13:57
  * @Description: 个人信息项
  */
 import React, { useState, useEffect } from "react";
@@ -28,7 +28,6 @@ export default function ProfileItem({
   initiaAvatar,
   signature,
 }) {
-  console.log(signature);
   const [imageUri, setImageUri] = useState("");
   const [value, onChangeText] = React.useState(signature);
 

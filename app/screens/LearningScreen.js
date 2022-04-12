@@ -19,9 +19,10 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import ProgressCircle from "react-native-progress-circle";
 
-import { getMovies } from "../config/api";
 import Genres from "../components/Genres";
 import AppText from "../components/AppText";
+
+import usersApi from "../api/users";
 
 const { width, height } = Dimensions.get("window");
 const SPACING = 10;
@@ -40,11 +41,11 @@ const Backdrop = ({ movies, scrollX }) => {
     <View style={{ height: BACKDROP_HEIGHT, width, position: "absolute" }}>
       <FlatList
         data={movies.reverse()}
-        keyExtractor={(item) => item.key + "-backdrop"}
+        keyExtractor={(item, index) => index + "-backdrop"}
         removeClippedSubviews={false}
         contentContainerStyle={{ width, height: BACKDROP_HEIGHT }}
         renderItem={({ item, index }) => {
-          if (!item.backdrop) {
+          if (!item.cover) {
             return null;
           }
           const translateX = scrollX.interpolate({
@@ -62,7 +63,12 @@ const Backdrop = ({ movies, scrollX }) => {
                 overflow: "hidden",
               }}>
               <Image
-                source={{ uri: item.backdrop }}
+                source={{
+                  uri:
+                    item.cover.length > 100
+                      ? `data:image/jpeg;base64,${item.cover}`
+                      : item.cover,
+                }}
                 style={{
                   width,
                   height: BACKDROP_HEIGHT,
@@ -92,10 +98,15 @@ export default function LearningScreen({ navigation }) {
   const scrollX = React.useRef(new Animated.Value(0)).current;
   React.useEffect(() => {
     const fetchData = async () => {
-      const movies = await getMovies();
+      const result = await usersApi.getMyCourses();
+      // const movies = await getMovies();
       // Add empty items to create fake space
       // [empty_item, ...movies, empty_item]
-      setMovies([{ key: "empty-left" }, ...movies, { key: "empty-right" }]);
+      setMovies([
+        { key: "empty-left" },
+        ...result.data,
+        { key: "empty-right" },
+      ]);
     };
 
     if (movies.length === 0) {
@@ -113,7 +124,7 @@ export default function LearningScreen({ navigation }) {
       <Animated.FlatList
         showsHorizontalScrollIndicator={false}
         data={movies}
-        keyExtractor={(item) => item.key}
+        keyExtractor={(item, index) => index}
         horizontal
         bounces={false}
         decelerationRate={Platform.OS === "ios" ? 0 : 0.98}
@@ -127,7 +138,7 @@ export default function LearningScreen({ navigation }) {
         )}
         scrollEventThrottle={16}
         renderItem={({ item, index }) => {
-          if (!item.poster) {
+          if (!item.cover) {
             return <View style={{ width: EMPTY_ITEM_SIZE }} />;
           }
 
@@ -144,7 +155,11 @@ export default function LearningScreen({ navigation }) {
           });
 
           return (
-            <TouchableOpacity style={{ width: ITEM_SIZE }}>
+            <TouchableOpacity
+              style={{ width: ITEM_SIZE }}
+              onPress={() =>
+                navigation.navigate("课程详情", { item, mycourse: true })
+              }>
               <Animated.View
                 style={{
                   marginHorizontal: SPACING,
@@ -155,15 +170,20 @@ export default function LearningScreen({ navigation }) {
                   borderRadius: 34,
                 }}>
                 <Image
-                  source={{ uri: item.poster }}
+                  source={{
+                    uri:
+                      item.cover.length > 100
+                        ? `data:image/jpeg;base64,${item.cover}`
+                        : item.cover,
+                  }}
                   style={styles.posterImage}
                 />
                 <Text style={{ fontSize: 24 }} numberOfLines={1}>
-                  {item.title}
+                  {item.name}
                 </Text>
-                <Genres genres={item.genres} />
+                <Genres genres={[item.tags]} />
                 <Text style={{ fontSize: 12 }} numberOfLines={3}>
-                  {item.description}
+                  {item.description.replace(/<[^>]*>|/g, "")}
                 </Text>
                 <View style={styles.duration}>
                   <AppText text='共10小时37分钟' style={styles.subtitle} />

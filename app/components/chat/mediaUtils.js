@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-18 16:22:54
- * @LastEditTime: 2022-02-18 18:30:16
+ * @LastEditTime: 2022-04-12 16:14:07
  * @Description: 描述
  */
 import * as ImagePicker from "expo-image-picker";
@@ -24,7 +24,6 @@ export async function pickImageAsync(onSend) {
 export async function takePictureAsync(onSend) {
   try {
     const getCamera = await ImagePicker.requestCameraPermissionsAsync();
-    console.log(getCamera);
     if (getCamera.status === "granted") {
       const result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
