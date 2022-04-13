@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-18 16:31:02
- * @LastEditTime: 2022-02-18 17:27:28
+ * @LastEditTime: 2022-04-13 17:03:45
  * @Description: 描述
  */
 export default [
@@ -10,7 +10,7 @@ export default [
     text: "#awesome 3",
     createdAt: new Date(),
     user: {
-      _id: 1,
+      _id: "62529f756d07e5190ebd9a94",
       name: "Developer",
     },
   },
@@ -19,7 +19,7 @@ export default [
     text: "#awesome 2",
     createdAt: new Date(),
     user: {
-      _id: 1,
+      _id: "62529f756d07e5190ebd9a94",
       name: "Developer",
     },
   },
@@ -28,7 +28,7 @@ export default [
     text: "#awesome",
     createdAt: new Date(),
     user: {
-      _id: 1,
+      _id: "62529f756d07e5190ebd9a94",
       name: "Developer",
     },
   },
@@ -37,7 +37,7 @@ export default [
     text: "Paris",
     createdAt: new Date(),
     user: {
-      _id: 2,
+      _id: "624d5f825c5e1906920afbfb",
       name: "React Native",
     },
     image:
@@ -50,23 +50,8 @@ export default [
     text: "Send me a picture!",
     createdAt: new Date(),
     user: {
-      _id: 1,
+      _id: "62529f756d07e5190ebd9a94",
       name: "Developer",
-    },
-  },
-  {
-    _id: 4,
-    text: "",
-    createdAt: new Date(),
-    user: {
-      _id: 2,
-      name: "React Native",
-    },
-    sent: true,
-    received: true,
-    location: {
-      latitude: 48.864601,
-      longitude: 2.398704,
     },
   },
   {
@@ -74,7 +59,7 @@ export default [
     text: "Where are you?",
     createdAt: new Date(),
     user: {
-      _id: 1,
+      _id: "62529f756d07e5190ebd9a94",
       name: "Developer",
     },
   },
@@ -83,7 +68,7 @@ export default [
     text: "Yes, and I use #GiftedChat!",
     createdAt: new Date(),
     user: {
-      _id: 2,
+      _id: "624d5f825c5e1906920afbfb",
       name: "React Native",
     },
     sent: true,
@@ -94,7 +79,7 @@ export default [
     text: "Are you building a chat app?",
     createdAt: new Date(),
     user: {
-      _id: 1,
+      _id: "62529f756d07e5190ebd9a94",
       name: "Developer",
     },
   },

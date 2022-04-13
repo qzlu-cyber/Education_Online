@@ -1,59 +1,83 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-18 15:43:52
- * @LastEditTime: 2022-02-18 18:48:01
+ * @LastEditTime: 2022-04-13 18:51:28
  * @Description: 描述
  */
 /* eslint-disable prettier/prettier */
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { Component } from "react";
-import { StyleSheet, Text, Platform } from "react-native";
+import { Text, Platform } from "react-native";
+import io from "socket.io-client";
 import { Bubble, GiftedChat, Send } from "react-native-gifted-chat";
 import "dayjs/locale/zh-cn";
 
 import AccessoryBar from "../components/chat/AccessoryBar";
 import CustomActions from "../components/chat/CustomActions";
-import messagesData from "../components/chat/messages";
 import earlierMessages from "../components/chat/earlierMessages";
 
-const filterBotMessages = (message) =>
-  !message.system && message.user && message.user._id && message.user._id === 2;
+import chatMessagesApi from "../api/chatMessages";
 
-const findStep = (step) => (message) => message._id === step;
-
-const user = {
-  _id: 1,
-  name: "Developer",
-};
-
-const otherUser = {
-  _id: 2,
-  name: "React Native",
-  avatar: "https://facebook.github.io/react/img/logo_og.png",
-};
+function initIO() {
+  if (!io.socket) {
+    return io("http://192.168.31.52:3000");
+  }
+}
 
 export default class ChatScreen extends Component {
-  state = {
-    inverted: false,
-    step: 0,
-    messages: [],
-    loadEarlier: true,
-    typingText: null,
-    isLoadingEarlier: false,
-    appIsReady: false,
-    isTyping: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      inverted: false,
+      step: 0,
+      messages: [],
+      loadEarlier: true,
+      typingText: null,
+      isLoadingEarlier: false,
+      appIsReady: false,
+      isTyping: false,
+    };
+  }
 
   _isMounted = false;
+
+  user = {
+    _id: this.props.route.params.user._id,
+    name: this.props.route.params.user.name,
+  };
+
+  otherUser = {
+    _id: this.props.route.params.item._id,
+    name: this.props.route.params.item.name,
+    avatar: this.props.route.params.item.avatar,
+  };
+
+  getMessagesList = async () => {
+    const result = await chatMessagesApi.getMessagesList();
+    const userChat_id = [
+      this.props.route.params.user._id,
+      this.props.route.params.item._id,
+    ]
+      .sort()
+      .join("_");
+    const our = result.data.data.messagesData.filter(
+      (message) => message.chat_id === userChat_id
+    );
+    let messages = [];
+    for (let i = 0; i < our.length; i++) {
+      messages.unshift(our[i].content[0]);
+    }
+    this.setState({
+      messages: messages,
+      appIsReady: true,
+      isTyping: false,
+    });
+  };
 
   componentDidMount() {
     this._isMounted = true;
     // init with only system messages
-    this.setState({
-      messages: messagesData, // messagesData.filter(message => message.system),
-      appIsReady: true,
-      isTyping: false,
-    });
+    this.getMessagesList();
   }
 
   componentWillUnmount() {
@@ -98,6 +122,12 @@ export default class ChatScreen extends Component {
         step,
       };
     });
+    const socket = initIO();
+    socket.emit("sendMessage", {
+      from: this.props.route.params.user._id,
+      to: this.otherUser._id,
+      content: messages,
+    });
   };
 
   renderCustomView(props) {
@@ -124,6 +154,7 @@ export default class ChatScreen extends Component {
   };
 
   onSendFromUser = (messages) => {
+    const user = this.user;
     const createdAt = new Date();
     const messagesToUpload = messages.map((message) => ({
       ...message,
@@ -132,7 +163,6 @@ export default class ChatScreen extends Component {
       _id: Math.round(Math.random() * 1000000),
     }));
     this.onSend(messagesToUpload);
-    console.log(messagesToUpload);
   };
 
   renderAccessory = () => <AccessoryBar onSend={this.onSendFromUser} />;
@@ -180,7 +210,7 @@ export default class ChatScreen extends Component {
         loadEarlier={this.state.loadEarlier}
         onLoadEarlier={this.onLoadEarlier}
         isLoadingEarlier={this.state.isLoadingEarlier}
-        user={user}
+        user={this.user}
         scrollToBottom
         onLongPressAvatar={(user) => alert(JSON.stringify(user))}
         onPressAvatar={() => alert("short press")}

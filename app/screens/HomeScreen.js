@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 10:49:57
- * @LastEditTime: 2022-04-12 16:25:29
+ * @LastEditTime: 2022-04-13 15:01:43
  * @Description: 首页
  */
 import React, { useEffect, useRef, useState } from "react";
@@ -141,7 +141,11 @@ function HomeScreen({ navigation }) {
                       <AppText style={styles.goal} text='今天打算学点什么？' />
                     </View>
                     <TouchableOpacity
-                      onPress={() => navigation.navigate("聊天列表")}>
+                      onPress={() =>
+                        navigation.navigate("聊天列表", {
+                          user: user,
+                        })
+                      }>
                       <Image source={{ uri: avatar }} style={styles.avatar} />
                     </TouchableOpacity>
                   </View>
