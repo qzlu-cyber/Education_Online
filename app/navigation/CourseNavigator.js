@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-23 17:30:12
- * @LastEditTime: 2022-04-12 16:12:29
+ * @LastEditTime: 2022-04-14 14:31:53
  * @Description: 描述
  */
 import React, { useEffect, useState, Component } from "react";
@@ -176,7 +176,6 @@ function CourseJudgementScreen({ navigation }) {
           avatar={item.avatar}
           content={item.comment}
           star={item.stars}
-          navigation={navigation}
         />
       )}
     />

@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-24 18:37:58
- * @LastEditTime: 2022-04-12 11:35:24
+ * @LastEditTime: 2022-04-14 14:30:41
  * @Description: 评论组件
  */
 import React from "react";
@@ -11,13 +11,7 @@ import { Foundation } from "@expo/vector-icons";
 import AppText from "./AppText";
 import colors from "../config/colors";
 
-export default function AppComment({
-  nickName,
-  avatar,
-  content,
-  star,
-  navigation,
-}) {
+export default function AppComment({ nickName, avatar, content, star }) {
   let stars = [false, false, false, false, false];
   for (let i = 0; i < star; i++) {
     stars[i] = true;
@@ -25,12 +19,10 @@ export default function AppComment({
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>
-        <TouchableOpacity
-          style={styles.info}
-          onPress={() => navigation.navigate("聊天", { userName: nickName })}>
+        <View style={styles.info}>
           <Image source={{ uri: avatar }} style={styles.avatar} />
           <AppText text={nickName} style={styles.content} />
-        </TouchableOpacity>
+        </View>
         <View style={styles.star}>
           {stars.map((star, index) => {
             if (star)

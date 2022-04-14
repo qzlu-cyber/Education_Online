@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 10:43:36
- * @LastEditTime: 2022-04-11 19:47:29
+ * @LastEditTime: 2022-04-14 13:16:44
  * @Description: 动态 组件
  */
 import React, { useEffect, useState } from "react";
@@ -91,6 +91,7 @@ const PostCard = ({ item, navigation }) => {
           userName: getUsers.data.name,
           userId: getUsers.data._id,
           likedComments,
+          toUser: getUsers.data,
         })
       }>
       <TouchableOpacity style={styles.userInfo}>

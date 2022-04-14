@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-04-12 16:22:22
- * @LastEditTime: 2022-04-13 18:49:16
+ * @LastEditTime: 2022-04-14 10:14:05
  * @Description: 聊天列表
  */
 import React, { useState, useEffect } from "react";
@@ -16,6 +16,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import io from "socket.io-client";
 import moment from "moment";
 import "dayjs/locale/zh-cn";
 
@@ -41,8 +42,15 @@ const ChatListScreen = ({ route }) => {
   const [count, setCount] = useState(0);
   const [allUnReadCount, setAllUnReadCount] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
+  const [socket, setSocket] = useState({});
 
   const navigation = useNavigation();
+
+  const initIO = () => {
+    if (!io.socket) {
+      setSocket(io("http://192.168.31.52:3000"));
+    }
+  };
 
   const getMessagesList = async () => {
     try {
@@ -117,6 +125,10 @@ const ChatListScreen = ({ route }) => {
   };
 
   useEffect(() => {
+    initIO();
+  }, []);
+
+  useEffect(() => {
     getMessagesList();
   }, [count]);
 
@@ -175,6 +187,7 @@ const ChatListScreen = ({ route }) => {
                   userName: item.name,
                   user,
                   item,
+                  socket,
                 });
                 readMessage(to);
               }}>

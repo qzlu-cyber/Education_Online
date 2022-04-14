@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 14:03:47
- * @LastEditTime: 2022-04-12 16:13:11
+ * @LastEditTime: 2022-04-14 14:26:19
  * @Description: 动态详情页
  */
 import React, { Component } from "react";
@@ -23,11 +23,13 @@ import { AntDesign, Ionicons, Entypo } from "@expo/vector-icons";
 import { RichEditor } from "react-native-pell-rich-editor";
 import AutoHeightWebView from "react-native-autoheight-webview";
 import Toast from "react-native-toast-message";
+import io from "socket.io-client";
 
 import AppText from "../components/AppText";
 
 import articlesApi from "../api/articles";
 import commentsApi from "../api/comments";
+import usersApi from "../api/users";
 export default class ArticleScreen extends Component {
   constructor(props) {
     super(props);
@@ -45,8 +47,29 @@ export default class ArticleScreen extends Component {
       isLikeComment: false,
       commentLike: 0,
       likedComments: this.props.route.params.likedComments,
+      me: {},
+      socket: {},
     };
   }
+
+  initIO = () => {
+    if (!io.socket) {
+      this.setState({ socket: io("http://192.168.31.52:3000") });
+    }
+  };
+
+  getMyInfo = async () => {
+    const result = await usersApi.getMyInfo();
+
+    if (result.ok) {
+      this.setState({
+        me: {
+          _id: result.data._id,
+          name: result.data.name,
+        },
+      });
+    }
+  };
 
   handleDecode = (str) => {
     const s = str
@@ -208,6 +231,8 @@ export default class ArticleScreen extends Component {
   };
 
   componentDidMount() {
+    this.getMyInfo();
+    this.initIO();
     this.getArticles();
     this.getComments();
     setTimeout(() => {
@@ -218,7 +243,8 @@ export default class ArticleScreen extends Component {
   }
 
   render() {
-    const { article, commentText, avatar, userName } = this.props.route.params;
+    const { article, commentText, avatar, userName, toUser } =
+      this.props.route.params;
 
     const { isLike } = this.state;
     let likeIcon = isLike ? "heart" : "hearto";
@@ -252,9 +278,13 @@ export default class ArticleScreen extends Component {
               <TouchableOpacity
                 style={styles.userInfo}
                 onPress={() =>
-                  navigation.navigate("聊天", { userName: article.userName })
+                  navigation.navigate("聊天", {
+                    userName: article.userName,
+                    item: toUser,
+                    user: this.state.me,
+                    socket: this.state.socket,
+                  })
                 }>
-                {/*TODO:点击跳转聊天*/}
                 <Image source={{ uri: avatar }} style={styles.userImg} />
                 <View style={styles.userInfoText}>
                   <Text style={styles.userName}>{userName}</Text>
@@ -370,6 +400,9 @@ export default class ArticleScreen extends Component {
                           onPress={() =>
                             navigation.navigate("聊天", {
                               userName: item.userInfo.name,
+                              item: item.userInfo,
+                              user: this.state.me,
+                              socket: this.state.socket,
                             })
                           }>
                           <Image
@@ -436,6 +469,9 @@ export default class ArticleScreen extends Component {
                           onPress={() =>
                             navigation.navigate("聊天", {
                               userName: item.author.name,
+                              item: item.author,
+                              user: this.state.me,
+                              socket: this.state.socket,
                             })
                           }>
                           <Text style={styles.userName}>
@@ -448,6 +484,9 @@ export default class ArticleScreen extends Component {
                           onPress={() =>
                             navigation.navigate("聊天", {
                               userName: item.toUser.name,
+                              item: item.toUser,
+                              user: this.state.me,
+                              socket: this.state.socket,
                             })
                           }>
                           <Text style={styles.userName}>

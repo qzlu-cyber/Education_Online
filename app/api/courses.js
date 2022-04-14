@@ -1,12 +1,14 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-04-06 17:31:43
- * @LastEditTime: 2022-04-12 14:02:53
+ * @LastEditTime: 2022-04-14 14:41:56
  * @Description: 请求课程
  */
 import client from "./client";
 
 const endpoint = "/courses";
+
+const getCourseTeacher = (id) => client.get(`${endpoint}/${id}`);
 
 const getPopularCourses = () => client.get(`${endpoint}/searchByHot`);
 
@@ -46,6 +48,7 @@ const judgeCouse = (commentInfo) =>
 const getJudge = (id) => client.get(`${endpoint}/${id}`);
 
 export default {
+  getCourseTeacher,
   getCommandCourses,
   getPopularCourses,
   getNewestCourses,

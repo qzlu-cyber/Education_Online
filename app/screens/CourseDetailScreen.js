@@ -1,14 +1,16 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-23 15:13:45
- * @LastEditTime: 2022-04-12 16:02:24
+ * @LastEditTime: 2022-04-14 14:51:10
  * @Description: 课程详情页
  */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Dimensions, View } from "react-native";
 import Toast from "react-native-toast-message";
 import ActionButton from "react-native-action-button";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import io from "socket.io-client";
 
 import colors from "../config/colors";
 import ListItem from "../components/ListItem";
@@ -18,11 +20,14 @@ import AppButton from "../components/AppButton";
 
 import useAuth from "../auth/useAuth";
 import userApi from "../api/users";
+import coursesAPi from "../api/courses";
 
 const windowWidth = Dimensions.get("window").width;
 
 export default function CourseDetailScreen({ route, navigation }) {
   const { user } = useAuth();
+  const [teacher, setTeacher] = useState({});
+  const [socket, setSocket] = useState({});
 
   const showSuccessToast = () => {
     Toast.show({
@@ -42,6 +47,25 @@ export default function CourseDetailScreen({ route, navigation }) {
       if (result.ok) showSuccessToast();
     }
   };
+
+  const getCourseTeacher = async () => {
+    const result = await coursesAPi.getCourseTeacher(route.params.item._id);
+
+    if (result.ok) {
+      setTeacher(result.data);
+    }
+  };
+
+  const initIO = () => {
+    if (!io.socket) {
+      setSocket(io("http://192.168.31.52:3000"));
+    }
+  };
+
+  useEffect(() => {
+    getCourseTeacher();
+    initIO();
+  }, []);
 
   return (
     <>
@@ -85,6 +109,13 @@ export default function CourseDetailScreen({ route, navigation }) {
             style={styles.button}
             title='咨询老师'
             textStyle={styles.text}
+            onPress={() =>
+              navigation.navigate("聊天", {
+                item: { _id: teacher.teacher, name: teacher.teacherName },
+                user,
+                socket,
+              })
+            }
           />
           <AppButton
             style={styles.button}
