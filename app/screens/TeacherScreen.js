@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-12 16:41:34
- * @LastEditTime: 2022-04-12 14:47:14
+ * @LastEditTime: 2022-04-21 18:32:45
  * @Description: 老师详情页
  */
 import { View, SafeAreaView, StyleSheet } from "react-native";
@@ -14,7 +14,7 @@ import colors from "../config/colors";
 import { useEffect, useState } from "react";
 
 const TeacherScreen = ({ route }) => {
-  const { teacherName, tel, email, info, teacher } = route.params;
+  const { teacherName, tel, email, info, teacher, myCourses } = route.params;
 
   const [courses, setCourses] = useState([]);
 
@@ -73,7 +73,11 @@ const TeacherScreen = ({ route }) => {
           <Text style={styles.text}>{teacher.email}</Text>
         </View>
       </View>
-      <TeacherNavigator teacher={teacher} courses={courses} />
+      <TeacherNavigator
+        teacher={teacher}
+        courses={courses}
+        myCourses={myCourses}
+      />
     </SafeAreaView>
   );
 };

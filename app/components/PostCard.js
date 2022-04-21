@@ -1,23 +1,34 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 10:43:36
- * @LastEditTime: 2022-04-14 13:16:44
+ * @LastEditTime: 2022-04-21 19:34:00
  * @Description: 动态 组件
  */
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import moment from "moment";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
+import io from "socket.io-client";
 
 import ProgressiveImage from "./ProgressiveImage";
 
+import useAuth from "../auth/useAuth";
 import usersApi from "../api/users";
 import articlesApi from "../api/articles";
 import useApi from "../hooks/useApi";
 
 const PostCard = ({ item, navigation }) => {
+  const { user } = useAuth();
+
   const [like, setLike] = useState(false);
   const [likedComments, setLikedComments] = useState([]);
+  const [socket, setSocket] = useState({});
+
+  const initIO = () => {
+    if (!io.socket) {
+      setSocket(io("http://192.168.31.52:3000"));
+    }
+  };
 
   const getMyInfo = async () => {
     const result = await usersApi.getMyInfo();
@@ -73,7 +84,27 @@ const PostCard = ({ item, navigation }) => {
     getUsers.request(item.author);
 
     getMyInfo();
+
+    initIO();
   }, []);
+
+  moment.updateLocale("zh-cn", {
+    relativeTime: {
+      future: "%s内",
+      past: "%s前",
+      s: "几秒",
+      m: "1 分钟",
+      mm: "%d 分钟",
+      h: "1 小时",
+      hh: "%d 小时",
+      d: "1 天",
+      dd: "%d 天",
+      M: "1 个月",
+      MM: "%d 个月",
+      y: "1 年",
+      yy: "%d 年",
+    },
+  });
 
   return (
     <TouchableOpacity
@@ -94,7 +125,16 @@ const PostCard = ({ item, navigation }) => {
           toUser: getUsers.data,
         })
       }>
-      <TouchableOpacity style={styles.userInfo}>
+      <TouchableOpacity
+        style={styles.userInfo}
+        onPress={() =>
+          navigation.navigate("聊天", {
+            userName: getUsers.data.name,
+            item: { _id: getUsers.data._id, name: getUsers.data.name },
+            user,
+            socket,
+          })
+        }>
         <Image
           source={{
             uri: `data:image/jpeg;base64,${getUsers.data.avatar}`,
@@ -103,9 +143,7 @@ const PostCard = ({ item, navigation }) => {
         />
         <View style={styles.userInfoText}>
           <Text style={styles.userName}>{getUsers.data.name}</Text>
-          <Text style={styles.postTime}>
-            {moment(item.postTime, "YYYY-MMDD HH:mm").fromNow()}
-          </Text>
+          <Text style={styles.postTime}>{moment(item.postTime).fromNow()}</Text>
         </View>
       </TouchableOpacity>
       <Text style={styles.postTitle}>{item.title}</Text>

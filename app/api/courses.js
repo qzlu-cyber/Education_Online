@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-04-06 17:31:43
- * @LastEditTime: 2022-04-14 14:41:56
+ * @LastEditTime: 2022-04-21 18:47:33
  * @Description: 请求课程
  */
 import client from "./client";
@@ -26,6 +26,12 @@ const searchByTag = (tag) =>
 //按老师查找
 const searchByTeacher = (id) => client.get(`${endpoint}/searchByTeacher/${id}`);
 
+//搜索
+const search = (name) =>
+  client.post(`${endpoint}/searchByName`, {
+    name: name,
+  });
+
 const addCourse = async (course) => {
   const data = {};
   data.name = course.name;
@@ -45,7 +51,7 @@ const judgeCouse = (commentInfo) =>
   client.post(`${endpoint}/judge`, commentInfo);
 
 //获取评价
-const getJudge = (id) => client.get(`${endpoint}/${id}`);
+const getJudge = (id) => client.get(`${endpoint}/judge/${id}`);
 
 export default {
   getCourseTeacher,
@@ -58,4 +64,5 @@ export default {
   judgeCouse,
   getJudge,
   searchByTeacher,
+  search,
 };

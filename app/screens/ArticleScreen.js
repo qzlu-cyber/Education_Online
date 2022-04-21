@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-13 14:03:47
- * @LastEditTime: 2022-04-14 14:26:19
+ * @LastEditTime: 2022-04-21 19:38:36
  * @Description: 动态详情页
  */
 import React, { Component } from "react";
@@ -17,6 +17,7 @@ import {
   Platform,
   Linking,
   Dimensions,
+  RefreshControl,
 } from "react-native";
 import moment from "moment";
 import { AntDesign, Ionicons, Entypo } from "@expo/vector-icons";
@@ -242,6 +243,18 @@ export default class ArticleScreen extends Component {
     }, 1000);
   }
 
+  handleRetry = () => {
+    this.getMyInfo();
+    this.initIO();
+    this.getArticles();
+    this.getComments();
+    setTimeout(() => {
+      this.setState({
+        showWebView: true,
+      });
+    }, 1000);
+  };
+
   render() {
     const { article, commentText, avatar, userName, toUser } =
       this.props.route.params;
@@ -273,6 +286,7 @@ export default class ArticleScreen extends Component {
       <View style={styles.container}>
         <FlatList
           showsVerticalScrollIndicator={false}
+          refreshControl={<RefreshControl onRefresh={this.handleRetry} />}
           ListHeaderComponent={
             <View style={{ backgroundColor: "#fff", paddingHorizontal: 10 }}>
               <TouchableOpacity
@@ -294,7 +308,7 @@ export default class ArticleScreen extends Component {
                 </View>
               </TouchableOpacity>
               <AppText text={this.state.title} style={styles.postTitle} />
-              {Platform.OS === "ios" && (
+              {Platform.OS === "ios" && this.state.showWebView && (
                 <AutoHeightWebView
                   ref={(ref) => {
                     this.webview = ref;
@@ -519,6 +533,7 @@ export default class ArticleScreen extends Component {
               behavior={Platform.OS === "ios" ? "padding" : "height"}
               style={{ flex: 1 }}>
               <RichEditor
+                initialContentHTML={this.state.comment}
                 onChange={(comment) => {
                   this.setState({
                     comment: comment,

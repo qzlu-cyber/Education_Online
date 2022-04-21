@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-02-12 17:47:07
- * @LastEditTime: 2022-04-12 16:13:00
+ * @LastEditTime: 2022-04-21 18:33:05
  * @Description: 老师详情页导航器
  */
 import { StyleSheet, Text, View, FlatList, Dimensions } from "react-native";
@@ -18,13 +18,9 @@ const windowWidth = Dimensions.get("window").width;
 const MaterialTopTab = createMaterialTopTabNavigator();
 
 let teacher;
-let courses;
 export default function TeacherNavigator(props) {
   const navigation = useNavigation();
   teacher = props.teacher;
-  // courses = props.courses;
-
-  // console.log(courses);
 
   return (
     <MaterialTopTab.Navigator>
@@ -51,6 +47,7 @@ export default function TeacherNavigator(props) {
                     price={item.price}
                     item={item}
                     navigation={navigation}
+                    mycourse={props.myCourses}
                   />
                 );
               }}

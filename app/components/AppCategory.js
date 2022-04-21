@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 15:32:28
- * @LastEditTime: 2022-04-12 15:28:43
+ * @LastEditTime: 2022-04-21 18:28:35
  * @Description: 首页各种种类组件
  */
 import { View, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
@@ -117,6 +117,7 @@ function AppCategory({
                     info={info}
                     navigation={navigation}
                     teacher={teacher}
+                    myCourses={myCourses}
                   />
                 );
             })}

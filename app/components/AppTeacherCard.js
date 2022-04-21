@@ -1,7 +1,7 @@
 /*
  * @Author: 刘俊琪
  * @Date: 2022-01-08 17:48:58
- * @LastEditTime: 2022-04-12 14:43:22
+ * @LastEditTime: 2022-04-21 18:29:05
  * @Description: 首页老师卡片
  */
 import React from "react";
@@ -18,6 +18,7 @@ function AppTeacherCard({
   email,
   info,
   teacher,
+  myCourses,
 }) {
   return (
     <View>
@@ -29,6 +30,7 @@ function AppTeacherCard({
             email,
             info,
             teacher,
+            myCourses,
           });
         }}>
         <View style={[styles.card]}>
